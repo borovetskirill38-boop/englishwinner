@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="2000 частотных английских слов: бесплатный тест с русскими переводами. Работает офлайн, прямо в браузере.">
+  <meta name="theme-color" content="#f7f8f3">
+  <title>English Winner — 2000 слов</title>
+  <!-- Vocabulary adapted from FrequencyWords by Hermit Dave / OpenSubtitles.
+       Content: CC BY-SA 4.0. Source, changes and license links appear below.
+       Application code: MIT; see LICENSE in the repository. -->
+  <style>{{STYLES}}</style>
+</head>
+<body>
+  <svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="icon-cross" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="icon-repeat" viewBox="0 0 24 24"><path d="M20 7h-4V3M4 17h4v4m11-14a8 8 0 0 0-13-2M5 17a8 8 0 0 0 13 2"/></symbol>
+    <symbol id="icon-leaf" viewBox="0 0 24 24"><path d="M19 4C8 3 3 8 5 15c6 7 15 1 14-11ZM5 20 15 10"/></symbol>
+    <symbol id="icon-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 10v4m-2-2h4"/></symbol>
+  </svg>
+
+  <header class="header shell">
+    <a class="brand" href="#" aria-label="English Winner — начало">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 8h7c2 0 3 1 3 3v14c0-3-2-4-5-4H7Zm18 0h-5c-2 0-3 1-3 3v14c0-3 2-4 5-4h3Z"/><path d="m20 13 2 2 4-5"/></svg></span>
+      <span>english<span class="brand-light">winner</span><span class="brand-dot">.</span></span>
+    </a>
+    <div class="header-actions">
+      <span class="offline"><span class="status-dot"></span>Работает офлайн</span>
+      <button class="button-quiet" id="restart" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg>Новый проход</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <noscript><p class="noscript">Чтобы пройти тест, включите JavaScript в браузере. Подключение к интернету не требуется.</p></noscript>
+
+    <section id="intro" class="intro" aria-labelledby="intro-title">
+      <div class="eyebrow"><span class="status-dot"></span>ВАША ПРАКТИКА АНГЛИЙСКОГО</div>
+      <h1 id="intro-title">Большой словарь.<br><em>Маленькие шаги.</em></h1>
+      <p class="hero-description">2000 частотных слов, которые встречаются снова и снова.<br class="desktop-break"> Узнайте, сколько вы уже знаете, и запомните больше.</p>
+
+      <div class="welcome-card">
+        <div class="word-art" aria-hidden="true">
+          <span class="art-caption">НОВОЕ СЛОВО — НОВАЯ ВОЗМОЖНОСТЬ</span>
+          <div class="word-paper paper-back"></div>
+          <div class="word-paper paper-front"><span class="paper-label">ENGLISH</span><span class="paper-word">grow</span><span class="paper-line"></span><span class="paper-translation">расти</span><span class="paper-check"><svg class="icon"><use href="#icon-check"/></svg></span></div>
+          <span class="art-count"><strong>2000</strong> слов для практики</span>
+          <span class="art-spark spark-one">✳</span><span class="art-spark spark-two">+</span>
+        </div>
+        <div class="welcome-content">
+          <span class="small-label">ПРОСТО ОТКРОЙТЕ И НАЧНИТЕ</span>
+          <h2>Одно слово.<br>Четыре перевода.</h2>
+          <ul class="rules">
+            <li><span class="rule-number">01</span>Выберите единственный верный вариант.</li>
+            <li><span class="rule-number">02</span>Сразу узнайте результат и правильный перевод.</li>
+            <li><span class="rule-number">03</span>Повторяйте: каждый проход перемешивается.</li>
+          </ul>
+          <button id="start" class="button-primary" type="button">Начать тест<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+          <p class="start-note">Без таймера. Без регистрации. В своём темпе.</p>
+        </div>
+      </div>
+      <div class="intro-notes"><span><svg class="icon" aria-hidden="true"><use href="#icon-leaf"/></svg>Можно ошибаться — так мы учимся</span><span><svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg>Неограниченное число попыток</span></div>
+    </section>
+
+    <section id="training" class="training" hidden aria-labelledby="word">
+      <div class="training-heading"><div><span class="small-label">ВАШ ПРОГРЕСС</span><p class="question-count">Слово <strong id="question-number">1</strong><span> / <span id="total-count">2000</span></span></p></div><span class="direction">EN <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg> RU</span></div>
+      <progress id="progress" value="0" max="2000" aria-label="Отвечено вопросов"></progress>
+      <div class="quiz-card">
+        <div class="question-heading"><span class="small-label">КАК ПЕРЕВОДИТСЯ ЭТО СЛОВО?</span><span class="question-badge">4 варианта · 1 верный</span></div>
+        <h1 id="word" class="english-word" lang="en" tabindex="-1"></h1>
+        <p class="word-note">Выберите перевод на русский</p>
+        <div id="options" class="options" role="group" aria-labelledby="word"></div>
+        <div class="answer-area">
+          <div id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true"><span id="feedback-icon" class="feedback-icon" aria-hidden="true"></span><div><strong id="feedback-title"></strong><p id="feedback-detail"></p></div></div>
+          <div class="question-bottom"><p id="answer-hint">Не спешите. Здесь нет таймера.</p><button class="button-primary next-button" id="next" type="button" disabled>Следующее слово<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div>
+        </div>
+      </div>
+      <div class="metrics" aria-label="Результаты текущего прохода">
+        <div class="metric"><span class="metric-icon metric-green"><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg></span><div><span class="metric-label">Верно</span><strong id="correct-count">0</strong></div></div>
+        <div class="metric"><span class="metric-icon metric-red"><svg class="icon" aria-hidden="true"><use href="#icon-cross"/></svg></span><div><span class="metric-label">Ошибки</span><strong id="mistake-count">0</strong></div></div>
+        <div class="metric"><span class="metric-icon metric-neutral"><svg class="icon" aria-hidden="true"><use href="#icon-target"/></svg></span><div><span class="metric-label">Точность</span><strong id="accuracy">0%</strong></div></div>
+      </div>
+      <p class="keyboard-help"><span><kbd>1</kbd>–<kbd>4</kbd> выбрать ответ</span><span><kbd>Enter</kbd> следующее слово</span></p>
+    </section>
+
+    <section id="complete" class="completion" hidden aria-labelledby="complete-title">
+      <span class="eyebrow">ВСЕ 2000 СЛОВ ПРОЙДЕНЫ</span>
+      <div class="result-ring" id="result-ring"><div><strong id="result-percent">0%</strong><span>верных ответов</span></div></div>
+      <h1 id="complete-title" tabindex="-1">Каждое слово —<br><em>шаг вперёд.</em></h1>
+      <p class="hero-description" id="result-message"></p>
+      <div class="result-summary"><div><strong id="result-correct">0</strong><span>верно</span></div><div><strong id="result-mistakes">0</strong><span>ошибок</span></div><div><strong>2000</strong><span>слов пройдено</span></div></div>
+      <button id="restart-complete" type="button" class="button-primary">Пройти ещё раз<svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg></button>
+      <p class="start-note">Новый проход — новый порядок слов и ответов.</p>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <span class="footer-note">Немного практики. Каждый день.</span>
+    <details class="about"><summary>О словаре и правилах</summary><div class="about-content"><p>2000 частотных слов разговорного английского по корпусу OpenSubtitles (2018). Список упорядочен по частоте в исходном корпусе; имена людей, обрывки сокращений и неалфавитные токены отфильтрованы. Это рейтинг по субтитрам, а не универсальный рейтинг для всех видов английского.</p><p>Сохраняются словоформы, разговорные и грубые слова. В вариантах проверяется основное значение; после ответа виден более полный перевод. Каждое слово встречается один раз за проход. При новом проходе слова и ответы перемешиваются. Обновление страницы сбрасывает результат.</p><p>Источник: <a href="https://github.com/hermitdave/FrequencyWords/blob/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/en/en_50k.txt" target="_blank" rel="noopener noreferrer">FrequencyWords — Hermit Dave / OpenSubtitles</a>. Список отфильтрован, добавлены русские переводы. Данные распространяются по <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p></div></details>
+  </footer>
+  <script id="vocabulary-data" type="application/json">{{DATA}}</script>
+  <script>{{SCRIPT}}</script>
+</body>
+</html>

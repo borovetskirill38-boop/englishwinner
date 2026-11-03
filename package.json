@@ -1,0 +1,12 @@
+{
+  "name": "english-winner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Офлайн-тест на 2000 частотных английских слов",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node tests/quiz.test.js",
+    "check": "node scripts/build.js --check && node tests/quiz.test.js"
+  },
+  "engines": { "node": ">=18" }
+}

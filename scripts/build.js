@@ -1,0 +1,71 @@
+/* Build one portable HTML file using only the Node.js standard library. */
+"use strict";
+const fs = require("node:fs");
+const path = require("node:path");
+const crypto = require("node:crypto");
+const root = path.resolve(__dirname, "..");
+const read = (name) => fs.readFileSync(path.join(root, name), "utf8");
+const fail = (message) => { throw new Error(message); };
+
+function loadData() {
+  const source = JSON.parse(read("data/source.json"));
+  const frequency = read("data/frequency-source.txt");
+  const digest = crypto.createHash("sha256").update(frequency).digest("hex");
+  if (digest !== source.excerptSha256) fail("Изменился исходный частотный список");
+  const excluded = new Set(read("data/excluded.txt").split(/\s+/).filter(Boolean));
+  const translations = new Map();
+  for (const line of read("data/translations.tsv").split(/\r?\n/)) {
+    if (!line || line.startsWith("#")) continue;
+    const [word, translation, ...extra] = line.split("\t");
+    if (!word || !translation || extra.length || translations.has(word)) {
+      fail(`Некорректная или повторная строка перевода: ${word}`);
+    }
+    if (!/[а-яё]/i.test(translation)) fail(`Нет русского перевода: ${word}`);
+    translations.set(word, translation);
+  }
+  const words = [];
+  frequency.trimEnd().split("\n").forEach((line, index) => {
+    const match = /^(\S+) (\d+)$/.exec(line);
+    if (!match) fail(`Неверная строка частотности: ${index + 1}`);
+    const [, word, count] = match;
+    if (!/^[a-z]+$/.test(word) || (word.length === 1 && !["i", "a"].includes(word))
+        || excluded.has(word) || words.length >= 2000) return;
+    if (!translations.has(word)) fail(`Нет перевода для ${word}`);
+    words.push({ word, translation: translations.get(word), frequency: Number(count), rank: index + 1 });
+  });
+  if (words.length !== 2000 || translations.size !== 2000) fail("Должно быть ровно 2000 слов");
+  if (new Set(words.map((w) => w.word)).size !== words.length) fail("Слова повторяются");
+  const bank = JSON.parse(read("data/distractors.json"));
+  const quiz = require("../src/quiz.js");
+  for (const word of words) quiz.optionsFor(word, bank);
+  return { words, distractors: bank, source };
+}
+
+function build() {
+  const data = loadData();
+  const template = read("src/index.template.html");
+  const tokens = {
+    "{{STYLES}}": read("src/styles.css"),
+    "{{DATA}}": JSON.stringify(data).replaceAll("<", "\\u003c"),
+    "{{SCRIPT}}": read("src/quiz.js") + "\n" + read("src/app.js"),
+  };
+  let html = template;
+  for (const [token, value] of Object.entries(tokens)) {
+    if (html.split(token).length !== 2) fail(`В шаблоне должен быть один маркер ${token}`);
+    html = html.replace(token, () => value);
+  }
+  return html;
+}
+
+if (require.main === module) {
+  const html = build();
+  if (process.argv.includes("--check")) {
+    if (read("index.html") !== html) fail("index.html устарел. Выполните npm run build");
+    console.log("index.html актуален; 2000 уникальных слов и переводов проверены.");
+  } else {
+    fs.writeFileSync(path.join(root, "index.html"), html);
+    console.log(`Собран index.html: 2000 слов, ${Buffer.byteLength(html)} байт. Интернет не нужен.`);
+  }
+}
+
+module.exports = { build, loadData };

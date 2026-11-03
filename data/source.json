@@ -1,0 +1,11 @@
+{
+  "name": "FrequencyWords — English 2018 (OpenSubtitles)",
+  "author": "Hermit Dave and OpenSubtitles contributors",
+  "url": "https://github.com/hermitdave/FrequencyWords/blob/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/en/en_50k.txt",
+  "commit": "525f9b560de45753a5ea01069454e72e9aa541c6",
+  "sourceSha256": "5351ff405b1126ef555791dd4d9798a48e3e9a501a9fc481a9da957752cfb458",
+  "excerptSha256": "74d1b99e25e8d161c3bfc3c50c9b55726ddb9ed57fc25f8410000ac08712bf7f",
+  "license": "CC-BY-SA-4.0",
+  "selection": "Первые 2000 слов из частотного списка после фильтрации неалфавитных токенов, одиночных букв (кроме a и i) и стоп-листа data/excluded.txt. Сохранены словоформы, разговорные слова и бранная лексика. Русские переводы подготовлены для English Winner.",
+  "count": 2000
+}
