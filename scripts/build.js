@@ -16,6 +16,7 @@ function loadData() {
   if (digest !== source.excerptSha256) fail("Изменился исходный частотный список");
   const excluded = new Set(read("data/excluded.txt").split(/\s+/).filter(Boolean));
   const translations = new Map();
+  const answerAliases = JSON.parse(read("data/answer-aliases.json"));
   for (const line of read("data/translations.tsv").split(/\r?\n/)) {
     if (!line || line.startsWith("#")) continue;
     const [word, translation, ...extra] = line.split("\t");
@@ -33,10 +34,17 @@ function loadData() {
     if (!/^[a-z]+$/.test(word) || (word.length === 1 && !["i", "a"].includes(word))
         || excluded.has(word) || words.length >= WORD_COUNT) return;
     if (!translations.has(word)) fail(`Нет перевода для ${word}`);
-    words.push({ word, translation: translations.get(word), frequency: Number(count), rank: index + 1 });
+    words.push({ word, translation: translations.get(word), frequency: Number(count), rank: index + 1,
+      ...(answerAliases[word] ? { aliases: answerAliases[word] } : {}) });
   });
   if (words.length !== WORD_COUNT || translations.size !== WORD_COUNT) fail(`Должно быть ровно ${WORD_COUNT} слов`);
   if (new Set(words.map((w) => w.word)).size !== words.length) fail("Слова повторяются");
+  for (const [word, aliases] of Object.entries(answerAliases)) {
+    if (!words.some((entry) => entry.word === word) || !Array.isArray(aliases)
+        || aliases.some((alias) => typeof alias !== "string" || !/[а-яё]/i.test(alias))) {
+      fail(`Некорректные дополнительные переводы: ${word}`);
+    }
+  }
   const bank = JSON.parse(read("data/distractors.json"));
   const quiz = require("../src/quiz.js");
   for (const candidates of Object.values(bank)) {

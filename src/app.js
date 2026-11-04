@@ -20,6 +20,7 @@
     for (const id of screens) $(id).hidden = id !== screen;
     $("restart").hidden = screen === "intro";
     document.body.classList.toggle("is-training", screen !== "intro");
+    if (screen === "intro") $("typed-outcome").hidden = true;
   }
 
   function stats() {
@@ -33,17 +34,31 @@
 
   function renderQuestion() {
     const mode = Quiz.MODES[session.mode];
+    const typing = session.answerMode === "typing";
     $("question-number").textContent = session.index + 1;
     $("total-count").textContent = session.total;
     $("word").textContent = session.prompt;
     $("word").lang = mode.questionLang;
     $("word").classList.toggle("russian-word", session.mode === "ru-en");
-    $("word-note").textContent = mode.instruction;
+    $("word-note").textContent = typing
+      ? (session.mode === "en-ru" ? "Введите перевод на русский — достаточно одного значения" : "Введите английский перевод")
+      : mode.instruction;
+    $("question-badge").textContent = typing ? "Ручной ввод" : "4 варианта · 1 верный";
+    $("options").hidden = typing;
+    $("typed-form").hidden = !typing;
+    $("next").hidden = typing;
+    $("choice-keyboard").hidden = typing;
+    $("typing-keyboard").hidden = !typing;
+    $("typed-answer").value = "";
+    $("typed-answer").lang = mode.answerLang;
+    $("typed-answer").placeholder = session.mode === "en-ru" ? "Напишите перевод" : "Type the English word";
+    $("typed-answer").classList.remove("is-wrong");
+    $("typed-answer").removeAttribute("aria-invalid");
     $("feedback").className = "feedback";
     $("feedback-title").textContent = "";
     $("feedback-detail").textContent = "";
     $("feedback-icon").replaceChildren();
-    $("answer-hint").textContent = "Не спешите. Здесь нет таймера.";
+    $("answer-hint").textContent = typing ? "Можно исправляться. Ошибка засчитывается при пропуске слова." : "Не спешите. Здесь нет таймера.";
     $("next").disabled = true;
     $("next").replaceChildren(document.createTextNode(
       session.index === session.total - 1 ? "Посмотреть результат" : "Следующее слово"
@@ -66,18 +81,20 @@
     });
     $("options").replaceChildren(...options);
     stats();
-    $("word").focus({ preventScroll: true });
+    $(typing ? "typed-answer" : "word").focus({ preventScroll: true });
   }
 
   function start() {
     const selectedMode = document.querySelector('input[name="mode"]:checked').value;
     const selectedFormat = document.querySelector('input[name="format"]:checked').value;
-    session = new Quiz.Session(words, distractors, Math.random, selectedMode, selectedFormat);
+    const selectedAnswerMode = document.querySelector('input[name="answer-mode"]:checked').value;
+    session = new Quiz.Session(words, distractors, Math.random, selectedMode, selectedFormat, selectedAnswerMode);
+    $("typed-outcome").hidden = true;
     const mode = Quiz.MODES[session.mode];
     $("training-format").textContent = Quiz.FORMATS[session.format].name.toLocaleUpperCase("ru");
     $("direction-from").textContent = mode.from;
     $("direction-to").textContent = mode.to;
-    $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${Quiz.FORMATS[session.format].name}, ${mode.name}`);
+    $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${Quiz.FORMATS[session.format].name}, ${mode.name}, ${Quiz.ANSWER_MODES[session.answerMode].name}`);
     show("training");
     renderQuestion();
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -111,12 +128,45 @@
     $("next").focus({ preventScroll: true });
   }
 
+  function advanceTyped(result) {
+    const pair = result.skipped
+      ? `${result.word} — ${result.translation}`
+      : (session.mode === "ru-en" ? `${session.prompt} — ${result.answer}` : `${result.word} — ${result.answer}`);
+    stats();
+    if (!session.advance()) return;
+    if (session.finished) complete();
+    else renderQuestion();
+    $("typed-outcome").textContent = result.skipped ? `Пропущено: ${pair}. Засчитано как ошибка.` : `Верно: ${pair}`;
+    $("typed-outcome").className = `typed-outcome${result.skipped ? " is-wrong" : ""}`;
+    $("typed-outcome").hidden = false;
+  }
+
+  function submitTyped(event) {
+    event.preventDefault();
+    if (!session || session.answerMode !== "typing" || $("training").hidden) return;
+    $("typed-outcome").hidden = true;
+    const result = session.answerTyped($("typed-answer").value);
+    if (!result) return;
+    if (result.correct) {
+      advanceTyped(result);
+      return;
+    }
+    $("typed-answer").classList.add("is-wrong");
+    $("typed-answer").setAttribute("aria-invalid", "true");
+    $("feedback").className = "feedback is-wrong";
+    $("feedback-title").textContent = result.empty ? "Введите перевод." : "Пока неверно. Попробуйте ещё раз.";
+    $("feedback-detail").textContent = "Можно исправить ответ или пропустить слово — тогда будет засчитана ошибка.";
+    $("feedback-icon").replaceChildren(icon("cross"));
+    $("typed-answer").focus({ preventScroll: true });
+  }
+
   function complete() {
     show("complete");
     const express = session.format === "express";
     $("complete-count").textContent = express ? "ЭКСПРЕСС-ТЕСТ ЗАВЕРШЁН" : `ВСЕ ${session.total} СЛОВ ПРОЙДЕНЫ`;
     $("result-total").textContent = session.total;
     $("result-mode").textContent = Quiz.MODES[session.mode].name;
+    $("result-answer-mode").hidden = session.answerMode !== "typing";
     $("result-percent").textContent = `${session.accuracy}%`;
     $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
     $("result-correct").textContent = session.correct;
@@ -152,18 +202,37 @@
     window.scrollTo({ top: 0, behavior: "instant" });
   }
 
+  function updateAnswerHints() {
+    const typing = $("answer-mode-typing").checked;
+    $("rule-answer").textContent = typing ? "Введите перевод и нажмите Enter." : "Выберите единственный верный вариант.";
+    $("rule-feedback").textContent = typing ? "Верный ответ — дальше, пропуск — ошибка." : "Сразу узнайте результат и правильный перевод.";
+  }
+
   $("start").addEventListener("click", start);
   $("next").addEventListener("click", next);
   $("restart").addEventListener("click", start);
   $("restart-complete").addEventListener("click", start);
   $("change-mode").addEventListener("click", chooseMode);
   $("change-mode-complete").addEventListener("click", chooseMode);
+  $("typed-form").addEventListener("submit", submitTyped);
+  $("skip-word").addEventListener("click", (event) => {
+    if (event.detail > 1 || !session || session.answerMode !== "typing" || $("training").hidden) return;
+    const result = session.skip();
+    if (result) advanceTyped(result);
+  });
+  $("typed-answer").addEventListener("input", () => {
+    $("typed-answer").classList.remove("is-wrong");
+    $("typed-answer").removeAttribute("aria-invalid");
+    $("feedback").className = "feedback";
+  });
+  document.querySelectorAll('input[name="answer-mode"]').forEach((input) => input.addEventListener("change", updateAnswerHints));
+  updateAnswerHints();
   document.querySelector(".brand").addEventListener("click", (event) => {
     event.preventDefault();
     chooseMode();
   });
   document.addEventListener("keydown", (event) => {
-    if (event.repeat || !session || $("training").hidden || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.repeat || !session || session.answerMode !== "choice" || $("training").hidden || event.altKey || event.ctrlKey || event.metaKey) return;
     const active = document.activeElement;
     if (active?.matches("input, textarea, select, [contenteditable]")) return;
     if (/^[1-4]$/.test(event.key)) {

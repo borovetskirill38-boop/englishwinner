@@ -1,12 +1,12 @@
 {
   "name": "english-winner",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
-  "description": "Офлайн-тест на 3000 английских слов или экспресс на 20 слов в обоих направлениях",
+  "description": "Офлайн-тест на 3000 или 20 слов: два направления, выбор ответа или ручной ввод",
   "scripts": {
     "build": "node scripts/build.js",
-    "test": "node tests/quiz.test.js",
-    "check": "node scripts/build.js --check && node tests/quiz.test.js"
+    "test": "node tests/quiz.test.js && node tests/typing.test.js",
+    "check": "node scripts/build.js --check && npm test"
   },
   "engines": { "node": ">=18" }
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="3000 частотных английских слов: полный тест или экспресс-тест на 20 случайных слов. Два направления перевода, работа офлайн.">
+  <meta name="description" content="3000 английских слов: полный тест или экспресс на 20 слов. Выбор из четырёх вариантов или ручной ввод, оба направления перевода, работа офлайн.">
   <meta name="theme-color" content="#f7f8f3">
   <title>English Winner — 3000 слов</title>
   <!-- Vocabulary adapted from FrequencyWords by Hermit Dave / OpenSubtitles.
@@ -52,8 +52,8 @@
           <span class="small-label">ПРОСТО ОТКРОЙТЕ И НАЧНИТЕ</span>
           <h2>Два направления.<br>Один большой словарь.</h2>
           <ul class="rules">
-            <li><span class="rule-number">01</span>Выберите единственный верный вариант.</li>
-            <li><span class="rule-number">02</span>Сразу узнайте результат и правильный перевод.</li>
+            <li><span class="rule-number">01</span><span id="rule-answer">Выберите единственный верный вариант.</span></li>
+            <li><span class="rule-number">02</span><span id="rule-feedback">Сразу узнайте результат и правильный перевод.</span></li>
             <li><span class="rule-number">03</span>Повторяйте: каждый проход перемешивается.</li>
           </ul>
           <fieldset class="mode-selector">
@@ -70,6 +70,13 @@
               <label class="mode-option"><input id="format-express" type="radio" name="format" value="express" aria-label="Экспресс-тест — 20 случайных слов"><span class="mode-label"><strong>Экспресс-тест</strong><span>20 случайных слов</span></span></label>
             </div>
           </fieldset>
+          <fieldset class="mode-selector format-selector">
+            <legend>Как отвечать</legend>
+            <div class="mode-options">
+              <label class="mode-option"><input id="answer-mode-choice" type="radio" name="answer-mode" value="choice" aria-label="Выбор из четырёх вариантов" checked><span class="mode-label"><strong>4 варианта</strong><span>Выберите перевод</span></span></label>
+              <label class="mode-option"><input id="answer-mode-typing" type="radio" name="answer-mode" value="typing" aria-label="Ручной ввод перевода"><span class="mode-label"><strong>Ручной ввод</strong><span>Напишите перевод</span></span></label>
+            </div>
+          </fieldset>
           <button id="start" class="button-primary" type="button">Начать тест<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
           <p class="start-note">Без таймера. Без регистрации. В своём темпе.</p>
         </div>
@@ -77,14 +84,24 @@
       <div class="intro-notes"><span><svg class="icon" aria-hidden="true"><use href="#icon-leaf"/></svg>Можно ошибаться — так мы учимся</span><span><svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg>Неограниченное число попыток</span></div>
     </section>
 
+    <p id="typed-outcome" class="typed-outcome" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+
     <section id="training" class="training" hidden aria-labelledby="word">
       <div class="training-heading"><div><span id="training-format" class="small-label">ПОЛНЫЙ ТЕСТ</span><p class="question-count">Слово <strong id="question-number">1</strong><span> / <span id="total-count">3000</span></span></p></div><button id="change-mode" class="direction" type="button" aria-label="Сменить режим"><span class="direction-languages"><span id="direction-from">EN</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg><span id="direction-to">RU</span></span><span class="direction-caption">Сменить режим</span></button></div>
       <progress id="progress" value="0" max="3000" aria-label="Отвечено вопросов"></progress>
       <div class="quiz-card">
-        <div class="question-heading"><span class="small-label">КАК ПЕРЕВОДИТСЯ ЭТО СЛОВО?</span><span class="question-badge">4 варианта · 1 верный</span></div>
+        <div class="question-heading"><span class="small-label">КАК ПЕРЕВОДИТСЯ ЭТО СЛОВО?</span><span id="question-badge" class="question-badge">4 варианта · 1 верный</span></div>
         <h1 id="word" class="english-word" lang="en" tabindex="-1"></h1>
         <p id="word-note" class="word-note">Выберите перевод на русский</p>
         <div id="options" class="options" role="group" aria-labelledby="word"></div>
+        <form id="typed-form" class="typed-form" hidden novalidate>
+          <label for="typed-answer">Ваш перевод</label>
+          <div class="typed-controls">
+            <input id="typed-answer" name="translation" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="200" required aria-describedby="word-note feedback-detail">
+            <button id="check-answer" class="button-primary" type="submit">Проверить<svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg></button>
+          </div>
+          <button id="skip-word" class="button-text typed-skip" type="button">Пропустить слово — ошибка<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+        </form>
         <div class="answer-area">
           <div id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true"><span id="feedback-icon" class="feedback-icon" aria-hidden="true"></span><div><strong id="feedback-title"></strong><p id="feedback-detail"></p></div></div>
           <div class="question-bottom"><p id="answer-hint">Не спешите. Здесь нет таймера.</p><button class="button-primary next-button" id="next" type="button" disabled>Следующее слово<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div>
@@ -95,12 +112,14 @@
         <div class="metric"><span class="metric-icon metric-red"><svg class="icon" aria-hidden="true"><use href="#icon-cross"/></svg></span><div><span class="metric-label">Ошибки</span><strong id="mistake-count">0</strong></div></div>
         <div class="metric"><span class="metric-icon metric-neutral"><svg class="icon" aria-hidden="true"><use href="#icon-target"/></svg></span><div><span class="metric-label">Точность</span><strong id="accuracy">0%</strong></div></div>
       </div>
-      <p class="keyboard-help"><span><kbd>1</kbd>–<kbd>4</kbd> выбрать ответ</span><span><kbd>Enter</kbd> следующее слово</span></p>
+      <p id="choice-keyboard" class="keyboard-help"><span><kbd>1</kbd>–<kbd>4</kbd> выбрать ответ</span><span><kbd>Enter</kbd> следующее слово</span></p>
+      <p id="typing-keyboard" class="keyboard-help" hidden><span><kbd>Enter</kbd> проверить перевод</span><span>Верный ответ — автоматический переход</span></p>
     </section>
 
     <section id="complete" class="completion" hidden aria-labelledby="complete-title">
       <span id="complete-count" class="eyebrow">ВСЕ 3000 СЛОВ ПРОЙДЕНЫ</span>
       <p id="result-mode" class="result-mode"></p>
+      <p id="result-answer-mode" class="result-mode" hidden>Ручной ввод</p>
       <div class="result-ring" id="result-ring"><div><strong id="result-percent">0%</strong><span>верных ответов</span></div></div>
       <h1 id="complete-title" tabindex="-1">Каждое слово —<br><em>шаг вперёд.</em></h1>
       <p class="hero-description" id="result-message"></p>
@@ -113,7 +132,7 @@
 
   <footer class="footer shell">
     <span class="footer-note">Немного практики. Каждый день.</span>
-    <details class="about"><summary>О словаре и правилах</summary><div class="about-content"><p>3000 частотных слов разговорного английского по корпусу OpenSubtitles (2018). Список упорядочен по частоте в исходном корпусе; имена людей, обрывки сокращений и неалфавитные токены отфильтрованы. Это рейтинг по субтитрам, а не универсальный рейтинг для всех видов английского.</p><p>В режиме EN → RU выберите русский перевод английского слова. В режиме RU → EN выберите английское слово по русскому переводу. В обоих направлениях можно пройти полный тест на все 3000 слов или экспресс-тест на 20 случайных слов из всего словаря. Внутри прохода слова не повторяются. При каждом новом экспресс-тесте подборка выбирается заново.</p><p>У синонимов могут повторяться русские значения; правильным среди четырёх вариантов всегда остаётся один ответ. Сохраняются словоформы, разговорные и грубые слова. Проверяется основное значение; после ответа виден более полный перевод. При новом проходе слова и ответы перемешиваются. Смена режима, формата и обновление страницы сбрасывают результат.</p><p>Источник: <a href="https://github.com/hermitdave/FrequencyWords/blob/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/en/en_50k.txt" target="_blank" rel="noopener noreferrer">FrequencyWords — Hermit Dave / OpenSubtitles</a>. Список отфильтрован, добавлены русские переводы. Данные распространяются по <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p></div></details>
+    <details class="about"><summary>О словаре и правилах</summary><div class="about-content"><p>3000 частотных слов разговорного английского по корпусу OpenSubtitles (2018). Список упорядочен по частоте в исходном корпусе; имена людей, обрывки сокращений и неалфавитные токены отфильтрованы. Это рейтинг по субтитрам, а не универсальный рейтинг для всех видов английского.</p><p>EN → RU — перевод на русский, RU → EN — на английский. В обоих направлениях можно выбрать четыре варианта ответа или ручной ввод, полный тест на 3000 слов или экспресс на 20 случайных слов. Внутри прохода слова не повторяются. При каждом новом экспресс-тесте подборка выбирается заново.</p><p>При ручном вводе напишите одно из словарных значений и нажмите Enter или «Проверить». Регистр, лишние пробелы и ё/е не влияют на проверку. Для русского вопроса принимаются подходящие английские синонимы из словаря. Верный ответ засчитывается с автоматическим переходом. Неверный подсвечивается красным: можно исправиться и получить правильный ответ в статистике. «Пропустить слово» переходит дальше и засчитывает одну ошибку. После перехода сверху виден результат предыдущего слова.</p><p>У синонимов могут повторяться русские значения. Среди четырёх вариантов правильный всегда один. Сохраняются словоформы, разговорные и грубые слова. Смена настроек и обновление страницы сбрасывают результат.</p><p>Источник: <a href="https://github.com/hermitdave/FrequencyWords/blob/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/en/en_50k.txt" target="_blank" rel="noopener noreferrer">FrequencyWords — Hermit Dave / OpenSubtitles</a>. Список отфильтрован, добавлены русские переводы. Данные распространяются по <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p></div></details>
   </footer>
   <script id="vocabulary-data" type="application/json">{{DATA}}</script>
   <script>{{SCRIPT}}</script>
