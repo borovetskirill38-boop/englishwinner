@@ -13,7 +13,7 @@ from playwright.sync_api import sync_playwright
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = Path(os.environ.get("QUIZ_SCREENSHOTS", "/tmp/englishwinner-screenshots"))
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
-COUNT = 3000
+COUNT = 5000
 EXPRESS_COUNT = 20
 
 with sync_playwright() as playwright:
@@ -103,7 +103,7 @@ with sync_playwright() as playwright:
         assert page.locator("#mistake-count").inner_text() == "0"
         assert page.locator("#word").get_attribute("lang") == ("ru" if mode == "ru-en" else "en")
 
-    # Complete 3000 questions in each direction through actual button handlers.
+    # Complete 5000 questions in each direction through actual button handlers.
     # Batches yield to the browser between checks without a long blocked evaluation.
     batch_pass = """({mode, mixed, start, count, total}) => {
       const data = JSON.parse(document.getElementById('vocabulary-data').textContent);
@@ -174,7 +174,7 @@ with sync_playwright() as playwright:
     assert set(orders["en-ru"]) == set(orders["ru-en"])
     assert orders["en-ru"] != orders["ru-en"]
 
-    # Each express round ends at question 20; replay resamples from all 3000.
+    # Each express round ends at question 20; replay resamples from all 5000.
     for mode in ["en-ru", "ru-en"]:
         select_mode(mode, "express")
         express_orders = []
@@ -193,7 +193,7 @@ with sync_playwright() as playwright:
             assert page.locator("#result-percent").inner_text() == ("50%" if attempt == 0 else "100%")
             assert page.locator("#result-mode").inner_text() == ("Английский → русский" if mode == "en-ru" else "Русский → английский")
             assert page.locator("#restart-complete").inner_text() == "Ещё 20 слов"
-            assert "20 случайных слов из 3000" in page.locator("#completion-note").inner_text()
+            assert "20 случайных слов из 5000" in page.locator("#completion-note").inner_text()
             if attempt == 0:
                 page.screenshot(path=str(ARTIFACTS / f"express-result-{mode}-desktop.png"), full_page=True)
             page.locator("#restart-complete").click()

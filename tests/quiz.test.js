@@ -6,7 +6,7 @@ const path = require("node:path");
 const Quiz = require("../src/quiz.js");
 const { build, loadData } = require("../scripts/build.js");
 const data = loadData();
-const COUNT = 3000;
+const COUNT = 5000;
 
 function seeded(seed) {
   return () => {
@@ -15,12 +15,12 @@ function seeded(seed) {
   };
 }
 
-test("exactly 3000 translated unique words, selected in source frequency order", () => {
+test("exactly 5000 translated unique words, selected in source frequency order", () => {
   const { words } = data;
   assert.equal(words.length, COUNT);
   assert.equal(data.source.count, COUNT);
   assert.equal(new Set(words.map((w) => w.word)).size, COUNT);
-  for (const expected of ["i", "a", "media", "activity", "knight"]) {
+  for (const expected of ["i", "a", "media", "activity", "knight", "testing", "hats", "bicycle", "triple"]) {
     assert.ok(words.some((w) => w.word === expected));
   }
   assert.ok(!words.some((w) => ["john", "didn", "claire"].includes(w.word)));
@@ -35,8 +35,21 @@ test("exactly 3000 translated unique words, selected in source frequency order",
   }
 });
 
+test("new cardinal numbers use distinct number choices in both directions", () => {
+  for (const word of ["eleven", "twelve", "fifteen", "thirty", "forty", "fifty"]) {
+    const entry = data.words.find((item) => item.word === word);
+    assert.equal(Quiz.category(entry), "number");
+    for (const mode of Object.keys(Quiz.MODES)) {
+      const options = Quiz.optionsFor(entry, data.distractors, seeded(42), mode);
+      const labels = new Set(data.distractors.number.map((item) => mode === "en-ru" ? item.text : item.english));
+      assert.equal(options.filter((option) => option.correct).length, 1);
+      assert.ok(options.filter((option) => !option.correct).every((option) => labels.has(option.text)));
+    }
+  }
+});
+
 for (const mode of Object.keys(Quiz.MODES)) {
-  test(`${mode}: all 3000 words have four distinct options in the answer language`, () => {
+  test(`${mode}: all 5000 words have four distinct options in the answer language`, () => {
     const positions = [0, 0, 0, 0];
     const random = seeded(413);
     for (let pass = 0; pass < 4; pass += 1) {
@@ -231,7 +244,7 @@ test("invalid formats and an undersized express dictionary are rejected", () => 
   assert.throws(() => new Quiz.Session(data.words.slice(0, 19), data.distractors, Math.random, "ru-en", "express"), /не менее 20 слов/);
 });
 
-test("portable HTML is current, has both modes and all 3000 words without external runtime dependencies", () => {
+test("portable HTML is current, has both modes and all 5000 words without external runtime dependencies", () => {
   const html = build();
   assert.equal(html, fs.readFileSync(path.join(__dirname, "../index.html"), "utf8"));
   assert.ok(html.startsWith("<!doctype html>"));

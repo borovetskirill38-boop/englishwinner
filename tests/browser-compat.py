@@ -66,7 +66,7 @@ try:
                             page.locator(f'label:has(input[name="{name}"][value="{value}"])').tap()
                         page.locator("#start").tap()
                         assert page.locator("#training").is_visible()
-                        assert page.locator("#total-count").inner_text() == ("20" if test_format == "express" else "3000")
+                        assert page.locator("#total-count").inner_text() == ("20" if test_format == "express" else "5000")
                         assert page.locator("#question-number").inner_text() == "1"
                         for index in range(20 if test_format == "express" else 3):
                             if answer_mode == "choice":

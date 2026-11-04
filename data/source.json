@@ -4,9 +4,9 @@
   "url": "https://github.com/hermitdave/FrequencyWords/blob/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/en/en_50k.txt",
   "commit": "525f9b560de45753a5ea01069454e72e9aa541c6",
   "sourceSha256": "5351ff405b1126ef555791dd4d9798a48e3e9a501a9fc481a9da957752cfb458",
-  "excerptSha256": "c279dbbf81bc154c47f00ffad42e73d4b4ba151c7830def66aa354a1bfc61202",
+  "excerptSha256": "28d2b81de0932930ddf9299e7f13d5a5a455f27ebe9e9c6263a215ce581d6f5c",
   "license": "CC-BY-SA-4.0",
-  "selection": "Первые 3000 слов из частотного списка после фильтрации неалфавитных токенов, одиночных букв (кроме a и i) и стоп-листа data/excluded.txt. Сохранены словоформы, разговорные слова и бранная лексика. Русские переводы подготовлены для English Winner.",
-  "count": 3000,
-  "excerptLines": 3379
+  "selection": "Первые 5000 слов из частотного списка после фильтрации неалфавитных токенов, одиночных букв (кроме a и i) и стоп-листа data/excluded.txt. Сохранены словоформы, разговорные слова и бранная лексика. Русские переводы подготовлены для English Winner.",
+  "count": 5000,
+  "excerptLines": 5788
 }

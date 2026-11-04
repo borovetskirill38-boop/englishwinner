@@ -103,6 +103,7 @@ const Quiz = (() => {
     "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
     "ten", "hundred", "thousand", "million", "millions", "thousands",
     "zero", "twenty", "hundreds", "dozen", "billion",
+    "eleven", "twelve", "fifteen", "thirty", "forty", "fifty",
   ]);
 
   function category(entry) {

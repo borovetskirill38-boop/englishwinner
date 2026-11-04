@@ -20,6 +20,8 @@ test("typed Russian answers accept individual dictionary meanings, notes, case, 
     ["give", "дать"], ["go", "ходить"], ["the", "ОПРЕДЕЛЕННЫЙ   АРТИКЛЬ"],
     ["house", "дом"], ["house", "дом (здание)"], ["on", "на"],
     ["you", "вы"], ["cat", "кошка"],
+    ["privacy", "конфиденциальность"], ["bicycle", "ВЕЛОСИПЕД"],
+    ["colour", "цвет"], ["triple", "утраивать"],
   ];
   for (const [word, answer] of examples) {
     assert.equal(Quiz.matchesAnswer(byWord.get(word), "en-ru", answer), true, `${word}: ${answer}`);
@@ -44,7 +46,7 @@ test("reverse typing accepts matching English synonyms but preserves explicit se
   assert.equal(Quiz.matchesAnswer(byWord.get("gave"), "ru-en", "gave", englishIndex), true);
 });
 
-test("every one of the 3000 words accepts each listed Russian meaning and its canonical English answer", () => {
+test("every one of the 5000 words accepts each listed Russian meaning and its canonical English answer", () => {
   for (const entry of words) {
     for (const answer of Quiz.translationVariants(entry)) {
       assert.equal(Quiz.matchesAnswer(entry, "en-ru", answer), true, `${entry.word}: ${answer}`);
@@ -68,7 +70,7 @@ for (const mode of Object.keys(Quiz.MODES)) {
   for (const format of Object.keys(Quiz.FORMATS)) {
     test(`${mode}, ${format}: retries stay on the word; only a correct answer or skip is scored once`, () => {
       const session = new Quiz.Session(words, distractors, seeded(981), mode, format, "typing");
-      const total = format === "express" ? 20 : 3000;
+      const total = format === "express" ? 20 : 5000;
       assert.equal(session.total, total);
       assert.equal(session.answerMode, "typing");
       const seen = new Set();

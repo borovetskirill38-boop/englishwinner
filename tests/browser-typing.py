@@ -47,7 +47,7 @@ with sync_playwright() as playwright:
             page.locator(f'label:has(input[name="{name}"][value="{value}"])').click()
         page.locator("#start").click()
         assert page.locator("#training").is_visible()
-        assert page.locator("#total-count").inner_text() == ("20" if test_format == "express" else "3000")
+        assert page.locator("#total-count").inner_text() == ("20" if test_format == "express" else "5000")
         assert page.locator("#correct-count").inner_text() == "0"
         assert page.locator("#mistake-count").inner_text() == "0"
         assert page.locator("#question-number").inner_text() == "1"
@@ -152,7 +152,7 @@ with sync_playwright() as playwright:
     for mode in ["en-ru", "ru-en"]:
         for test_format in ["full", "express"]:
             start(mode, test_format)
-            total = 20 if test_format == "express" else 3000
+            total = 20 if test_format == "express" else 5000
             seen, right, wrong = set(), 0, 0
             for offset in range(0, total, 200):
                 result = page.evaluate(batch, {"start": offset, "count": 200, "total": total, "mode": mode})

@@ -6,7 +6,7 @@ const crypto = require("node:crypto");
 const root = path.resolve(__dirname, "..");
 const read = (name) => fs.readFileSync(path.join(root, name), "utf8");
 const fail = (message) => { throw new Error(message); };
-const WORD_COUNT = 3000;
+const WORD_COUNT = 5000;
 
 function loadData() {
   const source = JSON.parse(read("data/source.json"));

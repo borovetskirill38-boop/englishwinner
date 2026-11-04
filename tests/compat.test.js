@@ -16,7 +16,7 @@ test("all settings and scoring work without Object.hasOwn or String.replaceAll",
     for (const format of ["full", "express"]) {
       for (const answerMode of ["choice", "typing"]) {
         const session = new Quiz.Session(words, distractors, Math.random, mode, format, answerMode);
-        assert.equal(session.total, format === "full" ? 3000 : 20);
+        assert.equal(session.total, format === "full" ? 5000 : 20);
         if (answerMode === "choice") {
           assert.equal(session.answer(session.options.findIndex((item) => item.correct)).correct, true);
         } else {
