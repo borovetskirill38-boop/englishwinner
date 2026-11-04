@@ -6,9 +6,11 @@ const crypto = require("node:crypto");
 const root = path.resolve(__dirname, "..");
 const read = (name) => fs.readFileSync(path.join(root, name), "utf8");
 const fail = (message) => { throw new Error(message); };
+const WORD_COUNT = 3000;
 
 function loadData() {
   const source = JSON.parse(read("data/source.json"));
+  if (source.count !== WORD_COUNT) fail(`Источник должен содержать ${WORD_COUNT} слов`);
   const frequency = read("data/frequency-source.txt");
   const digest = crypto.createHash("sha256").update(frequency).digest("hex");
   if (digest !== source.excerptSha256) fail("Изменился исходный частотный список");
@@ -29,15 +31,24 @@ function loadData() {
     if (!match) fail(`Неверная строка частотности: ${index + 1}`);
     const [, word, count] = match;
     if (!/^[a-z]+$/.test(word) || (word.length === 1 && !["i", "a"].includes(word))
-        || excluded.has(word) || words.length >= 2000) return;
+        || excluded.has(word) || words.length >= WORD_COUNT) return;
     if (!translations.has(word)) fail(`Нет перевода для ${word}`);
     words.push({ word, translation: translations.get(word), frequency: Number(count), rank: index + 1 });
   });
-  if (words.length !== 2000 || translations.size !== 2000) fail("Должно быть ровно 2000 слов");
+  if (words.length !== WORD_COUNT || translations.size !== WORD_COUNT) fail(`Должно быть ровно ${WORD_COUNT} слов`);
   if (new Set(words.map((w) => w.word)).size !== words.length) fail("Слова повторяются");
   const bank = JSON.parse(read("data/distractors.json"));
   const quiz = require("../src/quiz.js");
-  for (const word of words) quiz.optionsFor(word, bank);
+  for (const candidates of Object.values(bank)) {
+    for (const candidate of candidates) {
+      if (!candidate.text || !/^[a-z]+(?:[ -][a-z]+)*$/.test(candidate.english || "")) {
+        fail(`Нужны русский и английский варианты: ${candidate.text}`);
+      }
+    }
+  }
+  for (const mode of Object.keys(quiz.MODES)) {
+    for (const word of words) quiz.optionsFor(word, bank, Math.random, mode);
+  }
   return { words, distractors: bank, source };
 }
 
@@ -61,10 +72,10 @@ if (require.main === module) {
   const html = build();
   if (process.argv.includes("--check")) {
     if (read("index.html") !== html) fail("index.html устарел. Выполните npm run build");
-    console.log("index.html актуален; 2000 уникальных слов и переводов проверены.");
+    console.log(`index.html актуален; ${WORD_COUNT} уникальных слов и оба режима проверены.`);
   } else {
     fs.writeFileSync(path.join(root, "index.html"), html);
-    console.log(`Собран index.html: 2000 слов, ${Buffer.byteLength(html)} байт. Интернет не нужен.`);
+    console.log(`Собран index.html: ${WORD_COUNT} слов, ${Buffer.byteLength(html)} байт. Интернет не нужен.`);
   }
 }
 

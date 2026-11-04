@@ -19,9 +19,35 @@ const Quiz = (() => {
     return entry.translation.split(";")[0].trim();
   }
 
+  const MODES = Object.freeze({
+    "en-ru": Object.freeze({
+      name: "Английский → русский", from: "EN", to: "RU",
+      questionLang: "en", answerLang: "ru", instruction: "Выберите перевод на русский",
+    }),
+    "ru-en": Object.freeze({
+      name: "Русский → английский", from: "RU", to: "EN",
+      questionLang: "ru", answerLang: "en", instruction: "Выберите английское слово",
+    }),
+  });
+
+  function checkMode(mode) {
+    if (!Object.hasOwn(MODES, mode)) throw new Error(`Неизвестный режим: ${mode}`);
+  }
+
+  function questionFor(entry, mode = "en-ru") {
+    checkMode(mode);
+    return mode === "ru-en" ? primaryTranslation(entry) : entry.word;
+  }
+
+  function correctFor(entry, mode = "en-ru") {
+    checkMode(mode);
+    return mode === "ru-en" ? entry.word : primaryTranslation(entry);
+  }
+
   const numbers = new Set([
     "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
     "ten", "hundred", "thousand", "million", "millions", "thousands",
+    "zero", "twenty", "hundreds", "dozen", "billion",
   ]);
 
   function category(entry) {
@@ -33,36 +59,41 @@ const Quiz = (() => {
     return "noun";
   }
 
-  function optionsFor(entry, bank, random = Math.random) {
-    const correctText = primaryTranslation(entry);
+  function optionsFor(entry, bank, random = Math.random, mode = "en-ru") {
+    const correctText = correctFor(entry, mode);
     const aliases = normalize(entry.translation).split(/[;(),]/).map((s) => s.trim());
     const candidates = bank[category(entry)].filter((candidate) => {
       if ((candidate.exclude || []).includes(entry.word)) return false;
+      if (normalize(candidate.english) === normalize(entry.word)) return false;
       return !aliases.includes(normalize(candidate.text));
     });
-    const unique = [...new Map(candidates.map((c) => [normalize(c.text), c])).values()];
+    const labels = candidates.map((c) => mode === "ru-en" ? c.english : c.text);
+    const unique = [...new Map(labels.map((text) => [normalize(text), text])).values()];
     if (unique.length < 3) throw new Error(`Недостаточно вариантов для ${entry.word}`);
-    const distractors = shuffle(unique, random).slice(0, 3).map((c) => ({
-      text: c.text,
+    const distractors = shuffle(unique, random).slice(0, 3).map((text) => ({
+      text,
       correct: false,
     }));
     return shuffle([{ text: correctText, correct: true }, ...distractors], random);
   }
 
   class Session {
-    constructor(words, bank, random = Math.random) {
+    constructor(words, bank, random = Math.random, mode = "en-ru") {
       if (!words.length) throw new Error("Список слов пуст");
+      checkMode(mode);
       this.order = shuffle(words, random);
       this.bank = bank;
       this.random = random;
+      this.mode = mode;
       this.index = 0;
       this.correct = 0;
       this.answered = 0;
       this.selected = null;
-      this.options = optionsFor(this.entry, bank, random);
+      this.options = optionsFor(this.entry, bank, random, mode);
     }
 
     get entry() { return this.order[this.index]; }
+    get prompt() { return this.finished ? "" : questionFor(this.entry, this.mode); }
     get total() { return this.order.length; }
     get finished() { return this.index >= this.total; }
     get mistakes() { return this.answered - this.correct; }
@@ -82,12 +113,12 @@ const Quiz = (() => {
       if (this.finished || this.selected === null) return false;
       this.index += 1;
       this.selected = null;
-      this.options = this.finished ? [] : optionsFor(this.entry, this.bank, this.random);
+      this.options = this.finished ? [] : optionsFor(this.entry, this.bank, this.random, this.mode);
       return true;
     }
   }
 
-  return { shuffle, normalize, primaryTranslation, category, optionsFor, Session };
+  return { MODES, shuffle, normalize, primaryTranslation, questionFor, correctFor, category, optionsFor, Session };
 })();
 
 if (typeof module !== "undefined" && module.exports) module.exports = Quiz;

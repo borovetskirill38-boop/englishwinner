@@ -1,52 +1,471 @@
 {
   "noun": [
-    { "text": "морковь" }, { "text": "огурец" }, { "text": "черепаха" },
-    { "text": "жираф" }, { "text": "карандаш" }, { "text": "зонтик" },
-    { "text": "рюкзак" }, { "text": "подушка" }, { "text": "скрипка" },
-    { "text": "чайник" }, { "text": "пылесос" }, { "text": "пингвин" },
-    { "text": "снежинка" }, { "text": "верблюд" }, { "text": "расчёска" },
-    { "text": "клавиатура" }, { "text": "пчела" }, { "text": "дельфин" },
-    { "text": "чайка" }, { "text": "кузнечик" }, { "text": "ананас" },
-    { "text": "редис" }, { "text": "баклажан" }, { "text": "барабан" },
-    { "text": "носки" }, { "text": "перчатки" }, { "text": "ножницы" },
-    { "text": "полотенце" }, { "text": "радуга" }, { "text": "кактус" },
-    { "text": "петух" }, { "text": "бабочка" }
+    {
+      "text": "морковь",
+      "english": "carrot"
+    },
+    {
+      "text": "огурец",
+      "english": "cucumber"
+    },
+    {
+      "text": "черепаха",
+      "english": "turtle"
+    },
+    {
+      "text": "жираф",
+      "english": "giraffe"
+    },
+    {
+      "text": "карандаш",
+      "english": "pencil"
+    },
+    {
+      "text": "зонтик",
+      "english": "umbrella"
+    },
+    {
+      "text": "рюкзак",
+      "english": "backpack"
+    },
+    {
+      "text": "подушка",
+      "english": "pillow"
+    },
+    {
+      "text": "скрипка",
+      "english": "violin"
+    },
+    {
+      "text": "чайник",
+      "english": "kettle"
+    },
+    {
+      "text": "пылесос",
+      "english": "vacuum cleaner"
+    },
+    {
+      "text": "пингвин",
+      "english": "penguin"
+    },
+    {
+      "text": "снежинка",
+      "english": "snowflake"
+    },
+    {
+      "text": "верблюд",
+      "english": "camel"
+    },
+    {
+      "text": "расчёска",
+      "english": "comb"
+    },
+    {
+      "text": "клавиатура",
+      "english": "keyboard"
+    },
+    {
+      "text": "пчела",
+      "english": "bee"
+    },
+    {
+      "text": "дельфин",
+      "english": "dolphin"
+    },
+    {
+      "text": "чайка",
+      "english": "seagull"
+    },
+    {
+      "text": "кузнечик",
+      "english": "grasshopper"
+    },
+    {
+      "text": "ананас",
+      "english": "pineapple"
+    },
+    {
+      "text": "редис",
+      "english": "radish"
+    },
+    {
+      "text": "баклажан",
+      "english": "eggplant"
+    },
+    {
+      "text": "барабан",
+      "english": "drum"
+    },
+    {
+      "text": "носки",
+      "english": "socks"
+    },
+    {
+      "text": "перчатки",
+      "english": "gloves"
+    },
+    {
+      "text": "ножницы",
+      "english": "scissors"
+    },
+    {
+      "text": "полотенце",
+      "english": "towel"
+    },
+    {
+      "text": "радуга",
+      "english": "rainbow"
+    },
+    {
+      "text": "кактус",
+      "english": "cactus"
+    },
+    {
+      "text": "петух",
+      "english": "rooster"
+    },
+    {
+      "text": "бабочка",
+      "english": "butterfly"
+    }
   ],
   "verb": [
-    { "text": "чихать" }, { "text": "храпеть" }, { "text": "нырять" },
-    { "text": "шептать" }, { "text": "вышивать" }, { "text": "пылесосить" },
-    { "text": "кипеть" }, { "text": "таять" }, { "text": "ржаветь" },
-    { "text": "скрипеть" }, { "text": "мурлыкать" }, { "text": "квакать" },
-    { "text": "ползать" }, { "text": "чесать" }, { "text": "жевать" },
-    { "text": "пахать" }, { "text": "полировать" }, { "text": "шелестеть" },
-    { "text": "зевать" }, { "text": "жонглировать" }, { "text": "замерзать" },
-    { "text": "искриться" }, { "text": "вянуть" }, { "text": "плескаться" }
+    {
+      "text": "чихать",
+      "english": "sneeze"
+    },
+    {
+      "text": "храпеть",
+      "english": "snore"
+    },
+    {
+      "text": "нырять",
+      "english": "dive"
+    },
+    {
+      "text": "шептать",
+      "english": "whisper"
+    },
+    {
+      "text": "вышивать",
+      "english": "embroider"
+    },
+    {
+      "text": "пылесосить",
+      "english": "vacuum"
+    },
+    {
+      "text": "кипеть",
+      "english": "boil"
+    },
+    {
+      "text": "таять",
+      "english": "melt"
+    },
+    {
+      "text": "ржаветь",
+      "english": "rust"
+    },
+    {
+      "text": "скрипеть",
+      "english": "creak"
+    },
+    {
+      "text": "мурлыкать",
+      "english": "purr"
+    },
+    {
+      "text": "квакать",
+      "english": "croak"
+    },
+    {
+      "text": "ползать",
+      "english": "crawl"
+    },
+    {
+      "text": "чесать",
+      "english": "scratch"
+    },
+    {
+      "text": "жевать",
+      "english": "chew"
+    },
+    {
+      "text": "пахать",
+      "english": "plough"
+    },
+    {
+      "text": "полировать",
+      "english": "polish"
+    },
+    {
+      "text": "шелестеть",
+      "english": "rustle"
+    },
+    {
+      "text": "зевать",
+      "english": "yawn"
+    },
+    {
+      "text": "жонглировать",
+      "english": "juggle"
+    },
+    {
+      "text": "замерзать",
+      "english": "freeze"
+    },
+    {
+      "text": "искриться",
+      "english": "sparkle"
+    },
+    {
+      "text": "вянуть",
+      "english": "wither"
+    },
+    {
+      "text": "плескаться",
+      "english": "splash"
+    }
   ],
   "adjective": [
-    { "text": "фиолетовый" }, { "text": "солёный" }, { "text": "кислый" },
-    { "text": "ржавый" }, { "text": "пушистый", "exclude": ["soft"] },
-    { "text": "полосатый" }, { "text": "треугольный" }, { "text": "шерстяной" },
-    { "text": "водонепроницаемый" }, { "text": "осенний" }, { "text": "подземный" },
-    { "text": "спелый" }, { "text": "хрустящий" }, { "text": "колючий" },
-    { "text": "вязаный" }, { "text": "шипучий" }, { "text": "фарфоровый" },
-    { "text": "глиняный" }, { "text": "жидкий", "exclude": ["loose"] },
-    { "text": "клетчатый", "exclude": ["checked"] },
-    { "text": "прозрачный", "exclude": ["clear", "clean", "pure", "light", "fair"] },
-    { "text": "пятнистый" }, { "text": "шёлковый", "exclude": ["soft"] },
-    { "text": "зернистый", "exclude": ["rough"] }
+    {
+      "text": "фиолетовый",
+      "english": "purple"
+    },
+    {
+      "text": "солёный",
+      "english": "salty"
+    },
+    {
+      "text": "кислый",
+      "english": "sour"
+    },
+    {
+      "text": "ржавый",
+      "english": "rusty"
+    },
+    {
+      "text": "пушистый",
+      "exclude": [
+        "soft"
+      ],
+      "english": "fluffy"
+    },
+    {
+      "text": "полосатый",
+      "english": "striped"
+    },
+    {
+      "text": "треугольный",
+      "english": "triangular"
+    },
+    {
+      "text": "шерстяной",
+      "english": "woollen"
+    },
+    {
+      "text": "водонепроницаемый",
+      "english": "waterproof"
+    },
+    {
+      "text": "осенний",
+      "english": "autumnal"
+    },
+    {
+      "text": "подземный",
+      "english": "underground"
+    },
+    {
+      "text": "спелый",
+      "english": "ripe"
+    },
+    {
+      "text": "хрустящий",
+      "english": "crispy"
+    },
+    {
+      "text": "колючий",
+      "english": "prickly"
+    },
+    {
+      "text": "вязаный",
+      "english": "knitted"
+    },
+    {
+      "text": "шипучий",
+      "english": "fizzy"
+    },
+    {
+      "text": "фарфоровый",
+      "english": "porcelain"
+    },
+    {
+      "text": "глиняный",
+      "english": "earthen"
+    },
+    {
+      "text": "жидкий",
+      "exclude": [
+        "loose",
+        "thin",
+        "weak"
+      ],
+      "english": "liquid"
+    },
+    {
+      "text": "клетчатый",
+      "exclude": [
+        "checked"
+      ],
+      "english": "checkered"
+    },
+    {
+      "text": "прозрачный",
+      "exclude": [
+        "clear",
+        "clean",
+        "pure",
+        "light",
+        "fair"
+      ],
+      "english": "transparent"
+    },
+    {
+      "text": "пятнистый",
+      "english": "spotted"
+    },
+    {
+      "text": "шёлковый",
+      "exclude": [
+        "soft"
+      ],
+      "english": "silky"
+    },
+    {
+      "text": "зернистый",
+      "exclude": [
+        "rough"
+      ],
+      "english": "grainy"
+    }
   ],
   "adverb": [
-    { "text": "вприпрыжку" }, { "text": "наискосок" }, { "text": "шёпотом" },
-    { "text": "наизнанку" }, { "text": "босиком" }, { "text": "вприсядку" },
-    { "text": "вслепую", "exclude": ["blind"] }, { "text": "исподтишка" },
-    { "text": "наощупь" }, { "text": "задом наперёд", "exclude": ["back"] },
-    { "text": "вручную" }, { "text": "наизусть" }, { "text": "нарасхват" },
-    { "text": "поровну" }, { "text": "поочерёдно" }, { "text": "на цыпочках" }
+    {
+      "text": "вприпрыжку",
+      "english": "skipping"
+    },
+    {
+      "text": "наискосок",
+      "english": "diagonally"
+    },
+    {
+      "text": "шёпотом",
+      "english": "in a whisper",
+      "exclude": [
+        "quietly",
+        "silently",
+        "softly"
+      ]
+    },
+    {
+      "text": "наизнанку",
+      "english": "inside out"
+    },
+    {
+      "text": "босиком",
+      "english": "barefoot"
+    },
+    {
+      "text": "вприсядку",
+      "english": "squatting"
+    },
+    {
+      "text": "вслепую",
+      "exclude": [
+        "blind"
+      ],
+      "english": "blindly"
+    },
+    {
+      "text": "исподтишка",
+      "english": "stealthily"
+    },
+    {
+      "text": "наощупь",
+      "english": "by touch"
+    },
+    {
+      "text": "задом наперёд",
+      "exclude": [
+        "back"
+      ],
+      "english": "backwards"
+    },
+    {
+      "text": "вручную",
+      "english": "manually"
+    },
+    {
+      "text": "наизусть",
+      "english": "by heart"
+    },
+    {
+      "text": "нарасхват",
+      "english": "in demand"
+    },
+    {
+      "text": "поровну",
+      "english": "equally"
+    },
+    {
+      "text": "поочерёдно",
+      "english": "in turn"
+    },
+    {
+      "text": "на цыпочках",
+      "english": "on tiptoe"
+    }
   ],
   "number": [
-    { "text": "семнадцать" }, { "text": "тридцать" }, { "text": "двести" },
-    { "text": "восемьдесят" }, { "text": "сорок два" }, { "text": "полтора" },
-    { "text": "семьсот" }, { "text": "одиннадцать" }, { "text": "пятьдесят" },
-    { "text": "двадцать четыре" }
+    {
+      "text": "семнадцать",
+      "english": "seventeen"
+    },
+    {
+      "text": "тридцать",
+      "english": "thirty"
+    },
+    {
+      "text": "двести",
+      "english": "two hundred"
+    },
+    {
+      "text": "восемьдесят",
+      "english": "eighty"
+    },
+    {
+      "text": "сорок два",
+      "english": "forty-two"
+    },
+    {
+      "text": "полтора",
+      "english": "one and a half"
+    },
+    {
+      "text": "семьсот",
+      "english": "seven hundred"
+    },
+    {
+      "text": "одиннадцать",
+      "english": "eleven"
+    },
+    {
+      "text": "пятьдесят",
+      "english": "fifty"
+    },
+    {
+      "text": "двадцать четыре",
+      "english": "twenty-four"
+    }
   ]
 }

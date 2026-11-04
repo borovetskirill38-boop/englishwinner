@@ -32,9 +32,13 @@
   }
 
   function renderQuestion() {
+    const mode = Quiz.MODES[session.mode];
     $("question-number").textContent = session.index + 1;
     $("total-count").textContent = session.total;
-    $("word").textContent = session.entry.word;
+    $("word").textContent = session.prompt;
+    $("word").lang = mode.questionLang;
+    $("word").classList.toggle("russian-word", session.mode === "ru-en");
+    $("word-note").textContent = mode.instruction;
     $("feedback").className = "feedback";
     $("feedback-title").textContent = "";
     $("feedback-detail").textContent = "";
@@ -55,6 +59,7 @@
       const text = document.createElement("span");
       text.className = "option-text";
       text.textContent = option.text;
+      text.lang = mode.answerLang;
       button.append(number, text, icon("check", "icon option-result"));
       button.addEventListener("click", () => answer(index));
       return button;
@@ -65,7 +70,12 @@
   }
 
   function start() {
-    session = new Quiz.Session(words, distractors);
+    const selectedMode = document.querySelector('input[name="mode"]:checked').value;
+    session = new Quiz.Session(words, distractors, Math.random, selectedMode);
+    const mode = Quiz.MODES[session.mode];
+    $("direction-from").textContent = mode.from;
+    $("direction-to").textContent = mode.to;
+    $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${mode.name}`);
     show("training");
     renderQuestion();
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -89,7 +99,9 @@
     });
     $("feedback").classList.add(result.correct ? "is-correct" : "is-wrong");
     $("feedback-title").textContent = result.correct ? "Верно! Так держать." : "Неправильно. Запомним на следующий раз.";
-    $("feedback-detail").textContent = `${session.entry.word} — ${result.translation}`;
+    $("feedback-detail").textContent = session.mode === "ru-en"
+      ? `${result.translation} — ${session.entry.word}`
+      : `${session.entry.word} — ${result.translation}`;
     $("feedback-icon").replaceChildren(icon(result.correct ? "check" : "cross"));
     $("answer-hint").textContent = "Перевод останется на экране, пока вы не продолжите.";
     $("next").disabled = false;
@@ -99,6 +111,9 @@
 
   function complete() {
     show("complete");
+    $("complete-count").textContent = `ВСЕ ${session.total} СЛОВ ПРОЙДЕНЫ`;
+    $("result-total").textContent = session.total;
+    $("result-mode").textContent = Quiz.MODES[session.mode].name;
     $("result-percent").textContent = `${session.accuracy}%`;
     $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
     $("result-correct").textContent = session.correct;
@@ -116,15 +131,21 @@
     else renderQuestion();
   }
 
+  function chooseMode() {
+    show("intro");
+    document.querySelector('input[name="mode"]:checked').focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }
+
   $("start").addEventListener("click", start);
   $("next").addEventListener("click", next);
   $("restart").addEventListener("click", start);
   $("restart-complete").addEventListener("click", start);
+  $("change-mode").addEventListener("click", chooseMode);
+  $("change-mode-complete").addEventListener("click", chooseMode);
   document.querySelector(".brand").addEventListener("click", (event) => {
     event.preventDefault();
-    show("intro");
-    $("start").focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: "instant" });
+    chooseMode();
   });
   document.addEventListener("keydown", (event) => {
     if (event.repeat || !session || $("training").hidden || event.altKey || event.ctrlKey || event.metaKey) return;

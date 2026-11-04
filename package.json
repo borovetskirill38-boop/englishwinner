@@ -1,8 +1,8 @@
 {
   "name": "english-winner",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Офлайн-тест на 2000 частотных английских слов",
+  "description": "Офлайн-тест на 3000 частотных слов: английский → русский и русский → английский",
   "scripts": {
     "build": "node scripts/build.js",
     "test": "node tests/quiz.test.js",
