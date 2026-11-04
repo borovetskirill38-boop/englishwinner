@@ -6,13 +6,19 @@
   const screens = ["intro", "training", "complete"];
   let session = null;
 
+  // replaceChildren is absent in Safari before iOS 14.
+  function replaceChildren(element, ...children) {
+    while (element.firstChild) element.removeChild(element.firstChild);
+    children.forEach((child) => element.appendChild(child));
+  }
+
   function icon(name, className = "icon") {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", className);
     svg.setAttribute("aria-hidden", "true");
     const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
     use.setAttribute("href", `#icon-${name}`);
-    svg.append(use);
+    svg.appendChild(use);
     return svg;
   }
 
@@ -57,10 +63,10 @@
     $("feedback").className = "feedback";
     $("feedback-title").textContent = "";
     $("feedback-detail").textContent = "";
-    $("feedback-icon").replaceChildren();
+    replaceChildren($("feedback-icon"));
     $("answer-hint").textContent = typing ? "Можно исправляться. Ошибка засчитывается при пропуске слова." : "Не спешите. Здесь нет таймера.";
     $("next").disabled = true;
-    $("next").replaceChildren(document.createTextNode(
+    replaceChildren($("next"), document.createTextNode(
       session.index === session.total - 1 ? "Посмотреть результат" : "Следующее слово"
     ), icon("arrow"));
     const options = session.options.map((option, index) => {
@@ -75,11 +81,11 @@
       text.className = "option-text";
       text.textContent = option.text;
       text.lang = mode.answerLang;
-      button.append(number, text, icon("check", "icon option-result"));
+      replaceChildren(button, number, text, icon("check", "icon option-result"));
       button.addEventListener("click", () => answer(index));
       return button;
     });
-    $("options").replaceChildren(...options);
+    replaceChildren($("options"), ...options);
     stats();
     $(typing ? "typed-answer" : "word").focus({ preventScroll: true });
   }
@@ -97,7 +103,7 @@
     $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${Quiz.FORMATS[session.format].name}, ${mode.name}, ${Quiz.ANSWER_MODES[session.answerMode].name}`);
     show("training");
     renderQuestion();
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo(0, 0);
   }
 
   function answer(index) {
@@ -112,7 +118,7 @@
         button.setAttribute("aria-label", `${session.options[optionIndex].text} — правильный ответ`);
       } else if (optionIndex === index) {
         button.classList.add("wrong");
-        button.lastElementChild.replaceWith(icon("cross", "icon option-result"));
+        button.replaceChild(icon("cross", "icon option-result"), button.lastElementChild);
         button.setAttribute("aria-label", `${session.options[optionIndex].text} — неправильный ответ`);
       }
     });
@@ -121,7 +127,7 @@
     $("feedback-detail").textContent = session.mode === "ru-en"
       ? `${result.translation} — ${session.entry.word}`
       : `${session.entry.word} — ${result.translation}`;
-    $("feedback-icon").replaceChildren(icon(result.correct ? "check" : "cross"));
+    replaceChildren($("feedback-icon"), icon(result.correct ? "check" : "cross"));
     $("answer-hint").textContent = "Перевод останется на экране, пока вы не продолжите.";
     $("next").disabled = false;
     stats();
@@ -156,7 +162,7 @@
     $("feedback").className = "feedback is-wrong";
     $("feedback-title").textContent = result.empty ? "Введите перевод." : "Пока неверно. Попробуйте ещё раз.";
     $("feedback-detail").textContent = "Можно исправить ответ или пропустить слово — тогда будет засчитана ошибка.";
-    $("feedback-icon").replaceChildren(icon("cross"));
+    replaceChildren($("feedback-icon"), icon("cross"));
     $("typed-answer").focus({ preventScroll: true });
   }
 
@@ -180,14 +186,14 @@
         ? "Ни одной ошибки! Попробуйте ещё раз в новом порядке."
         : "Вы справились с большим проходом. Повторите тест: знакомых слов будет всё больше.";
     }
-    $("restart-complete").replaceChildren(
+    replaceChildren($("restart-complete"),
       document.createTextNode(express ? `Ещё ${session.total} слов` : "Пройти ещё раз"), icon("repeat")
     );
     $("completion-note").textContent = express
       ? `Каждый новый экспресс-тест — ${session.total} случайных слов из ${words.length}.`
       : "Новый проход — новый порядок слов и ответов.";
     $("complete-title").focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo(0, 0);
   }
 
   function next() {
@@ -199,7 +205,7 @@
   function chooseMode() {
     show("intro");
     document.querySelector('input[name="mode"]:checked').focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo(0, 0);
   }
 
   function updateAnswerHints() {
@@ -234,7 +240,7 @@
   document.addEventListener("keydown", (event) => {
     if (event.repeat || !session || session.answerMode !== "choice" || $("training").hidden || event.altKey || event.ctrlKey || event.metaKey) return;
     const active = document.activeElement;
-    if (active?.matches("input, textarea, select, [contenteditable]")) return;
+    if (active && active.matches("input, textarea, select, [contenteditable]")) return;
     if (/^[1-4]$/.test(event.key)) {
       event.preventDefault();
       answer(Number(event.key) - 1);
@@ -243,4 +249,6 @@
       next();
     }
   });
+  $("startup-warning").hidden = true;
+  $("start").disabled = false;
 })();
