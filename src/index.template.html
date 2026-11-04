@@ -33,7 +33,12 @@
   </header>
 
   <main class="shell">
-    <noscript><p class="noscript">Чтобы пройти тест, включите JavaScript в браузере. Подключение к интернету не требуется.</p></noscript>
+    <div id="startup-warning" class="startup-warning" role="status">
+      <strong>Для запуска теста нужен браузер с JavaScript.</strong>
+      <p>На iPhone HTML из «Файлов» или мессенджера может открываться в предпросмотре без выполнения скриптов. В таком просмотрщике тест не запустится: откройте его как веб-страницу по ссылке в Safari.</p>
+      <p><a href="https://borovetskirill38-boop.github.io/englishwinner/">Открыть веб-версию теста</a></p>
+      <noscript><p>В этом окне JavaScript отключён. Перейдите из предпросмотра в обычный браузер.</p></noscript>
+    </div>
 
     <section id="intro" class="intro" aria-labelledby="intro-title">
       <div class="eyebrow"><span class="status-dot"></span>ВАША ПРАКТИКА АНГЛИЙСКОГО</div>
@@ -77,7 +82,7 @@
               <label class="mode-option"><input id="answer-mode-typing" type="radio" name="answer-mode" value="typing" aria-label="Ручной ввод перевода"><span class="mode-label"><strong>Ручной ввод</strong><span>Напишите перевод</span></span></label>
             </div>
           </fieldset>
-          <button id="start" class="button-primary" type="button">Начать тест<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+          <button id="start" class="button-primary" type="button" disabled>Начать тест<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
           <p class="start-note">Без таймера. Без регистрации. В своём темпе.</p>
         </div>
       </div>

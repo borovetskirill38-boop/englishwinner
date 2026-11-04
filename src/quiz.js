@@ -12,7 +12,7 @@ const Quiz = (() => {
   }
 
   function normalize(text) {
-    return text.toLocaleLowerCase("ru").replaceAll("ё", "е").trim();
+    return text.toLocaleLowerCase("ru").replace(/ё/g, "е").trim();
   }
 
   function primaryTranslation(entry) {
@@ -21,7 +21,7 @@ const Quiz = (() => {
 
   function normalizeAnswer(text) {
     if (typeof text !== "string") return "";
-    return text.normalize("NFKC").toLocaleLowerCase("ru").replaceAll("ё", "е")
+    return text.normalize("NFKC").toLocaleLowerCase("ru").replace(/ё/g, "е")
       .replace(/[’‘]/g, "'").replace(/[‐‑‒–—−]/g, "-")
       .replace(/[.,!?…:;«»"“”]/g, " ").replace(/\s+/g, " ").trim()
       .replace(/^'+|'+$/g, "").trim();
@@ -56,8 +56,8 @@ const Quiz = (() => {
     if (!answer) return false;
     // The infinitive marker is optional when the Russian prompt is a verb.
     if (category(entry) === "verb" && answer.startsWith("to ")) answer = answer.slice(3);
-    const accepted = englishIndex?.get(normalizeAnswer(primaryTranslation(entry)));
-    return answer === normalizeAnswer(entry.word) || Boolean(accepted?.has(answer));
+    const accepted = englishIndex ? englishIndex.get(normalizeAnswer(primaryTranslation(entry))) : null;
+    return answer === normalizeAnswer(entry.word) || Boolean(accepted && accepted.has(answer));
   }
 
   const MODES = Object.freeze({
@@ -82,7 +82,11 @@ const Quiz = (() => {
   });
 
   function checkMode(mode) {
-    if (!Object.hasOwn(MODES, mode)) throw new Error(`Неизвестный режим: ${mode}`);
+    if (!hasOwn(MODES, mode)) throw new Error(`Неизвестный режим: ${mode}`);
+  }
+
+  function hasOwn(object, key) {
+    return Object.prototype.hasOwnProperty.call(object, key);
   }
 
   function questionFor(entry, mode = "en-ru") {
@@ -132,9 +136,9 @@ const Quiz = (() => {
     constructor(words, bank, random = Math.random, mode = "en-ru", format = "full", answerMode = "choice") {
       if (!words.length) throw new Error("Список слов пуст");
       checkMode(mode);
-      if (!Object.hasOwn(FORMATS, format)) throw new Error(`Неизвестный формат: ${format}`);
-      if (!Object.hasOwn(ANSWER_MODES, answerMode)) throw new Error(`Неизвестный способ ответа: ${answerMode}`);
-      const limit = FORMATS[format].limit ?? words.length;
+      if (!hasOwn(FORMATS, format)) throw new Error(`Неизвестный формат: ${format}`);
+      if (!hasOwn(ANSWER_MODES, answerMode)) throw new Error(`Неизвестный способ ответа: ${answerMode}`);
+      const limit = FORMATS[format].limit === null ? words.length : FORMATS[format].limit;
       if (words.length < limit) throw new Error(`Для этого формата нужно не менее ${limit} слов`);
       this.order = shuffle(words, random).slice(0, limit);
       this.bank = bank;
@@ -160,10 +164,10 @@ const Quiz = (() => {
     answer(optionIndex) {
       if (this.answerMode !== "choice" || this.finished || this.selected !== null || !Number.isInteger(optionIndex)
           || optionIndex < 0 || optionIndex >= this.options.length) return null;
-      return this.#record(this.options[optionIndex].correct, optionIndex);
+      return this._record(this.options[optionIndex].correct, optionIndex);
     }
 
-    #record(correct, selected) {
+    _record(correct, selected) {
       this.selected = selected;
       this.answered += 1;
       if (correct) this.correct += 1;
@@ -174,12 +178,16 @@ const Quiz = (() => {
       if (this.answerMode !== "typing" || this.finished || this.selected !== null) return null;
       if (!normalizeAnswer(text)) return { correct: false, empty: true };
       if (!matchesAnswer(this.entry, this.mode, text, this.englishIndex)) return { correct: false, retry: true };
-      return { ...this.#record(true, "typed"), answer: text.trim() };
+      const result = this._record(true, "typed");
+      result.answer = text.trim();
+      return result;
     }
 
     skip() {
       if (this.answerMode !== "typing" || this.finished || this.selected !== null) return null;
-      return { ...this.#record(false, "skipped"), skipped: true };
+      const result = this._record(false, "skipped");
+      result.skipped = true;
+      return result;
     }
 
     advance() {

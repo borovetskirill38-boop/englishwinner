@@ -83,7 +83,7 @@ h2 { margin: 15px 0 21px; font-size: 29px; font-weight: 550; letter-spacing: -.8
 .mode-selector { border: 0; padding: 0; margin: 0 0 20px; min-width: 0; }
 .mode-selector legend { margin-bottom: 10px; font-size: 11px; font-weight: 550; color: var(--muted); }
 .mode-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.mode-option { position: relative; cursor: pointer; }
+.mode-option { position: relative; cursor: pointer; touch-action: manipulation; }
 .mode-option input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .mode-label { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line); border-radius: 10px; padding: 13px 14px; background: #fff; color: var(--muted); }
 .mode-label strong { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--ink); }
@@ -198,7 +198,9 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
 .about summary { cursor: pointer; padding: 2px; list-style-position: inside; }
 .about-content { text-align: left; line-height: 1.7; padding: 10px 0 0 16px; }
 .about-content a { color: #3f6c47; }
-.noscript { padding: 20px; border: 1px solid #be4550; border-radius: 10px; color: var(--red); background: var(--red-tint); }
+.startup-warning { margin-top: 20px; padding: 18px 20px; border: 1px solid #d7c99e; border-radius: 12px; color: #6d571d; background: #fff8e5; font-size: 13px; line-height: 1.7; }
+.startup-warning p { margin: 7px 0 0; }
+.startup-warning a { color: inherit; font-weight: 600; }
 @media (max-width: 760px) {
   .shell { padding-inline: 24px; }
   .header { min-height: 86px; }
@@ -317,7 +319,12 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   </header>
 
   <main class="shell">
-    <noscript><p class="noscript">Чтобы пройти тест, включите JavaScript в браузере. Подключение к интернету не требуется.</p></noscript>
+    <div id="startup-warning" class="startup-warning" role="status">
+      <strong>Для запуска теста нужен браузер с JavaScript.</strong>
+      <p>На iPhone HTML из «Файлов» или мессенджера может открываться в предпросмотре без выполнения скриптов. В таком просмотрщике тест не запустится: откройте его как веб-страницу по ссылке в Safari.</p>
+      <p><a href="https://borovetskirill38-boop.github.io/englishwinner/">Открыть веб-версию теста</a></p>
+      <noscript><p>В этом окне JavaScript отключён. Перейдите из предпросмотра в обычный браузер.</p></noscript>
+    </div>
 
     <section id="intro" class="intro" aria-labelledby="intro-title">
       <div class="eyebrow"><span class="status-dot"></span>ВАША ПРАКТИКА АНГЛИЙСКОГО</div>
@@ -361,7 +368,7 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
               <label class="mode-option"><input id="answer-mode-typing" type="radio" name="answer-mode" value="typing" aria-label="Ручной ввод перевода"><span class="mode-label"><strong>Ручной ввод</strong><span>Напишите перевод</span></span></label>
             </div>
           </fieldset>
-          <button id="start" class="button-primary" type="button">Начать тест<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+          <button id="start" class="button-primary" type="button" disabled>Начать тест<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
           <p class="start-note">Без таймера. Без регистрации. В своём темпе.</p>
         </div>
       </div>
@@ -437,7 +444,7 @@ const Quiz = (() => {
   }
 
   function normalize(text) {
-    return text.toLocaleLowerCase("ru").replaceAll("ё", "е").trim();
+    return text.toLocaleLowerCase("ru").replace(/ё/g, "е").trim();
   }
 
   function primaryTranslation(entry) {
@@ -446,7 +453,7 @@ const Quiz = (() => {
 
   function normalizeAnswer(text) {
     if (typeof text !== "string") return "";
-    return text.normalize("NFKC").toLocaleLowerCase("ru").replaceAll("ё", "е")
+    return text.normalize("NFKC").toLocaleLowerCase("ru").replace(/ё/g, "е")
       .replace(/[’‘]/g, "'").replace(/[‐‑‒–—−]/g, "-")
       .replace(/[.,!?…:;«»"“”]/g, " ").replace(/\s+/g, " ").trim()
       .replace(/^'+|'+$/g, "").trim();
@@ -481,8 +488,8 @@ const Quiz = (() => {
     if (!answer) return false;
     // The infinitive marker is optional when the Russian prompt is a verb.
     if (category(entry) === "verb" && answer.startsWith("to ")) answer = answer.slice(3);
-    const accepted = englishIndex?.get(normalizeAnswer(primaryTranslation(entry)));
-    return answer === normalizeAnswer(entry.word) || Boolean(accepted?.has(answer));
+    const accepted = englishIndex ? englishIndex.get(normalizeAnswer(primaryTranslation(entry))) : null;
+    return answer === normalizeAnswer(entry.word) || Boolean(accepted && accepted.has(answer));
   }
 
   const MODES = Object.freeze({
@@ -507,7 +514,11 @@ const Quiz = (() => {
   });
 
   function checkMode(mode) {
-    if (!Object.hasOwn(MODES, mode)) throw new Error(`Неизвестный режим: ${mode}`);
+    if (!hasOwn(MODES, mode)) throw new Error(`Неизвестный режим: ${mode}`);
+  }
+
+  function hasOwn(object, key) {
+    return Object.prototype.hasOwnProperty.call(object, key);
   }
 
   function questionFor(entry, mode = "en-ru") {
@@ -557,9 +568,9 @@ const Quiz = (() => {
     constructor(words, bank, random = Math.random, mode = "en-ru", format = "full", answerMode = "choice") {
       if (!words.length) throw new Error("Список слов пуст");
       checkMode(mode);
-      if (!Object.hasOwn(FORMATS, format)) throw new Error(`Неизвестный формат: ${format}`);
-      if (!Object.hasOwn(ANSWER_MODES, answerMode)) throw new Error(`Неизвестный способ ответа: ${answerMode}`);
-      const limit = FORMATS[format].limit ?? words.length;
+      if (!hasOwn(FORMATS, format)) throw new Error(`Неизвестный формат: ${format}`);
+      if (!hasOwn(ANSWER_MODES, answerMode)) throw new Error(`Неизвестный способ ответа: ${answerMode}`);
+      const limit = FORMATS[format].limit === null ? words.length : FORMATS[format].limit;
       if (words.length < limit) throw new Error(`Для этого формата нужно не менее ${limit} слов`);
       this.order = shuffle(words, random).slice(0, limit);
       this.bank = bank;
@@ -585,10 +596,10 @@ const Quiz = (() => {
     answer(optionIndex) {
       if (this.answerMode !== "choice" || this.finished || this.selected !== null || !Number.isInteger(optionIndex)
           || optionIndex < 0 || optionIndex >= this.options.length) return null;
-      return this.#record(this.options[optionIndex].correct, optionIndex);
+      return this._record(this.options[optionIndex].correct, optionIndex);
     }
 
-    #record(correct, selected) {
+    _record(correct, selected) {
       this.selected = selected;
       this.answered += 1;
       if (correct) this.correct += 1;
@@ -599,12 +610,16 @@ const Quiz = (() => {
       if (this.answerMode !== "typing" || this.finished || this.selected !== null) return null;
       if (!normalizeAnswer(text)) return { correct: false, empty: true };
       if (!matchesAnswer(this.entry, this.mode, text, this.englishIndex)) return { correct: false, retry: true };
-      return { ...this.#record(true, "typed"), answer: text.trim() };
+      const result = this._record(true, "typed");
+      result.answer = text.trim();
+      return result;
     }
 
     skip() {
       if (this.answerMode !== "typing" || this.finished || this.selected !== null) return null;
-      return { ...this.#record(false, "skipped"), skipped: true };
+      const result = this._record(false, "skipped");
+      result.skipped = true;
+      return result;
     }
 
     advance() {
@@ -630,13 +645,19 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
   const screens = ["intro", "training", "complete"];
   let session = null;
 
+  // replaceChildren is absent in Safari before iOS 14.
+  function replaceChildren(element, ...children) {
+    while (element.firstChild) element.removeChild(element.firstChild);
+    children.forEach((child) => element.appendChild(child));
+  }
+
   function icon(name, className = "icon") {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", className);
     svg.setAttribute("aria-hidden", "true");
     const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
     use.setAttribute("href", `#icon-${name}`);
-    svg.append(use);
+    svg.appendChild(use);
     return svg;
   }
 
@@ -681,10 +702,10 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
     $("feedback").className = "feedback";
     $("feedback-title").textContent = "";
     $("feedback-detail").textContent = "";
-    $("feedback-icon").replaceChildren();
+    replaceChildren($("feedback-icon"));
     $("answer-hint").textContent = typing ? "Можно исправляться. Ошибка засчитывается при пропуске слова." : "Не спешите. Здесь нет таймера.";
     $("next").disabled = true;
-    $("next").replaceChildren(document.createTextNode(
+    replaceChildren($("next"), document.createTextNode(
       session.index === session.total - 1 ? "Посмотреть результат" : "Следующее слово"
     ), icon("arrow"));
     const options = session.options.map((option, index) => {
@@ -699,11 +720,11 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
       text.className = "option-text";
       text.textContent = option.text;
       text.lang = mode.answerLang;
-      button.append(number, text, icon("check", "icon option-result"));
+      replaceChildren(button, number, text, icon("check", "icon option-result"));
       button.addEventListener("click", () => answer(index));
       return button;
     });
-    $("options").replaceChildren(...options);
+    replaceChildren($("options"), ...options);
     stats();
     $(typing ? "typed-answer" : "word").focus({ preventScroll: true });
   }
@@ -721,7 +742,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
     $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${Quiz.FORMATS[session.format].name}, ${mode.name}, ${Quiz.ANSWER_MODES[session.answerMode].name}`);
     show("training");
     renderQuestion();
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo(0, 0);
   }
 
   function answer(index) {
@@ -736,7 +757,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
         button.setAttribute("aria-label", `${session.options[optionIndex].text} — правильный ответ`);
       } else if (optionIndex === index) {
         button.classList.add("wrong");
-        button.lastElementChild.replaceWith(icon("cross", "icon option-result"));
+        button.replaceChild(icon("cross", "icon option-result"), button.lastElementChild);
         button.setAttribute("aria-label", `${session.options[optionIndex].text} — неправильный ответ`);
       }
     });
@@ -745,7 +766,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
     $("feedback-detail").textContent = session.mode === "ru-en"
       ? `${result.translation} — ${session.entry.word}`
       : `${session.entry.word} — ${result.translation}`;
-    $("feedback-icon").replaceChildren(icon(result.correct ? "check" : "cross"));
+    replaceChildren($("feedback-icon"), icon(result.correct ? "check" : "cross"));
     $("answer-hint").textContent = "Перевод останется на экране, пока вы не продолжите.";
     $("next").disabled = false;
     stats();
@@ -780,7 +801,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
     $("feedback").className = "feedback is-wrong";
     $("feedback-title").textContent = result.empty ? "Введите перевод." : "Пока неверно. Попробуйте ещё раз.";
     $("feedback-detail").textContent = "Можно исправить ответ или пропустить слово — тогда будет засчитана ошибка.";
-    $("feedback-icon").replaceChildren(icon("cross"));
+    replaceChildren($("feedback-icon"), icon("cross"));
     $("typed-answer").focus({ preventScroll: true });
   }
 
@@ -804,14 +825,14 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
         ? "Ни одной ошибки! Попробуйте ещё раз в новом порядке."
         : "Вы справились с большим проходом. Повторите тест: знакомых слов будет всё больше.";
     }
-    $("restart-complete").replaceChildren(
+    replaceChildren($("restart-complete"),
       document.createTextNode(express ? `Ещё ${session.total} слов` : "Пройти ещё раз"), icon("repeat")
     );
     $("completion-note").textContent = express
       ? `Каждый новый экспресс-тест — ${session.total} случайных слов из ${words.length}.`
       : "Новый проход — новый порядок слов и ответов.";
     $("complete-title").focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo(0, 0);
   }
 
   function next() {
@@ -823,7 +844,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
   function chooseMode() {
     show("intro");
     document.querySelector('input[name="mode"]:checked').focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo(0, 0);
   }
 
   function updateAnswerHints() {
@@ -858,7 +879,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
   document.addEventListener("keydown", (event) => {
     if (event.repeat || !session || session.answerMode !== "choice" || $("training").hidden || event.altKey || event.ctrlKey || event.metaKey) return;
     const active = document.activeElement;
-    if (active?.matches("input, textarea, select, [contenteditable]")) return;
+    if (active && active.matches("input, textarea, select, [contenteditable]")) return;
     if (/^[1-4]$/.test(event.key)) {
       event.preventDefault();
       answer(Number(event.key) - 1);
@@ -867,6 +888,8 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
       next();
     }
   });
+  $("startup-warning").hidden = true;
+  $("start").disabled = false;
 })();
 </script>
 </body>
