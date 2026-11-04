@@ -59,48 +59,49 @@ try:
               };
             }""")
             configurations = 0
-            for mode in ["en-ru", "ru-en"]:
-                for test_format in ["full", "express"]:
-                    for answer_mode in ["choice", "typing"]:
-                        for name, value in [("mode", mode), ("format", test_format), ("answer-mode", answer_mode)]:
-                            page.locator(f'label:has(input[name="{name}"][value="{value}"])').tap()
-                        page.locator("#start").tap()
-                        assert page.locator("#training").is_visible()
-                        assert page.locator("#total-count").inner_text() == ("20" if test_format == "express" else "5000")
-                        assert page.locator("#question-number").inner_text() == "1"
-                        for index in range(20 if test_format == "express" else 3):
-                            if answer_mode == "choice":
-                                option = page.evaluate("""wrong => window.__session.options.findIndex(option => option.correct !== wrong)""", index == 1)
-                                page.locator(".option").nth(option).tap()
-                                assert page.locator(".option.wrong" if index == 1 else ".option.correct").count() == 1
-                                page.locator("#next").tap()
-                            elif index == 1:
-                                page.locator("#typed-answer").fill("___wrong___")
-                                page.locator("#check-answer").tap()
-                                assert page.locator("#question-number").inner_text() == "2"
-                                assert page.locator("#typed-answer").get_attribute("aria-invalid") == "true"
-                                page.locator("#skip-word").tap()
-                            else:
-                                answer = page.evaluate("""() => window.__session.mode === 'en-ru'
-                                  ? Quiz.translationVariants(window.__session.entry)[0] : window.__session.entry.word""")
-                                page.locator("#typed-answer").fill(answer)
-                                page.locator("#check-answer").tap()
-                                assert "Верно" in page.locator("#typed-outcome").inner_text()
-                        if test_format == "express":
-                            assert page.locator("#complete").is_visible()
-                            assert page.locator("#result-correct").inner_text() == "19"
-                            assert page.locator("#result-mistakes").inner_text() == "1"
-                            page.locator("#restart-complete").tap()
+            for level in ["1000", "3000", "5000"]:
+                for mode in ["en-ru", "ru-en"]:
+                    for test_format in ["full", "express"]:
+                        for answer_mode in ["choice", "typing"]:
+                            for name, value in [("level", level), ("mode", mode), ("format", test_format), ("answer-mode", answer_mode)]:
+                                page.locator(f'label:has(input[name="{name}"][value="{value}"])').tap()
+                            page.locator("#start").tap()
+                            assert page.locator("#training").is_visible()
+                            assert page.locator("#total-count").inner_text() == ("20" if test_format == "express" else level)
                             assert page.locator("#question-number").inner_text() == "1"
-                            assert page.locator("#correct-count").inner_text() == "0"
-                        else:
-                            assert page.locator("#question-number").inner_text() == "4"
-                            assert page.locator("#correct-count").inner_text() == "2"
-                            assert page.locator("#mistake-count").inner_text() == "1"
-                        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
-                        page.locator("#change-mode").tap()
-                        assert page.locator("#intro").is_visible()
-                        configurations += 1
+                            for index in range(20 if test_format == "express" else 3):
+                                if answer_mode == "choice":
+                                    option = page.evaluate("""wrong => window.__session.options.findIndex(option => option.correct !== wrong)""", index == 1)
+                                    page.locator(".option").nth(option).tap()
+                                    assert page.locator(".option.wrong" if index == 1 else ".option.correct").count() == 1
+                                    page.locator("#next").tap()
+                                elif index == 1:
+                                    page.locator("#typed-answer").fill("___wrong___")
+                                    page.locator("#check-answer").tap()
+                                    assert page.locator("#question-number").inner_text() == "2"
+                                    assert page.locator("#typed-answer").get_attribute("aria-invalid") == "true"
+                                    page.locator("#skip-word").tap()
+                                else:
+                                    answer = page.evaluate("""() => window.__session.mode === 'en-ru'
+                                      ? Quiz.translationVariants(window.__session.entry)[0] : window.__session.entry.word""")
+                                    page.locator("#typed-answer").fill(answer)
+                                    page.locator("#check-answer").tap()
+                                    assert "Верно" in page.locator("#typed-outcome").inner_text()
+                            if test_format == "express":
+                                assert page.locator("#complete").is_visible()
+                                assert page.locator("#result-correct").inner_text() == "19"
+                                assert page.locator("#result-mistakes").inner_text() == "1"
+                                page.locator("#restart-complete").tap()
+                                assert page.locator("#question-number").inner_text() == "1"
+                                assert page.locator("#correct-count").inner_text() == "0"
+                            else:
+                                assert page.locator("#question-number").inner_text() == "4"
+                                assert page.locator("#correct-count").inner_text() == "2"
+                                assert page.locator("#mistake-count").inner_text() == "1"
+                            assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+                            page.locator("#change-mode").tap()
+                            assert page.locator("#intro").is_visible()
+                            configurations += 1
             assert not errors, errors
             page.screenshot(path=str(ARTIFACTS / f"compat-{profile}.png"), full_page=True)
             results.append({"profile": profile, "configurations": configurations, "errors": errors})

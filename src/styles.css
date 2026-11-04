@@ -72,6 +72,12 @@ h2 { margin: 15px 0 21px; font-size: 29px; font-weight: 550; letter-spacing: -.8
 .mode-selector { border: 0; padding: 0; margin: 0 0 20px; min-width: 0; }
 .mode-selector legend { margin-bottom: 10px; font-size: 11px; font-weight: 550; color: var(--muted); }
 .mode-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.level-options { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.level-options .mode-label { height: 100%; padding: 13px 8px; }
+.level-options .mode-label strong { display: block; padding-right: 7px; line-height: 1.45; }
+.level-options .mode-label > span { font-size: 10px; overflow-wrap: break-word; }
+.selection-note { margin: 9px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.level-badge { display: inline-block; margin: 7px 0 0; color: var(--muted); font-size: 11px; }
 .mode-option { position: relative; cursor: pointer; touch-action: manipulation; }
 .mode-option input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .mode-label { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line); border-radius: 10px; padding: 13px 14px; background: #fff; color: var(--muted); }

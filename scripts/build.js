@@ -54,8 +54,12 @@ function loadData() {
       }
     }
   }
-  for (const mode of Object.keys(quiz.MODES)) {
-    for (const word of words) quiz.optionsFor(word, bank, Math.random, mode);
+  for (const level of Object.keys(quiz.LEVELS)) {
+    const vocabulary = quiz.wordsForLevel(words, level);
+    const scopedBank = quiz.bankForVocabulary(vocabulary, bank);
+    for (const mode of Object.keys(quiz.MODES)) {
+      for (const word of vocabulary) quiz.optionsFor(word, scopedBank, Math.random, mode);
+    }
   }
   return { words, distractors: bank, source };
 }
@@ -80,7 +84,7 @@ if (require.main === module) {
   const html = build();
   if (process.argv.includes("--check")) {
     if (read("index.html") !== html) fail("index.html устарел. Выполните npm run build");
-    console.log(`index.html актуален; ${WORD_COUNT} уникальных слов и оба режима проверены.`);
+    console.log(`index.html актуален; ${WORD_COUNT} уникальных слов, три уровня и оба направления проверены.`);
   } else {
     fs.writeFileSync(path.join(root, "index.html"), html);
     console.log(`Собран index.html: ${WORD_COUNT} слов, ${Buffer.byteLength(html)} байт. Интернет не нужен.`);

@@ -1,13 +1,15 @@
 {
   "name": "english-winner",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
-  "description": "Офлайн-тест на 5000 или 20 слов: два направления, выбор ответа или ручной ввод",
+  "description": "Три уровня английских слов: 1000, 3000 и 5000; полный и экспресс-тест, два направления и ручной ввод",
   "scripts": {
     "build": "node scripts/build.js",
-    "test": "node tests/quiz.test.js && node tests/typing.test.js && node tests/compat.test.js && node tests/pages.test.js",
+    "test": "node tests/quiz.test.js && node tests/typing.test.js && node tests/levels.test.js && node tests/compat.test.js && node tests/pages.test.js",
     "check": "node scripts/build.js --check && npm test",
     "publish:pages": "node scripts/publish-pages.js"
   },
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=18"
+  }
 }

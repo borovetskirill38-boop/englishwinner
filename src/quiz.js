@@ -81,6 +81,33 @@ const Quiz = (() => {
     typing: Object.freeze({ name: "Ручной ввод" }),
   });
 
+  const LEVELS = Object.freeze({
+    "1000": Object.freeze({ name: "Базовый", size: 1000 }),
+    "3000": Object.freeze({ name: "Средний", size: 3000 }),
+    "5000": Object.freeze({ name: "Продвинутый", size: 5000 }),
+  });
+
+  function wordsForLevel(words, level) {
+    if (!hasOwn(LEVELS, level)) throw new Error(`Неизвестный уровень: ${level}`);
+    const size = LEVELS[level].size;
+    if (words.length < size) throw new Error(`Для этого уровня нужно не менее ${size} слов`);
+    // Source ranks precede randomization: a level always contains the same top N.
+    return words.slice().sort((a, b) => a.rank - b.rank).slice(0, size);
+  }
+
+  function bankForVocabulary(words, bank) {
+    const byWord = new Map(words.map((entry) => [entry.word, entry]));
+    const scoped = {};
+    for (const key of Object.keys(bank)) {
+      scoped[key] = bank[key].filter((candidate) => byWord.has(candidate.english)).map((candidate) => {
+        const entry = byWord.get(candidate.english);
+        return { english: entry.word, text: primaryTranslation(entry), exclude: candidate.exclude || [],
+          meanings: translationVariants(entry).map(normalizeAnswer) };
+      });
+    }
+    return scoped;
+  }
+
   function checkMode(mode) {
     if (!hasOwn(MODES, mode)) throw new Error(`Неизвестный режим: ${mode}`);
   }
@@ -118,41 +145,46 @@ const Quiz = (() => {
   function optionsFor(entry, bank, random = Math.random, mode = "en-ru") {
     const correctText = correctFor(entry, mode);
     const aliases = [...normalize(entry.translation).split(/[;(),]/), ...(entry.aliases || []).map(normalize)].map((s) => s.trim());
+    const meanings = new Set(translationVariants(entry).map(normalizeAnswer));
     const candidates = bank[category(entry)].filter((candidate) => {
       if ((candidate.exclude || []).includes(entry.word)) return false;
       if (normalize(candidate.english) === normalize(entry.word)) return false;
+      if (candidate.meanings && candidate.meanings.some((meaning) => meanings.has(meaning))) return false;
       return !aliases.includes(normalize(candidate.text));
     });
-    const labels = candidates.map((c) => mode === "ru-en" ? c.english : c.text);
-    const unique = [...new Map(labels.map((text) => [normalize(text), text])).values()];
-    if (unique.length < 3) throw new Error(`Недостаточно вариантов для ${entry.word}`);
-    const distractors = shuffle(unique, random).slice(0, 3).map((text) => ({
-      text,
-      correct: false,
+    const labels = candidates.map((candidate) => ({
+      text: mode === "ru-en" ? candidate.english : candidate.text, word: candidate.english, correct: false,
     }));
-    return shuffle([{ text: correctText, correct: true }, ...distractors], random);
+    const unique = [...new Map(labels.map((option) => [normalize(option.text), option])).values()];
+    if (unique.length < 3) throw new Error(`Недостаточно вариантов для ${entry.word}`);
+    const distractors = shuffle(unique, random).slice(0, 3);
+    return shuffle([{ text: correctText, word: entry.word, correct: true }, ...distractors], random);
   }
 
   class Session {
-    constructor(words, bank, random = Math.random, mode = "en-ru", format = "full", answerMode = "choice") {
+    constructor(words, bank, random = Math.random, mode = "en-ru", format = "full", answerMode = "choice", level = "5000") {
       if (!words.length) throw new Error("Список слов пуст");
       checkMode(mode);
       if (!hasOwn(FORMATS, format)) throw new Error(`Неизвестный формат: ${format}`);
       if (!hasOwn(ANSWER_MODES, answerMode)) throw new Error(`Неизвестный способ ответа: ${answerMode}`);
-      const limit = FORMATS[format].limit === null ? words.length : FORMATS[format].limit;
-      if (words.length < limit) throw new Error(`Для этого формата нужно не менее ${limit} слов`);
-      this.order = shuffle(words, random).slice(0, limit);
-      this.bank = bank;
+      const formatLimit = FORMATS[format].limit;
+      if (formatLimit !== null && words.length < formatLimit) throw new Error(`Для этого формата нужно не менее ${formatLimit} слов`);
+      this.vocabulary = wordsForLevel(words, level);
+      const limit = formatLimit === null ? this.vocabulary.length : formatLimit;
+      this.level = String(level);
+      this.vocabularySize = this.vocabulary.length;
+      this.order = shuffle(this.vocabulary, random).slice(0, limit);
+      this.bank = answerMode === "choice" ? bankForVocabulary(this.vocabulary, bank) : null;
       this.random = random;
       this.mode = mode;
       this.format = format;
       this.answerMode = answerMode;
-      this.englishIndex = answerMode === "typing" && mode === "ru-en" ? buildEnglishIndex(words) : null;
+      this.englishIndex = answerMode === "typing" && mode === "ru-en" ? buildEnglishIndex(this.vocabulary) : null;
       this.index = 0;
       this.correct = 0;
       this.answered = 0;
       this.selected = null;
-      this.options = answerMode === "choice" ? optionsFor(this.entry, bank, random, mode) : [];
+      this.options = answerMode === "choice" ? optionsFor(this.entry, this.bank, random, mode) : [];
     }
 
     get entry() { return this.order[this.index]; }
@@ -200,7 +232,7 @@ const Quiz = (() => {
     }
   }
 
-  return { MODES, FORMATS, ANSWER_MODES, shuffle, normalize, normalizeAnswer, primaryTranslation,
+  return { MODES, FORMATS, ANSWER_MODES, LEVELS, wordsForLevel, bankForVocabulary, shuffle, normalize, normalizeAnswer, primaryTranslation,
     translationVariants, buildEnglishIndex, matchesAnswer, questionFor, correctFor, category, optionsFor, Session };
 })();
 

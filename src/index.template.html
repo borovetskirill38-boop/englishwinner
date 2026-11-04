@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="5000 английских слов: полный тест или экспресс на 20 слов. Выбор из четырёх вариантов или ручной ввод, оба направления перевода, работа офлайн.">
+  <meta name="description" content="Три уровня: 1000, 3000 и 5000 частотных английских слов. Полный тест или экспресс на 20 слов, выбор ответа или ручной ввод, оба направления перевода.">
   <meta name="theme-color" content="#f7f8f3">
   <title>English Winner — 5000 слов</title>
   <!-- Vocabulary adapted from FrequencyWords by Hermit Dave / OpenSubtitles.
@@ -61,6 +61,15 @@
             <li><span class="rule-number">02</span><span id="rule-feedback">Сразу узнайте результат и правильный перевод.</span></li>
             <li><span class="rule-number">03</span>Повторяйте: каждый проход перемешивается.</li>
           </ul>
+          <fieldset class="mode-selector level-selector">
+            <legend>Выберите уровень сложности</legend>
+            <div class="mode-options level-options">
+              <label class="mode-option"><input id="level-1000" type="radio" name="level" value="1000" aria-label="Базовый — 1000 самых частотных слов"><span class="mode-label"><strong>1000 слов</strong><span>Базовый</span></span></label>
+              <label class="mode-option"><input id="level-3000" type="radio" name="level" value="3000" aria-label="Средний — 3000 самых частотных слов"><span class="mode-label"><strong>3000 слов</strong><span>Средний</span></span></label>
+              <label class="mode-option"><input id="level-5000" type="radio" name="level" value="5000" aria-label="Продвинутый — 5000 самых частотных слов" checked><span class="mode-label"><strong>5000 слов</strong><span>Продвинутый</span></span></label>
+            </div>
+            <p id="level-description" class="selection-note" aria-live="polite">Вопросы и варианты ответа — из 5000 самых частотных слов.</p>
+          </fieldset>
           <fieldset class="mode-selector">
             <legend>Выберите направление</legend>
             <div class="mode-options">
@@ -71,7 +80,7 @@
           <fieldset class="mode-selector format-selector">
             <legend>Выберите формат</legend>
             <div class="mode-options">
-              <label class="mode-option"><input id="format-full" type="radio" name="format" value="full" aria-label="Полный тест — 5000 слов" checked><span class="mode-label"><strong>Полный тест</strong><span>Все 5000 слов</span></span></label>
+              <label class="mode-option"><input id="format-full" type="radio" name="format" value="full" aria-label="Полный тест — 5000 слов" checked><span class="mode-label"><strong>Полный тест</strong><span id="full-format-note">Все 5000 слов</span></span></label>
               <label class="mode-option"><input id="format-express" type="radio" name="format" value="express" aria-label="Экспресс-тест — 20 случайных слов"><span class="mode-label"><strong>Экспресс-тест</strong><span>20 случайных слов</span></span></label>
             </div>
           </fieldset>
@@ -92,7 +101,7 @@
     <p id="typed-outcome" class="typed-outcome" role="status" aria-live="polite" aria-atomic="true" hidden></p>
 
     <section id="training" class="training" hidden aria-labelledby="word">
-      <div class="training-heading"><div><span id="training-format" class="small-label">ПОЛНЫЙ ТЕСТ</span><p class="question-count">Слово <strong id="question-number">1</strong><span> / <span id="total-count">5000</span></span></p></div><button id="change-mode" class="mode-switch" type="button" aria-label="Сменить режим"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span class="direction-languages"><span id="direction-from">EN</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg><span id="direction-to">RU</span></span></span></button></div>
+      <div class="training-heading"><div><span id="training-format" class="small-label">ПОЛНЫЙ ТЕСТ</span><br><span id="training-level" class="level-badge">Уровень: 5000 слов</span><p class="question-count">Слово <strong id="question-number">1</strong><span> / <span id="total-count">5000</span></span></p></div><button id="change-mode" class="mode-switch" type="button" aria-label="Сменить режим"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span class="direction-languages"><span id="direction-from">EN</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg><span id="direction-to">RU</span></span></span></button></div>
       <progress id="progress" value="0" max="5000" aria-label="Отвечено вопросов"></progress>
       <div class="quiz-card">
         <div class="question-heading"><span class="small-label">КАК ПЕРЕВОДИТСЯ ЭТО СЛОВО?</span><span id="question-badge" class="question-badge">4 варианта · 1 верный</span></div>
@@ -124,6 +133,7 @@
     <section id="complete" class="completion" hidden aria-labelledby="complete-title">
       <span id="complete-count" class="eyebrow">ВСЕ 5000 СЛОВ ПРОЙДЕНЫ</span>
       <p id="result-mode" class="result-mode"></p>
+      <p id="result-level" class="result-mode"></p>
       <p id="result-answer-mode" class="result-mode" hidden>Ручной ввод</p>
       <div class="result-ring" id="result-ring"><div><strong id="result-percent">0%</strong><span>верных ответов</span></div></div>
       <h1 id="complete-title" tabindex="-1">Каждое слово —<br><em>шаг вперёд.</em></h1>
@@ -141,7 +151,7 @@
       <span class="footer-credit">Made by <strong>Kirill Borovets</strong></span>
       <span class="footer-rights">© 2026 Kirill Borovets. Все права защищены.</span>
     </div>
-    <details class="about"><summary>О словаре и правилах</summary><div class="about-content"><p>5000 частотных слов разговорного английского по корпусу OpenSubtitles (2018). Список упорядочен по частоте в исходном корпусе; имена людей, обрывки сокращений и неалфавитные токены отфильтрованы. Это рейтинг по субтитрам, а не универсальный рейтинг для всех видов английского.</p><p>EN → RU — перевод на русский, RU → EN — на английский. В обоих направлениях можно выбрать четыре варианта ответа или ручной ввод, полный тест на 5000 слов или экспресс на 20 случайных слов. Внутри прохода слова не повторяются. При каждом новом экспресс-тесте подборка выбирается заново.</p><p>При ручном вводе напишите одно из словарных значений и нажмите Enter или «Проверить». Регистр, лишние пробелы и ё/е не влияют на проверку. Для русского вопроса принимаются подходящие английские синонимы из словаря. Верный ответ засчитывается с автоматическим переходом. Неверный подсвечивается красным: можно исправиться и получить правильный ответ в статистике. «Пропустить слово» переходит дальше и засчитывает одну ошибку. После перехода сверху виден результат предыдущего слова.</p><p>У синонимов могут повторяться русские значения. Среди четырёх вариантов правильный всегда один. Сохраняются словоформы, разговорные и грубые слова. Смена настроек и обновление страницы сбрасывают результат.</p><p>Источник: <a href="https://github.com/hermitdave/FrequencyWords/blob/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/en/en_50k.txt" target="_blank" rel="noopener noreferrer">FrequencyWords — Hermit Dave / OpenSubtitles</a>. Список отфильтрован, добавлены русские переводы. Данные распространяются по <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p></div></details>
+    <details class="about"><summary>О словаре и правилах</summary><div class="about-content"><p>5000 частотных слов разговорного английского по корпусу OpenSubtitles (2018). Список упорядочен по частоте в исходном корпусе; имена людей, обрывки сокращений и неалфавитные токены отфильтрованы. Это рейтинг по субтитрам, а не универсальный рейтинг для всех видов английского.</p><p>EN → RU — перевод на русский, RU → EN — на английский. В обоих направлениях можно выбрать уровень из 1000, 3000 или 5000 самых частотных слов, четыре варианта ответа или ручной ввод. Полный тест включает весь выбранный уровень, экспресс — 20 случайных слов из него. Вопросы, варианты и проверка английских синонимов ограничены выбранным уровнем. Внутри прохода слова не повторяются. При каждом новом экспресс-тесте подборка выбирается заново.</p><p>При ручном вводе напишите одно из словарных значений и нажмите Enter или «Проверить». Регистр, лишние пробелы и ё/е не влияют на проверку. Для русского вопроса принимаются подходящие английские синонимы из словаря. Верный ответ засчитывается с автоматическим переходом. Неверный подсвечивается красным: можно исправиться и получить правильный ответ в статистике. «Пропустить слово» переходит дальше и засчитывает одну ошибку. После перехода сверху виден результат предыдущего слова.</p><p>У синонимов могут повторяться русские значения. Среди четырёх вариантов правильный всегда один. Сохраняются словоформы, разговорные и грубые слова. Смена настроек и обновление страницы сбрасывают результат.</p><p>Источник: <a href="https://github.com/hermitdave/FrequencyWords/blob/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/en/en_50k.txt" target="_blank" rel="noopener noreferrer">FrequencyWords — Hermit Dave / OpenSubtitles</a>. Список отфильтрован, добавлены русские переводы. Данные распространяются по <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p></div></details>
   </footer>
   <script id="vocabulary-data" type="application/json">{{DATA}}</script>
   <script>{{SCRIPT}}</script>

@@ -57,12 +57,11 @@ test("every one of the 5000 words accepts each listed Russian meaning and its ca
   }
 });
 
-test("express reverse typing uses synonyms from the full dictionary, including outside its 20-word sample", () => {
-  const pool = [byWord.get("job"), ...words.filter((entry) => !["job", "work"].includes(entry.word)).slice(0, 19), byWord.get("work")];
-  const session = new Quiz.Session(pool, distractors, () => 1 - Number.EPSILON, "ru-en", "express", "typing");
-  assert.equal(session.entry.word, "job");
-  assert.equal(session.order.some((entry) => entry.word === "work"), false);
-  assert.equal(session.answerTyped("work").correct, true);
+test("express reverse typing uses synonyms from its level, including outside its 20-word sample", () => {
+  const session = new Quiz.Session(words, distractors, () => 1 - Number.EPSILON, "ru-en", "express", "typing");
+  while (session.entry.word !== "my") { session.skip(); session.advance(); }
+  assert.equal(session.order.some((entry) => entry.word === "mine"), false);
+  assert.equal(session.answerTyped("mine").correct, true);
   assert.equal(session.correct, 1);
 });
 

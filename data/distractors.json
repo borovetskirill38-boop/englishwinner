@@ -127,6 +127,94 @@
     {
       "text": "бабочка",
       "english": "butterfly"
+    },
+    {
+      "text": "книга",
+      "english": "book"
+    },
+    {
+      "text": "автомобиль",
+      "english": "car"
+    },
+    {
+      "text": "собака",
+      "english": "dog"
+    },
+    {
+      "text": "кошка",
+      "english": "cat"
+    },
+    {
+      "text": "дом (здание)",
+      "english": "house"
+    },
+    {
+      "text": "дверь",
+      "english": "door"
+    },
+    {
+      "text": "окно",
+      "english": "window"
+    },
+    {
+      "text": "стол",
+      "english": "table"
+    },
+    {
+      "text": "стул",
+      "english": "chair"
+    },
+    {
+      "text": "кровать",
+      "english": "bed"
+    },
+    {
+      "text": "вода",
+      "english": "water"
+    },
+    {
+      "text": "хлеб",
+      "english": "bread"
+    },
+    {
+      "text": "молоко",
+      "english": "milk"
+    },
+    {
+      "text": "яблоко",
+      "english": "apple"
+    },
+    {
+      "text": "солнце",
+      "english": "sun"
+    },
+    {
+      "text": "луна",
+      "english": "moon"
+    },
+    {
+      "text": "дерево",
+      "english": "tree"
+    },
+    {
+      "text": "цветок",
+      "english": "flower"
+    },
+    {
+      "text": "лошадь",
+      "english": "horse"
+    },
+    {
+      "text": "птица",
+      "english": "bird"
+    },
+    {
+      "text": "река",
+      "english": "river"
+    },
+    {
+      "text": "рыба",
+      "english": "fish"
     }
   ],
   "verb": [
@@ -225,6 +313,70 @@
     {
       "text": "плескаться",
       "english": "splash"
+    },
+    {
+      "text": "есть",
+      "english": "eat"
+    },
+    {
+      "text": "пить",
+      "english": "drink"
+    },
+    {
+      "text": "спать",
+      "english": "sleep"
+    },
+    {
+      "text": "читать",
+      "english": "read"
+    },
+    {
+      "text": "писать",
+      "english": "write"
+    },
+    {
+      "text": "смеяться",
+      "english": "laugh"
+    },
+    {
+      "text": "плакать",
+      "english": "cry"
+    },
+    {
+      "text": "плавать",
+      "english": "swim"
+    },
+    {
+      "text": "летать",
+      "english": "fly"
+    },
+    {
+      "text": "петь",
+      "english": "sing"
+    },
+    {
+      "text": "танцевать",
+      "english": "dance"
+    },
+    {
+      "text": "бежать",
+      "english": "run"
+    },
+    {
+      "text": "ходить пешком",
+      "english": "walk"
+    },
+    {
+      "text": "платить",
+      "english": "pay"
+    },
+    {
+      "text": "прыгать",
+      "english": "jump"
+    },
+    {
+      "text": "готовить еду",
+      "english": "cook"
     }
   ],
   "adjective": [
@@ -347,6 +499,70 @@
         "rough"
       ],
       "english": "grainy"
+    },
+    {
+      "text": "красный",
+      "english": "red"
+    },
+    {
+      "text": "синий",
+      "english": "blue"
+    },
+    {
+      "text": "белый",
+      "english": "white"
+    },
+    {
+      "text": "чёрный",
+      "english": "black"
+    },
+    {
+      "text": "зелёный",
+      "english": "green"
+    },
+    {
+      "text": "жёлтый",
+      "english": "yellow"
+    },
+    {
+      "text": "горячий",
+      "english": "hot"
+    },
+    {
+      "text": "холодный",
+      "english": "cold"
+    },
+    {
+      "text": "тяжёлый",
+      "english": "heavy"
+    },
+    {
+      "text": "высокий (о росте)",
+      "english": "tall"
+    },
+    {
+      "text": "громкий",
+      "english": "loud"
+    },
+    {
+      "text": "грязный",
+      "english": "dirty"
+    },
+    {
+      "text": "мёртвый",
+      "english": "dead"
+    },
+    {
+      "text": "пустой",
+      "english": "empty"
+    },
+    {
+      "text": "молодой",
+      "english": "young"
+    },
+    {
+      "text": "старый",
+      "english": "old"
     }
   ],
   "adverb": [
@@ -424,6 +640,70 @@
     {
       "text": "на цыпочках",
       "english": "on tiptoe"
+    },
+    {
+      "text": "быстро",
+      "english": "quickly"
+    },
+    {
+      "text": "медленно",
+      "english": "slowly"
+    },
+    {
+      "text": "громко",
+      "english": "loudly"
+    },
+    {
+      "text": "тихо",
+      "english": "quietly"
+    },
+    {
+      "text": "всегда",
+      "english": "always"
+    },
+    {
+      "text": "никогда",
+      "english": "never"
+    },
+    {
+      "text": "часто",
+      "english": "often"
+    },
+    {
+      "text": "иногда",
+      "english": "sometimes"
+    },
+    {
+      "text": "здесь",
+      "english": "here"
+    },
+    {
+      "text": "там",
+      "english": "there"
+    },
+    {
+      "text": "сегодня",
+      "english": "today"
+    },
+    {
+      "text": "завтра",
+      "english": "tomorrow"
+    },
+    {
+      "text": "вчера",
+      "english": "yesterday"
+    },
+    {
+      "text": "вместе",
+      "english": "together"
+    },
+    {
+      "text": "один",
+      "english": "alone"
+    },
+    {
+      "text": "снова",
+      "english": "again"
     }
   ],
   "number": [
@@ -466,6 +746,66 @@
     {
       "text": "двадцать четыре",
       "english": "twenty-four"
+    },
+    {
+      "text": "один",
+      "english": "one"
+    },
+    {
+      "text": "два",
+      "english": "two"
+    },
+    {
+      "text": "три",
+      "english": "three"
+    },
+    {
+      "text": "четыре",
+      "english": "four"
+    },
+    {
+      "text": "пять",
+      "english": "five"
+    },
+    {
+      "text": "шесть",
+      "english": "six"
+    },
+    {
+      "text": "семь",
+      "english": "seven"
+    },
+    {
+      "text": "восемь",
+      "english": "eight"
+    },
+    {
+      "text": "девять",
+      "english": "nine"
+    },
+    {
+      "text": "десять",
+      "english": "ten"
+    },
+    {
+      "text": "сто",
+      "english": "hundred"
+    },
+    {
+      "text": "тысяча",
+      "english": "thousand"
+    },
+    {
+      "text": "миллион",
+      "english": "million"
+    },
+    {
+      "text": "двадцать",
+      "english": "twenty"
+    },
+    {
+      "text": "ноль",
+      "english": "zero"
     }
   ]
 }

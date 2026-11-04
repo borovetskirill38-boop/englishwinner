@@ -12,24 +12,26 @@ test("all settings and scoring work without Object.hasOwn or String.replaceAll",
   vm.runInContext("Object.hasOwn = undefined; String.prototype.replaceAll = undefined;", context);
   vm.runInContext(fs.readFileSync(path.join(__dirname, "../src/quiz.js"), "utf8"), context);
   const Quiz = context.module.exports;
-  for (const mode of ["en-ru", "ru-en"]) {
-    for (const format of ["full", "express"]) {
-      for (const answerMode of ["choice", "typing"]) {
-        const session = new Quiz.Session(words, distractors, Math.random, mode, format, answerMode);
-        assert.equal(session.total, format === "full" ? 5000 : 20);
-        if (answerMode === "choice") {
-          assert.equal(session.answer(session.options.findIndex((item) => item.correct)).correct, true);
-        } else {
-          assert.equal(session.answerTyped("___wrong___").retry, true);
-          assert.equal(session.answered, 0);
-          const answer = mode === "en-ru" ? Quiz.translationVariants(session.entry)[0] : session.entry.word;
-          assert.equal(session.answerTyped(answer.toUpperCase()).correct, true);
+  for (const level of ["1000", "3000", "5000"]) {
+    for (const mode of ["en-ru", "ru-en"]) {
+      for (const format of ["full", "express"]) {
+        for (const answerMode of ["choice", "typing"]) {
+          const session = new Quiz.Session(words, distractors, Math.random, mode, format, answerMode, level);
+          assert.equal(session.total, format === "full" ? Number(level) : 20);
+          if (answerMode === "choice") {
+            assert.equal(session.answer(session.options.findIndex((item) => item.correct)).correct, true);
+          } else {
+            assert.equal(session.answerTyped("___wrong___").retry, true);
+            assert.equal(session.answered, 0);
+            const answer = mode === "en-ru" ? Quiz.translationVariants(session.entry)[0] : session.entry.word;
+            assert.equal(session.answerTyped(answer.toUpperCase()).correct, true);
+          }
+          assert.equal(session.correct, 1);
+          assert.equal(session.advance(), true);
+          if (answerMode === "typing") assert.equal(session.skip().skipped, true);
+          else session.answer(session.options.findIndex((item) => !item.correct));
+          assert.equal(session.mistakes, 1);
         }
-        assert.equal(session.correct, 1);
-        assert.equal(session.advance(), true);
-        if (answerMode === "typing") assert.equal(session.skip().skipped, true);
-        else session.answer(session.options.findIndex((item) => !item.correct));
-        assert.equal(session.mistakes, 1);
       }
     }
   }

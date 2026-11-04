@@ -94,13 +94,15 @@
     const selectedMode = document.querySelector('input[name="mode"]:checked').value;
     const selectedFormat = document.querySelector('input[name="format"]:checked').value;
     const selectedAnswerMode = document.querySelector('input[name="answer-mode"]:checked').value;
-    session = new Quiz.Session(words, distractors, Math.random, selectedMode, selectedFormat, selectedAnswerMode);
+    const selectedLevel = document.querySelector('input[name="level"]:checked').value;
+    session = new Quiz.Session(words, distractors, Math.random, selectedMode, selectedFormat, selectedAnswerMode, selectedLevel);
     $("typed-outcome").hidden = true;
     const mode = Quiz.MODES[session.mode];
     $("training-format").textContent = Quiz.FORMATS[session.format].name.toLocaleUpperCase("ru");
+    $("training-level").textContent = `Уровень: ${session.vocabularySize} слов`;
     $("direction-from").textContent = mode.from;
     $("direction-to").textContent = mode.to;
-    $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${Quiz.FORMATS[session.format].name}, ${mode.name}, ${Quiz.ANSWER_MODES[session.answerMode].name}`);
+    $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${session.vocabularySize} слов, ${Quiz.FORMATS[session.format].name}, ${mode.name}, ${Quiz.ANSWER_MODES[session.answerMode].name}`);
     show("training");
     renderQuestion();
     window.scrollTo(0, 0);
@@ -172,6 +174,7 @@
     $("complete-count").textContent = express ? "ЭКСПРЕСС-ТЕСТ ЗАВЕРШЁН" : `ВСЕ ${session.total} СЛОВ ПРОЙДЕНЫ`;
     $("result-total").textContent = session.total;
     $("result-mode").textContent = Quiz.MODES[session.mode].name;
+    $("result-level").textContent = `Уровень: ${session.vocabularySize} самых частотных слов`;
     $("result-answer-mode").hidden = session.answerMode !== "typing";
     $("result-percent").textContent = `${session.accuracy}%`;
     $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
@@ -190,8 +193,8 @@
       document.createTextNode(express ? `Ещё ${session.total} слов` : "Пройти ещё раз"), icon("repeat")
     );
     $("completion-note").textContent = express
-      ? `Каждый новый экспресс-тест — ${session.total} случайных слов из ${words.length}.`
-      : "Новый проход — новый порядок слов и ответов.";
+      ? `Каждый новый экспресс-тест — ${session.total} случайных слов из ${session.vocabularySize}.`
+      : `Новый проход — те же ${session.vocabularySize} частотных слов в новом порядке.`;
     $("complete-title").focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
@@ -214,6 +217,14 @@
     $("rule-feedback").textContent = typing ? "Верный ответ — дальше, пропуск — ошибка." : "Сразу узнайте результат и правильный перевод.";
   }
 
+  function updateLevelHints() {
+    const level = document.querySelector('input[name="level"]:checked').value;
+    const size = Quiz.LEVELS[level].size;
+    $("full-format-note").textContent = `Все ${size} слов`;
+    $("format-full").setAttribute("aria-label", `Полный тест — ${size} слов`);
+    $("level-description").textContent = `Вопросы и варианты ответа — из ${size} самых частотных слов.`;
+  }
+
   $("start").addEventListener("click", start);
   $("next").addEventListener("click", next);
   $("restart").addEventListener("click", start);
@@ -233,6 +244,8 @@
   });
   document.querySelectorAll('input[name="answer-mode"]').forEach((input) => input.addEventListener("change", updateAnswerHints));
   updateAnswerHints();
+  document.querySelectorAll('input[name="level"]').forEach((input) => input.addEventListener("change", updateLevelHints));
+  updateLevelHints();
   document.querySelector(".brand").addEventListener("click", (event) => {
     event.preventDefault();
     chooseMode();
