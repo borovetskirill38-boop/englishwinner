@@ -77,6 +77,10 @@ h2 { margin: 15px 0 21px; font-size: 29px; font-weight: 550; letter-spacing: -.8
 .level-options .mode-label strong { display: block; padding-right: 7px; line-height: 1.45; }
 .level-options .mode-label > span { font-size: 10px; overflow-wrap: break-word; }
 .selection-note { margin: 9px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.topic-selector { margin-bottom: 22px; }
+.topic-selector > label { display: block; margin-bottom: 10px; font-size: 11px; font-weight: 550; color: var(--muted); }
+.topic-selector select { display: block; width: 100%; max-width: 100%; min-width: 0; min-height: 48px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); font: inherit; font-size: 16px; cursor: pointer; }
+.topic-selector select:focus-visible { outline: 3px solid #356cd3; outline-offset: 3px; }
 .level-badge { display: inline-block; margin: 7px 0 0; color: var(--muted); font-size: 11px; }
 .mode-option { position: relative; cursor: pointer; touch-action: manipulation; }
 .mode-option input { position: absolute; width: 1px; height: 1px; opacity: 0; }

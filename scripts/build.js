@@ -47,6 +47,42 @@ function loadData() {
   }
   const bank = JSON.parse(read("data/distractors.json"));
   const quiz = require("../src/quiz.js");
+  const topicGroups = JSON.parse(read("data/topics.json"));
+  const byWord = new Map(words.map((entry) => [entry.word, entry]));
+  const seenTopics = new Set();
+  for (const entry of words) entry.topics = [];
+  for (const group of topicGroups) {
+    if (group.id === "all" || !Object.prototype.hasOwnProperty.call(quiz.TOPICS, group.id)
+        || seenTopics.has(group.id) || !Array.isArray(group.words) || !group.words.length) {
+      fail(`Некорректная или повторная тема: ${group.id}`);
+    }
+    seenTopics.add(group.id);
+    const seenWords = new Set();
+    for (const word of group.words) {
+      if (!byWord.has(word) || seenWords.has(word)) fail(`Неизвестное или повторное слово в теме ${group.id}: ${word}`);
+      seenWords.add(word);
+      byWord.get(word).topics.push(group.id);
+    }
+  }
+  for (const id of Object.keys(quiz.TOPICS).filter((id) => id !== "all")) {
+    if (!seenTopics.has(id)) fail(`Нет разметки для темы: ${id}`);
+  }
+  for (const entry of words) {
+    if (!entry.topics.length) fail(`Слово не распределено по темам: ${entry.word}`);
+  }
+  const topicTranslations = JSON.parse(read("data/topic-translations.json"));
+  for (const [word, overrides] of Object.entries(topicTranslations)) {
+    const entry = byWord.get(word);
+    if (!entry || !overrides || typeof overrides !== "object" || Array.isArray(overrides)) fail(`Некорректные значения по темам: ${word}`);
+    const meanings = entry.translation.split(";").map((text) => text.trim());
+    for (const [topic, selected] of Object.entries(overrides)) {
+      if (!entry.topics.includes(topic) || !Array.isArray(selected) || !selected.length
+          || new Set(selected).size !== selected.length || selected.some((text) => !meanings.includes(text))) {
+        fail(`Некорректное тематическое значение: ${word} / ${topic}`);
+      }
+    }
+    entry.topicTranslations = overrides;
+  }
   for (const candidates of Object.values(bank)) {
     for (const candidate of candidates) {
       if (!candidate.text || !/^[a-z]+(?:[ -][a-z]+)*$/.test(candidate.english || "")) {

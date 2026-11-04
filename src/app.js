@@ -49,6 +49,7 @@
     $("word-note").textContent = typing
       ? (session.mode === "en-ru" ? "Введите перевод на русский — достаточно одного значения" : "Введите английский перевод")
       : mode.instruction;
+    if (session.topic !== "all") $("word-note").textContent += ` · По теме «${Quiz.TOPICS[session.topic]}»`;
     $("question-badge").textContent = typing ? "Ручной ввод" : "4 варианта · 1 верный";
     $("options").hidden = typing;
     $("typed-form").hidden = !typing;
@@ -95,14 +96,16 @@
     const selectedFormat = document.querySelector('input[name="format"]:checked').value;
     const selectedAnswerMode = document.querySelector('input[name="answer-mode"]:checked').value;
     const selectedLevel = document.querySelector('input[name="level"]:checked').value;
-    session = new Quiz.Session(words, distractors, Math.random, selectedMode, selectedFormat, selectedAnswerMode, selectedLevel);
+    const selectedTopic = $("topic").value;
+    session = new Quiz.Session(words, distractors, Math.random, selectedMode, selectedFormat, selectedAnswerMode, selectedLevel, selectedTopic);
     $("typed-outcome").hidden = true;
     const mode = Quiz.MODES[session.mode];
     $("training-format").textContent = Quiz.FORMATS[session.format].name.toLocaleUpperCase("ru");
-    $("training-level").textContent = `Уровень: ${session.vocabularySize} слов`;
+    $("training-level").textContent = `Уровень: ${session.levelSize} слов`;
+    $("training-topic").textContent = Quiz.TOPICS[session.topic];
     $("direction-from").textContent = mode.from;
     $("direction-to").textContent = mode.to;
-    $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${session.vocabularySize} слов, ${Quiz.FORMATS[session.format].name}, ${mode.name}, ${Quiz.ANSWER_MODES[session.answerMode].name}`);
+    $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${session.levelSize} слов, ${Quiz.TOPICS[session.topic]}, ${Quiz.FORMATS[session.format].name}, ${mode.name}, ${Quiz.ANSWER_MODES[session.answerMode].name}`);
     show("training");
     renderQuestion();
     window.scrollTo(0, 0);
@@ -171,10 +174,12 @@
   function complete() {
     show("complete");
     const express = session.format === "express";
-    $("complete-count").textContent = express ? "ЭКСПРЕСС-ТЕСТ ЗАВЕРШЁН" : `ВСЕ ${session.total} СЛОВ ПРОЙДЕНЫ`;
+    $("complete-count").textContent = express ? "ЭКСПРЕСС-ТЕСТ ЗАВЕРШЁН"
+      : (session.topic === "all" ? `ВСЕ ${session.total} СЛОВ ПРОЙДЕНЫ` : "ТЕМА ПРОЙДЕНА");
     $("result-total").textContent = session.total;
     $("result-mode").textContent = Quiz.MODES[session.mode].name;
-    $("result-level").textContent = `Уровень: ${session.vocabularySize} самых частотных слов`;
+    $("result-level").textContent = `Уровень: ${session.levelSize} самых частотных слов`;
+    $("result-topic").textContent = `Тема: ${Quiz.TOPICS[session.topic]}`;
     $("result-answer-mode").hidden = session.answerMode !== "typing";
     $("result-percent").textContent = `${session.accuracy}%`;
     $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
@@ -183,18 +188,24 @@
     if (express) {
       $("result-message").textContent = session.correct === session.total
         ? `Ни одной ошибки! Попробуйте новую подборку из ${session.total} слов.`
-        : `${session.total} слов позади. Продолжайте практику с новой случайной подборкой.`;
+        : `${Quiz.wordCount(session.total)} позади. Продолжайте практику с новой случайной подборкой.`;
     } else {
       $("result-message").textContent = session.correct === session.total
         ? "Ни одной ошибки! Попробуйте ещё раз в новом порядке."
         : "Вы справились с большим проходом. Повторите тест: знакомых слов будет всё больше.";
     }
     replaceChildren($("restart-complete"),
-      document.createTextNode(express ? `Ещё ${session.total} слов` : "Пройти ещё раз"), icon("repeat")
+      document.createTextNode(express ? `Ещё ${Quiz.wordCount(session.total)}` : "Пройти ещё раз"), icon("repeat")
     );
-    $("completion-note").textContent = express
-      ? `Каждый новый экспресс-тест — ${session.total} случайных слов из ${session.vocabularySize}.`
-      : `Новый проход — те же ${session.vocabularySize} частотных слов в новом порядке.`;
+    if (session.topic === "all") {
+      $("completion-note").textContent = express
+        ? `Каждый новый экспресс-тест — ${session.total} случайных слов из ${session.vocabularySize}.`
+        : `Новый проход — те же ${session.vocabularySize} частотных слов в новом порядке.`;
+    } else {
+      $("completion-note").textContent = express && session.vocabularySize > session.total
+        ? `Новая подборка — ${Quiz.wordCount(session.total)} из ${session.vocabularySize} в теме «${Quiz.TOPICS[session.topic]}».`
+        : `Новый проход — те же ${Quiz.wordCount(session.vocabularySize)} темы «${Quiz.TOPICS[session.topic]}» в новом порядке.`;
+    }
     $("complete-title").focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
@@ -220,9 +231,39 @@
   function updateLevelHints() {
     const level = document.querySelector('input[name="level"]:checked').value;
     const size = Quiz.LEVELS[level].size;
-    $("full-format-note").textContent = `Все ${size} слов`;
-    $("format-full").setAttribute("aria-label", `Полный тест — ${size} слов`);
     $("level-description").textContent = `Вопросы и варианты ответа — из ${size} самых частотных слов.`;
+    const previous = $("topic").value || "all";
+    const levelWords = Quiz.wordsForLevel(words, level);
+    const options = Object.keys(Quiz.TOPICS).map((id) => {
+      const option = document.createElement("option");
+      const count = Quiz.wordsForTopic(levelWords, id).length;
+      option.value = id;
+      option.textContent = `${Quiz.TOPICS[id]} — ${Quiz.wordCount(count)}`;
+      option.disabled = count === 0;
+      return option;
+    });
+    replaceChildren($("topic"), ...options);
+    $("topic").value = Object.keys(Quiz.TOPICS).includes(previous) ? previous : "all";
+    updateTopicHints();
+  }
+
+  function updateTopicHints() {
+    const level = document.querySelector('input[name="level"]:checked').value;
+    const topic = $("topic").value;
+    const count = Quiz.wordsForTopic(Quiz.wordsForLevel(words, level), topic).length;
+    const expressCount = Math.min(20, count);
+    $("full-format-note").textContent = topic === "all" ? `Все ${count} слов` : `Всего ${Quiz.wordCount(count)}`;
+    $("format-full").setAttribute("aria-label", `Полный тест — ${Quiz.wordCount(count)}`);
+    $("express-format-note").textContent = expressCount === 20 ? "20 случайных слов" : Quiz.wordCount(expressCount);
+    $("format-express").setAttribute("aria-label", `Экспресс-тест — ${Quiz.wordCount(expressCount)}`);
+    let description = topic === "all" ? "Все слова выбранного уровня."
+      : `${Quiz.wordCount(count)} темы из первых ${level} частотных слов.`;
+    if (count > 0 && count < 20) description += ` Экспресс-тест: ${Quiz.wordCount(count)}, без повторов.`;
+    if (count === 0) description = "В этой теме нет слов выбранного уровня. Выберите другую тему или уровень.";
+    const unavailable = count === 0 || (count < 4 && $("answer-mode-choice").checked);
+    if (count > 0 && count < 4 && $("answer-mode-choice").checked) description += " Для четырёх вариантов нужно хотя бы четыре слова. Выберите ручной ввод.";
+    $("topic-description").textContent = description;
+    $("start").disabled = unavailable;
   }
 
   $("start").addEventListener("click", start);
@@ -242,10 +283,13 @@
     $("typed-answer").removeAttribute("aria-invalid");
     $("feedback").className = "feedback";
   });
-  document.querySelectorAll('input[name="answer-mode"]').forEach((input) => input.addEventListener("change", updateAnswerHints));
+  document.querySelectorAll('input[name="answer-mode"]').forEach((input) => input.addEventListener("change", () => {
+    updateAnswerHints(); updateTopicHints();
+  }));
   updateAnswerHints();
   document.querySelectorAll('input[name="level"]').forEach((input) => input.addEventListener("change", updateLevelHints));
   updateLevelHints();
+  $("topic").addEventListener("change", updateTopicHints);
   document.querySelector(".brand").addEventListener("click", (event) => {
     event.preventDefault();
     chooseMode();
@@ -263,5 +307,5 @@
     }
   });
   $("startup-warning").hidden = true;
-  $("start").disabled = false;
+  updateTopicHints();
 })();
