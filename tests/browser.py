@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = Path(os.environ.get("QUIZ_SCREENSHOTS", "/tmp/englishwinner-screenshots"))
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
 COUNT = 3000
+EXPRESS_COUNT = 20
 
 with sync_playwright() as playwright:
     chromium = os.environ.get("CHROMIUM_PATH") or shutil.which("chromium")
@@ -32,17 +33,29 @@ with sync_playwright() as playwright:
     assert page.locator("#mode-ru-en").is_checked()
     page.keyboard.press("ArrowLeft")
     assert page.locator("#mode-en-ru").is_checked()
+    assert page.locator("#format-full").is_checked()
+    page.locator("#format-full").focus()
+    page.keyboard.press("ArrowRight")
+    assert page.locator("#format-express").is_checked()
+    page.keyboard.press("ArrowLeft")
+    assert page.locator("#format-full").is_checked()
     page.screenshot(path=str(ARTIFACTS / "welcome-desktop.png"), full_page=True)
 
-    def select_mode(mode):
+    def select_mode(mode, test_format="full"):
         if not page.locator("#intro").is_visible():
             page.locator("#change-mode-complete" if page.locator("#complete").is_visible() else "#change-mode").click()
         page.locator(f'label:has(input[value="{mode}"])').click()
         assert page.locator(f'input[name="mode"][value="{mode}"]').is_checked()
+        page.locator(f'label:has(input[name="format"][value="{test_format}"])').click()
+        assert page.locator(f'input[name="format"][value="{test_format}"]').is_checked()
         page.locator("#start").click()
         assert page.locator("#training").is_visible()
         assert page.locator("#question-number").inner_text() == "1"
-        assert page.locator("#total-count").inner_text() == str(COUNT)
+        total = EXPRESS_COUNT if test_format == "express" else COUNT
+        assert page.locator("#total-count").inner_text() == str(total)
+        assert page.locator("#progress").get_attribute("max") == str(total)
+        assert page.locator("#progress").get_attribute("value") == "0"
+        assert page.locator("#training-format").inner_text() == ("ЭКСПРЕСС-ТЕСТ" if test_format == "express" else "ПОЛНЫЙ ТЕСТ")
         assert page.locator("#word").get_attribute("lang") == ("ru" if mode == "ru-en" else "en")
         assert page.locator("#next").is_disabled()
         assert page.locator("#correct-count").inner_text() == "0"
@@ -92,14 +105,16 @@ with sync_playwright() as playwright:
 
     # Complete 3000 questions in each direction through actual button handlers.
     # Batches yield to the browser between checks without a long blocked evaluation.
-    batch_pass = """({mode, mixed, start, count}) => {
+    batch_pass = """({mode, mixed, start, count, total}) => {
       const data = JSON.parse(document.getElementById('vocabulary-data').textContent);
       const byWord = new Map(data.words.map(w => [w.word, w]));
       const primary = w => w.translation.split(';')[0].trim();
       const order = [];
-      for (let i = start; i < Math.min(start + count, data.words.length); i++) {
+      for (let i = start; i < Math.min(start + count, total); i++) {
         const prompt = document.getElementById('word').textContent;
         if (document.getElementById('question-number').textContent !== String(i + 1)) throw Error('Wrong progress');
+        if (document.getElementById('total-count').textContent !== String(total)) throw Error('Wrong total');
+        if (document.getElementById('progress').max !== total || document.getElementById('progress').value !== i) throw Error('Wrong progress bar');
         const buttons = [...document.querySelectorAll('.option')];
         const texts = buttons.map(b => b.querySelector('.option-text').textContent);
         if (buttons.length !== 4 || new Set(texts).size !== 4) throw Error('Invalid choices');
@@ -121,7 +136,7 @@ with sync_playwright() as playwright:
         buttons[0].click();
         if (document.getElementById('correct-count').textContent !== correctCount) throw Error('Double scoring');
         if (document.getElementById('next').disabled) throw Error('Next button disabled after answer');
-        if (i === data.words.length - 1 && !document.getElementById('next').textContent.includes('Посмотреть результат')) throw Error('Missing finish action');
+        if (i === total - 1 && !document.getElementById('next').textContent.includes('Посмотреть результат')) throw Error('Missing finish action');
         document.getElementById('next').click();
       }
       return order;
@@ -132,7 +147,7 @@ with sync_playwright() as playwright:
         collected = []
         try:
             for start in range(0, COUNT, 250):
-                batch = page.evaluate(batch_pass, {"mode": mode, "mixed": mode == "en-ru", "start": start, "count": 250})
+                batch = page.evaluate(batch_pass, {"mode": mode, "mixed": mode == "en-ru", "start": start, "count": 250, "total": COUNT})
                 assert not set(collected).intersection(batch), f"Repeated word in {mode}"
                 assert len(set(batch)) == len(batch)
                 collected.extend(batch)
@@ -159,33 +174,73 @@ with sync_playwright() as playwright:
     assert set(orders["en-ru"]) == set(orders["ru-en"])
     assert orders["en-ru"] != orders["ru-en"]
 
+    # Each express round ends at question 20; replay resamples from all 3000.
+    for mode in ["en-ru", "ru-en"]:
+        select_mode(mode, "express")
+        express_orders = []
+        page.screenshot(path=str(ARTIFACTS / f"express-{mode}-desktop.png"), full_page=True)
+        for attempt in range(2):
+            selected = page.evaluate(batch_pass, {"mode": mode, "mixed": attempt == 0, "start": 0, "count": EXPRESS_COUNT, "total": EXPRESS_COUNT})
+            assert len(selected) == EXPRESS_COUNT
+            assert len(set(selected)) == EXPRESS_COUNT
+            assert set(selected).issubset(orders[mode])
+            express_orders.append(selected)
+            assert page.locator("#complete").is_visible()
+            assert page.locator("#complete-count").inner_text() == "ЭКСПРЕСС-ТЕСТ ЗАВЕРШЁН"
+            assert page.locator("#result-total").inner_text() == str(EXPRESS_COUNT)
+            assert page.locator("#result-correct").inner_text() == ("10" if attempt == 0 else "20")
+            assert page.locator("#result-mistakes").inner_text() == ("10" if attempt == 0 else "0")
+            assert page.locator("#result-percent").inner_text() == ("50%" if attempt == 0 else "100%")
+            assert page.locator("#result-mode").inner_text() == ("Английский → русский" if mode == "en-ru" else "Русский → английский")
+            assert page.locator("#restart-complete").inner_text() == "Ещё 20 слов"
+            assert "20 случайных слов из 3000" in page.locator("#completion-note").inner_text()
+            if attempt == 0:
+                page.screenshot(path=str(ARTIFACTS / f"express-result-{mode}-desktop.png"), full_page=True)
+            page.locator("#restart-complete").click()
+            assert page.locator("#total-count").inner_text() == str(EXPRESS_COUNT)
+            assert page.locator("#question-number").inner_text() == "1"
+            assert page.locator("#correct-count").inner_text() == "0"
+            assert page.locator("#mistake-count").inner_text() == "0"
+            assert page.locator("#training-format").inner_text() == "ЭКСПРЕСС-ТЕСТ"
+            assert page.locator("#word").get_attribute("lang") == ("ru" if mode == "ru-en" else "en")
+        assert set(express_orders[0]) != set(express_orders[1])
+        page.locator(".option").first.click()
+        page.locator("#restart").click()
+        assert page.locator("#total-count").inner_text() == str(EXPRESS_COUNT)
+        assert page.locator("#correct-count").inner_text() == "0"
+        assert page.locator("#mistake-count").inner_text() == "0"
+        assert page.locator(".option.correct, .option.wrong").count() == 0
+        print(f"express {mode}: two fresh 20-word passes checked", flush=True)
+
     # Switch back from the reverse mode and verify a clean English question.
     select_mode("en-ru")
     assert page.locator("#word-note").inner_text() == "Выберите перевод на русский"
     assert page.locator(".option.correct, .option.wrong").count() == 0
 
-    # Both modes on narrow phones, a tablet and desktop.
+    # Both formats and directions on narrow phones, a tablet and desktop.
     for width in [320, 390, 768, 1280]:
         page.set_viewport_size({"width": width, "height": 900})
         for mode in ["en-ru", "ru-en"]:
-            select_mode(mode)
-            assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), f"Quiz overflow: {width}, {mode}"
-            for box in page.locator(".option").all():
-                assert box.bounding_box()["height"] >= 44
-            if width == 390:
-                page.screenshot(path=str(ARTIFACTS / f"question-{mode}-mobile.png"), full_page=True)
-            page.locator(".option").first.click()
-            if width == 390:
-                page.screenshot(path=str(ARTIFACTS / f"answer-{mode}-mobile.png"), full_page=True)
-            page.locator("#change-mode").click()
-            assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), f"Intro overflow: {width}"
-            if width == 390:
-                page.screenshot(path=str(ARTIFACTS / "welcome-mobile.png"), full_page=True)
+            for test_format in ["full", "express"]:
+                select_mode(mode, test_format)
+                assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), f"Quiz overflow: {width}, {mode}, {test_format}"
+                for box in page.locator(".option").all():
+                    assert box.bounding_box()["height"] >= 44
+                if width == 390:
+                    page.screenshot(path=str(ARTIFACTS / f"question-{test_format}-{mode}-mobile.png"), full_page=True)
+                page.locator(".option").first.click()
+                if width == 390:
+                    page.screenshot(path=str(ARTIFACTS / f"answer-{test_format}-{mode}-mobile.png"), full_page=True)
+                page.locator("#change-mode").click()
+                assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), f"Intro overflow: {width}"
+                if width == 390:
+                    page.screenshot(path=str(ARTIFACTS / "welcome-mobile.png"), full_page=True)
 
     assert not errors, errors
     assert not remote_requests, remote_requests
     browser.close()
     print(json.dumps({"status": "passed", "transport": "standalone HTML contents, offline",
-                      "full_passes": 2, "questions": COUNT * 2, "modes": ["en-ru", "ru-en"],
+                      "full_passes": 2, "express_passes": 4, "questions": COUNT * 2 + EXPRESS_COUNT * 4,
+                      "modes": ["en-ru", "ru-en"], "formats": ["full", "express"],
                       "viewports": [320, 390, 768, 1280], "remote_requests": remote_requests,
                       "browser_errors": errors, "screenshots": str(ARTIFACTS)}, ensure_ascii=False))

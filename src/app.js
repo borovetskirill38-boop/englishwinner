@@ -71,11 +71,13 @@
 
   function start() {
     const selectedMode = document.querySelector('input[name="mode"]:checked').value;
-    session = new Quiz.Session(words, distractors, Math.random, selectedMode);
+    const selectedFormat = document.querySelector('input[name="format"]:checked').value;
+    session = new Quiz.Session(words, distractors, Math.random, selectedMode, selectedFormat);
     const mode = Quiz.MODES[session.mode];
+    $("training-format").textContent = Quiz.FORMATS[session.format].name.toLocaleUpperCase("ru");
     $("direction-from").textContent = mode.from;
     $("direction-to").textContent = mode.to;
-    $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${mode.name}`);
+    $("change-mode").setAttribute("aria-label", `Сменить режим. Текущий: ${Quiz.FORMATS[session.format].name}, ${mode.name}`);
     show("training");
     renderQuestion();
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -111,16 +113,29 @@
 
   function complete() {
     show("complete");
-    $("complete-count").textContent = `ВСЕ ${session.total} СЛОВ ПРОЙДЕНЫ`;
+    const express = session.format === "express";
+    $("complete-count").textContent = express ? "ЭКСПРЕСС-ТЕСТ ЗАВЕРШЁН" : `ВСЕ ${session.total} СЛОВ ПРОЙДЕНЫ`;
     $("result-total").textContent = session.total;
     $("result-mode").textContent = Quiz.MODES[session.mode].name;
     $("result-percent").textContent = `${session.accuracy}%`;
     $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
     $("result-correct").textContent = session.correct;
     $("result-mistakes").textContent = session.mistakes;
-    $("result-message").textContent = session.correct === session.total
-      ? "Ни одной ошибки! Попробуйте ещё раз в новом порядке."
-      : "Вы справились с большим проходом. Повторите тест: знакомых слов будет всё больше.";
+    if (express) {
+      $("result-message").textContent = session.correct === session.total
+        ? `Ни одной ошибки! Попробуйте новую подборку из ${session.total} слов.`
+        : `${session.total} слов позади. Продолжайте практику с новой случайной подборкой.`;
+    } else {
+      $("result-message").textContent = session.correct === session.total
+        ? "Ни одной ошибки! Попробуйте ещё раз в новом порядке."
+        : "Вы справились с большим проходом. Повторите тест: знакомых слов будет всё больше.";
+    }
+    $("restart-complete").replaceChildren(
+      document.createTextNode(express ? `Ещё ${session.total} слов` : "Пройти ещё раз"), icon("repeat")
+    );
+    $("completion-note").textContent = express
+      ? `Каждый новый экспресс-тест — ${session.total} случайных слов из ${words.length}.`
+      : "Новый проход — новый порядок слов и ответов.";
     $("complete-title").focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: "instant" });
   }

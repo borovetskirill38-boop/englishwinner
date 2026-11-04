@@ -120,6 +120,53 @@ for (const mode of Object.keys(Quiz.MODES)) {
       assert.notDeepEqual(next.order.map((w) => w.word), data.words.map((w) => w.word));
     }
   });
+
+  test(`${mode}: express selects 20 unique words from the whole dictionary and ends after 20 answers`, () => {
+    const random = seeded(734);
+    const session = new Quiz.Session(data.words, data.distractors, random, mode, "express");
+    assert.equal(session.format, "express");
+    assert.equal(session.mode, mode);
+    assert.equal(session.total, 20);
+    assert.equal(new Set(session.order.map((w) => w.word)).size, 20);
+    assert.ok(session.order.every((word) => data.words.includes(word)));
+    assert.equal(session.advance(), false);
+    for (let i = 0; i < 20; i += 1) {
+      assert.equal(session.finished, false);
+      assert.equal(session.prompt, Quiz.questionFor(session.entry, mode));
+      assert.equal(session.options.length, 4);
+      const correct = i % 2 === 0;
+      const choice = session.options.findIndex((option) => option.correct === correct);
+      assert.equal(session.answer(choice).correct, correct);
+      assert.equal(session.answer(choice), null);
+      assert.equal(session.advance(), true);
+    }
+    assert.equal(session.finished, true);
+    assert.equal(session.answered, 20);
+    assert.equal(session.correct, 10);
+    assert.equal(session.mistakes, 10);
+    assert.equal(session.accuracy, 50);
+    assert.equal(session.advance(), false);
+    assert.equal(session.answer(0), null);
+    assert.equal(session.entry, undefined);
+
+    const originalSample = new Set(session.order.map((w) => w.word));
+    const sampled = new Set(originalSample);
+    for (let pass = 0; pass < 10; pass += 1) {
+      const next = new Quiz.Session(data.words, data.distractors, random, mode, "express");
+      assert.equal(next.total, 20);
+      assert.equal(next.answered, 0);
+      assert.equal(next.correct, 0);
+      assert.equal(next.mistakes, 0);
+      assert.equal(next.format, "express");
+      assert.equal(next.mode, mode);
+      assert.notDeepEqual(new Set(next.order.map((w) => w.word)), originalSample);
+      for (const word of next.order) sampled.add(word.word);
+    }
+    assert.ok(sampled.size > 150, "new passes should sample new words");
+    assert.ok(data.words.slice(-200).some((w) => sampled.has(w.word)), "sampling must reach the end of the dictionary");
+    assert.equal(data.words.length, COUNT);
+    assert.equal(data.words[0].word, "you");
+  });
 }
 
 test("reverse questions keep synonyms out of distractors, including new vocabulary", () => {
@@ -167,12 +214,21 @@ test("the original direction remains the default; unknown modes are rejected", (
   const entry = data.words[0];
   const session = new Quiz.Session(data.words, data.distractors, seeded(123));
   assert.equal(session.mode, "en-ru");
+  assert.equal(session.format, "full");
+  assert.equal(session.total, COUNT);
   assert.equal(Quiz.questionFor(entry), entry.word);
   assert.equal(Quiz.correctFor(entry), Quiz.primaryTranslation(entry));
   for (const mode of ["other", "toString", ""]) {
     assert.throws(() => new Quiz.Session(data.words, data.distractors, Math.random, mode), /Неизвестный режим/);
     assert.throws(() => Quiz.optionsFor(entry, data.distractors, Math.random, mode), /Неизвестный режим/);
   }
+});
+
+test("invalid formats and an undersized express dictionary are rejected", () => {
+  for (const format of ["other", "toString", "", 20]) {
+    assert.throws(() => new Quiz.Session(data.words, data.distractors, Math.random, "en-ru", format), /Неизвестный формат/);
+  }
+  assert.throws(() => new Quiz.Session(data.words.slice(0, 19), data.distractors, Math.random, "ru-en", "express"), /не менее 20 слов/);
 });
 
 test("portable HTML is current, has both modes and all 3000 words without external runtime dependencies", () => {
@@ -182,6 +238,8 @@ test("portable HTML is current, has both modes and all 3000 words without extern
   assert.match(html, /<html lang="ru">/);
   assert.match(html, /type="radio" name="mode" value="en-ru"/);
   assert.match(html, /type="radio" name="mode" value="ru-en"/);
+  assert.match(html, /type="radio" name="format" value="full"/);
+  assert.match(html, /type="radio" name="format" value="express"/);
   assert.doesNotMatch(html, /<script[^>]+src=|<link[^>]+(?:stylesheet|preload)|@import|fetch\(/i);
   const embedded = JSON.parse(/<script id="vocabulary-data" type="application\/json">(.*?)<\/script>/s.exec(html)[1]);
   assert.equal(embedded.words.length, COUNT);

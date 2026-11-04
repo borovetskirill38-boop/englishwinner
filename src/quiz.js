@@ -30,6 +30,11 @@ const Quiz = (() => {
     }),
   });
 
+  const FORMATS = Object.freeze({
+    full: Object.freeze({ name: "Полный тест", limit: null }),
+    express: Object.freeze({ name: "Экспресс-тест", limit: 20 }),
+  });
+
   function checkMode(mode) {
     if (!Object.hasOwn(MODES, mode)) throw new Error(`Неизвестный режим: ${mode}`);
   }
@@ -78,13 +83,17 @@ const Quiz = (() => {
   }
 
   class Session {
-    constructor(words, bank, random = Math.random, mode = "en-ru") {
+    constructor(words, bank, random = Math.random, mode = "en-ru", format = "full") {
       if (!words.length) throw new Error("Список слов пуст");
       checkMode(mode);
-      this.order = shuffle(words, random);
+      if (!Object.hasOwn(FORMATS, format)) throw new Error(`Неизвестный формат: ${format}`);
+      const limit = FORMATS[format].limit ?? words.length;
+      if (words.length < limit) throw new Error(`Для этого формата нужно не менее ${limit} слов`);
+      this.order = shuffle(words, random).slice(0, limit);
       this.bank = bank;
       this.random = random;
       this.mode = mode;
+      this.format = format;
       this.index = 0;
       this.correct = 0;
       this.answered = 0;
@@ -118,7 +127,7 @@ const Quiz = (() => {
     }
   }
 
-  return { MODES, shuffle, normalize, primaryTranslation, questionFor, correctFor, category, optionsFor, Session };
+  return { MODES, FORMATS, shuffle, normalize, primaryTranslation, questionFor, correctFor, category, optionsFor, Session };
 })();
 
 if (typeof module !== "undefined" && module.exports) module.exports = Quiz;

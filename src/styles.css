@@ -82,6 +82,9 @@ h2 { margin: 15px 0 21px; font-size: 29px; font-weight: 550; letter-spacing: -.8
 .mode-option input:checked + .mode-label::after { content: ""; position: absolute; width: 7px; height: 7px; top: 14px; right: 12px; border-radius: 50%; background: #39734b; }
 .mode-option input:focus-visible + .mode-label { outline: 3px solid #356cd3; outline-offset: 4px; }
 .mode-option:hover .mode-label { border-color: #8fa47d; }
+.format-selector .mode-label { height: 100%; }
+.format-selector .mode-label strong { display: block; padding-right: 7px; line-height: 1.4; }
+.format-selector .mode-label > span { line-height: 1.5; }
 .start-note { margin: 12px 0 0; color: #798774; font-size: 10px; line-height: 1.6; text-align: center; }
 .intro-notes { margin: 23px 0 0; display: flex; justify-content: center; gap: 35px; font-size: 11px; color: #788572; }
 .intro-notes span { display: flex; gap: 8px; align-items: center; }
