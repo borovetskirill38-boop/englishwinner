@@ -81,6 +81,8 @@ const Quiz = (() => {
     typing: Object.freeze({ name: "Ручной ввод" }),
   });
 
+  const MAX_TYPING_ATTEMPTS = 3;
+
   const LEVELS = Object.freeze({
     "1000": Object.freeze({ name: "Базовый", size: 1000 }),
     "3000": Object.freeze({ name: "Средний", size: 3000 }),
@@ -235,6 +237,7 @@ const Quiz = (() => {
       this.correct = 0;
       this.answered = 0;
       this.selected = null;
+      this.attemptsUsed = 0;
       this.options = answerMode === "choice" ? optionsFor(this.entry, this.bank, random, mode) : [];
     }
 
@@ -244,6 +247,7 @@ const Quiz = (() => {
     get finished() { return this.index >= this.total; }
     get mistakes() { return this.answered - this.correct; }
     get accuracy() { return this.answered ? Math.round(this.correct / this.answered * 100) : 0; }
+    get attemptsLeft() { return Math.max(0, MAX_TYPING_ATTEMPTS - this.attemptsUsed); }
 
     answer(optionIndex) {
       if (this.answerMode !== "choice" || this.finished || this.selected !== null || !Number.isInteger(optionIndex)
@@ -260,10 +264,18 @@ const Quiz = (() => {
 
     answerTyped(text) {
       if (this.answerMode !== "typing" || this.finished || this.selected !== null) return null;
-      if (!normalizeAnswer(text)) return { correct: false, empty: true };
-      if (!matchesAnswer(this.entry, this.mode, text, this.englishIndex)) return { correct: false, retry: true };
+      if (!normalizeAnswer(text)) return { correct: false, empty: true, attemptsLeft: this.attemptsLeft };
+      this.attemptsUsed += 1;
+      if (!matchesAnswer(this.entry, this.mode, text, this.englishIndex)) {
+        if (this.attemptsLeft > 0) return { correct: false, retry: true, attemptsLeft: this.attemptsLeft };
+        const failure = this._record(false, "exhausted");
+        failure.exhausted = true;
+        failure.attemptsLeft = 0;
+        return failure;
+      }
       const result = this._record(true, "typed");
       result.answer = text.trim();
+      result.attemptsLeft = this.attemptsLeft;
       return result;
     }
 
@@ -278,12 +290,13 @@ const Quiz = (() => {
       if (this.finished || this.selected === null) return false;
       this.index += 1;
       this.selected = null;
+      this.attemptsUsed = 0;
       this.options = this.finished || this.answerMode === "typing" ? [] : optionsFor(this.entry, this.bank, this.random, this.mode);
       return true;
     }
   }
 
-  return { MODES, FORMATS, ANSWER_MODES, LEVELS, TOPICS, wordsForLevel, wordsForTopic, wordCount, bankForVocabulary, shuffle, normalize, normalizeAnswer, primaryTranslation,
+  return { MODES, FORMATS, ANSWER_MODES, MAX_TYPING_ATTEMPTS, LEVELS, TOPICS, wordsForLevel, wordsForTopic, wordCount, bankForVocabulary, shuffle, normalize, normalizeAnswer, primaryTranslation,
     translationVariants, buildEnglishIndex, matchesAnswer, questionFor, correctFor, category, optionsFor, Session };
 })();
 

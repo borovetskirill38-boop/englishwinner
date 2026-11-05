@@ -38,6 +38,10 @@
     $("progress").setAttribute("aria-valuetext", `${session.answered} из ${session.total} вопросов`);
   }
 
+  function updateAttempts() {
+    $("typing-attempts").textContent = `Осталось попыток: ${session.attemptsLeft} из ${Quiz.MAX_TYPING_ATTEMPTS}`;
+  }
+
   function renderQuestion() {
     const mode = Quiz.MODES[session.mode];
     const typing = session.answerMode === "typing";
@@ -57,6 +61,10 @@
     $("choice-keyboard").hidden = typing;
     $("typing-keyboard").hidden = !typing;
     $("typed-answer").value = "";
+    $("typed-answer").disabled = false;
+    $("check-answer").disabled = false;
+    $("skip-word").disabled = false;
+    updateAttempts();
     $("typed-answer").lang = mode.answerLang;
     $("typed-answer").placeholder = session.mode === "en-ru" ? "Напишите перевод" : "Type the English word";
     $("typed-answer").classList.remove("is-wrong");
@@ -65,7 +73,7 @@
     $("feedback-title").textContent = "";
     $("feedback-detail").textContent = "";
     replaceChildren($("feedback-icon"));
-    $("answer-hint").textContent = typing ? "Можно исправляться. Ошибка засчитывается при пропуске слова." : "Не спешите. Здесь нет таймера.";
+    $("answer-hint").textContent = typing ? "Три попытки на слово. После третьей ошибки покажем перевод." : "Не спешите. Здесь нет таймера.";
     $("next").disabled = true;
     replaceChildren($("next"), document.createTextNode(
       session.index === session.total - 1 ? "Посмотреть результат" : "Следующее слово"
@@ -158,6 +166,7 @@
     $("typed-outcome").hidden = true;
     const result = session.answerTyped($("typed-answer").value);
     if (!result) return;
+    updateAttempts();
     if (result.correct) {
       advanceTyped(result);
       return;
@@ -165,9 +174,25 @@
     $("typed-answer").classList.add("is-wrong");
     $("typed-answer").setAttribute("aria-invalid", "true");
     $("feedback").className = "feedback is-wrong";
-    $("feedback-title").textContent = result.empty ? "Введите перевод." : "Пока неверно. Попробуйте ещё раз.";
-    $("feedback-detail").textContent = "Можно исправить ответ или пропустить слово — тогда будет засчитана ошибка.";
     replaceChildren($("feedback-icon"), icon("cross"));
+    if (result.exhausted) {
+      $("feedback").classList.add("has-answer");
+      $("feedback-title").textContent = "Три попытки исчерпаны. Правильный ответ:";
+      $("feedback-detail").textContent = session.mode === "ru-en"
+        ? `${session.prompt} — ${result.word}` : `${result.word} — ${result.translation}`;
+      $("typed-answer").disabled = true;
+      $("check-answer").disabled = true;
+      $("skip-word").disabled = true;
+      $("next").hidden = false;
+      $("next").disabled = false;
+      $("answer-hint").textContent = `Запомните перевод и нажмите «${session.index === session.total - 1 ? "Посмотреть результат" : "Следующее слово"}».`;
+      stats();
+      $("next").focus({ preventScroll: true });
+      return;
+    }
+    $("feedback-title").textContent = result.empty ? "Введите перевод." : "Пока неверно. Попробуйте ещё раз.";
+    $("feedback-detail").textContent = result.empty ? "Пустой ответ не тратит попытку."
+      : "Можно исправить ответ или пропустить слово — тогда будет засчитана ошибка.";
     $("typed-answer").focus({ preventScroll: true });
   }
 
@@ -225,7 +250,7 @@
   function updateAnswerHints() {
     const typing = $("answer-mode-typing").checked;
     $("rule-answer").textContent = typing ? "Введите перевод и нажмите Enter." : "Выберите единственный верный вариант.";
-    $("rule-feedback").textContent = typing ? "Верный ответ — дальше, пропуск — ошибка." : "Сразу узнайте результат и правильный перевод.";
+    $("rule-feedback").textContent = typing ? "Три попытки. Затем покажем правильный ответ." : "Сразу узнайте результат и правильный перевод.";
   }
 
   function updateLevelHints() {
@@ -279,6 +304,7 @@
     if (result) advanceTyped(result);
   });
   $("typed-answer").addEventListener("input", () => {
+    if (session && session.answerMode === "typing" && session.selected !== null) return;
     $("typed-answer").classList.remove("is-wrong");
     $("typed-answer").removeAttribute("aria-invalid");
     $("feedback").className = "feedback";
@@ -295,6 +321,10 @@
     chooseMode();
   });
   document.addEventListener("keydown", (event) => {
+    if (event.repeat && event.key === "Enter" && session && session.answerMode === "typing" && !$("training").hidden) {
+      event.preventDefault();
+      return;
+    }
     if (event.repeat || !session || session.answerMode !== "choice" || $("training").hidden || event.altKey || event.ctrlKey || event.metaKey) return;
     const active = document.activeElement;
     if (active && active.matches("input, textarea, select, [contenteditable]")) return;
