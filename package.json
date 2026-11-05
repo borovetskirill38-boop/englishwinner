@@ -1,6 +1,6 @@
 {
   "name": "english-winner",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "private": true,
   "description": "21 тема, все слова сразу и три частотных уровня: 1000, 3000 и 5000; два направления и ручной ввод",
   "scripts": {

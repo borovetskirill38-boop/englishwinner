@@ -237,6 +237,7 @@
     $("result-answer-mode").hidden = session.answerMode !== "typing";
     $("result-percent").textContent = `${session.accuracy}%`;
     $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
+    $("result-ring").style.setProperty("--result-hue", String(session.accuracy * 1.2));
     $("result-correct").textContent = session.correct;
     $("result-mistakes").textContent = session.mistakes;
     renderMistakeReview();
