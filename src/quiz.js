@@ -236,6 +236,7 @@ const Quiz = (() => {
       this.index = 0;
       this.correct = 0;
       this.answered = 0;
+      this.incorrectWords = [];
       this.selected = null;
       this.attemptsUsed = 0;
       this.options = answerMode === "choice" ? optionsFor(this.entry, this.bank, random, mode) : [];
@@ -259,6 +260,7 @@ const Quiz = (() => {
       this.selected = selected;
       this.answered += 1;
       if (correct) this.correct += 1;
+      else this.incorrectWords.push({ word: this.entry.word, translation: this.entry.translation });
       return { correct, word: this.entry.word, translation: this.entry.translation };
     }
 

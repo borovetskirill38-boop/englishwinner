@@ -146,6 +146,14 @@
       <h1 id="complete-title" tabindex="-1">Каждое слово —<br><em>шаг вперёд.</em></h1>
       <p class="hero-description" id="result-message"></p>
       <div class="result-summary"><div><strong id="result-correct">0</strong><span>верно</span></div><div><strong id="result-mistakes">0</strong><span>ошибок</span></div><div><strong id="result-total">5000</strong><span>слов пройдено</span></div></div>
+      <section id="mistake-review" class="mistake-review" hidden aria-labelledby="mistake-review-title">
+        <h2 id="mistake-review-title">Слова для повторения</h2>
+        <p id="mistake-review-message"></p>
+        <table id="mistake-review-table" hidden>
+          <thead><tr><th id="mistake-review-source-heading" scope="col">Английский</th><th scope="col">Правильный перевод</th></tr></thead>
+          <tbody id="mistake-review-list"></tbody>
+        </table>
+      </section>
       <button id="restart-complete" type="button" class="button-primary">Пройти ещё раз<svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg></button>
       <p id="completion-note" class="start-note">Новый проход — новый порядок слов и ответов.</p>
       <button id="change-mode-complete" class="button-text" type="button">Выбрать другой режим</button>

@@ -201,6 +201,16 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
 .result-summary > div + div { border-left: 1px solid var(--line); }
 .result-summary strong { font-size: 26px; font-weight: 500; }
 .result-summary span { font-size: 11px; color: #75826d; }
+.mistake-review { margin: 28px 0; padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: #fefefb; text-align: left; }
+.mistake-review h2 { margin: 0; font-size: 23px; letter-spacing: -.5px; }
+.mistake-review p { margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.mistake-review table { width: 100%; table-layout: fixed; border-collapse: collapse; margin-top: 20px; font-size: 14px; line-height: 1.6; }
+.mistake-review th { padding: 0 12px 10px 0; color: var(--muted); font-size: 11px; font-weight: 500; }
+.mistake-review th:first-child { width: 42%; }
+.mistake-review table.is-reversed th:first-child { width: 58%; }
+.mistake-review td { padding: 13px 12px 13px 0; border-top: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+.mistake-review td:last-child { color: var(--green); font-weight: 600; }
+.mistake-review th:last-child, .mistake-review td:last-child { padding-right: 0; }
 .completion .button-primary { min-width: 240px; }
 .footer { margin-top: 50px; padding-top: 21px; padding-bottom: 25px; border-top: 1px solid var(--line); display: flex; gap: 20px; justify-content: space-between; font-size: 10px; color: #7d8975; }
 .footer-note { padding-top: 2px; }
@@ -302,6 +312,9 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   .about { text-align: left; margin-top: 12px; }
   .about-content { padding-left: 0; font-size: 11px; }
   .completion { padding-top: 30px; }
+  .mistake-review { padding: 20px 16px; }
+  .mistake-review h2 { font-size: 21px; }
+  .mistake-review table { font-size: 13px; }
   .result-summary > div { padding: 0 17px; }
   .result-summary span { font-size: 10px; }
 }
@@ -445,6 +458,14 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
       <h1 id="complete-title" tabindex="-1">Каждое слово —<br><em>шаг вперёд.</em></h1>
       <p class="hero-description" id="result-message"></p>
       <div class="result-summary"><div><strong id="result-correct">0</strong><span>верно</span></div><div><strong id="result-mistakes">0</strong><span>ошибок</span></div><div><strong id="result-total">5000</strong><span>слов пройдено</span></div></div>
+      <section id="mistake-review" class="mistake-review" hidden aria-labelledby="mistake-review-title">
+        <h2 id="mistake-review-title">Слова для повторения</h2>
+        <p id="mistake-review-message"></p>
+        <table id="mistake-review-table" hidden>
+          <thead><tr><th id="mistake-review-source-heading" scope="col">Английский</th><th scope="col">Правильный перевод</th></tr></thead>
+          <tbody id="mistake-review-list"></tbody>
+        </table>
+      </section>
       <button id="restart-complete" type="button" class="button-primary">Пройти ещё раз<svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg></button>
       <p id="completion-note" class="start-note">Новый проход — новый порядок слов и ответов.</p>
       <button id="change-mode-complete" class="button-text" type="button">Выбрать другой режим</button>
@@ -698,6 +719,7 @@ const Quiz = (() => {
       this.index = 0;
       this.correct = 0;
       this.answered = 0;
+      this.incorrectWords = [];
       this.selected = null;
       this.attemptsUsed = 0;
       this.options = answerMode === "choice" ? optionsFor(this.entry, this.bank, random, mode) : [];
@@ -721,6 +743,7 @@ const Quiz = (() => {
       this.selected = selected;
       this.answered += 1;
       if (correct) this.correct += 1;
+      else this.incorrectWords.push({ word: this.entry.word, translation: this.entry.translation });
       return { correct, word: this.entry.word, translation: this.entry.translation };
     }
 
@@ -873,6 +896,8 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
     const selectedTopic = $("topic").value;
     session = new Quiz.Session(words, distractors, Math.random, selectedMode, selectedFormat, selectedAnswerMode, selectedLevel, selectedTopic);
     $("typed-outcome").hidden = true;
+    $("mistake-review").hidden = true;
+    replaceChildren($("mistake-review-list"));
     const mode = Quiz.MODES[session.mode];
     $("training-format").textContent = Quiz.FORMATS[session.format].name.toLocaleUpperCase("ru");
     $("training-level").textContent = `Уровень: ${session.levelSize} слов`;
@@ -962,6 +987,33 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
     $("typed-answer").focus({ preventScroll: true });
   }
 
+  function renderMistakeReview() {
+    const express = session.format === "express";
+    const mistakes = session.incorrectWords;
+    $("mistake-review").hidden = !express;
+    $("mistake-review-table").hidden = !express || mistakes.length === 0;
+    replaceChildren($("mistake-review-list"));
+    if (!express) return;
+    $("mistake-review-message").textContent = mistakes.length
+      ? `Повторите ${Quiz.wordCount(mistakes.length)} с правильными переводами.`
+      : "Все ответы верные — слов для повторения нет.";
+    $("mistake-review-source-heading").textContent = session.mode === "en-ru" ? "Английский" : "Русский";
+    $("mistake-review-table").classList.toggle("is-reversed", session.mode === "ru-en");
+    const mode = Quiz.MODES[session.mode];
+    const rows = mistakes.map((entry) => {
+      const row = document.createElement("tr");
+      const word = document.createElement("td");
+      word.textContent = Quiz.questionFor(entry, session.mode);
+      word.lang = mode.questionLang;
+      const translation = document.createElement("td");
+      translation.textContent = session.mode === "en-ru" ? entry.translation : entry.word;
+      translation.lang = mode.answerLang;
+      replaceChildren(row, word, translation);
+      return row;
+    });
+    replaceChildren($("mistake-review-list"), ...rows);
+  }
+
   function complete() {
     show("complete");
     const express = session.format === "express";
@@ -976,6 +1028,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
     $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
     $("result-correct").textContent = session.correct;
     $("result-mistakes").textContent = session.mistakes;
+    renderMistakeReview();
     if (express) {
       $("result-message").textContent = session.correct === session.total
         ? `Ни одной ошибки! Попробуйте новую подборку из ${session.total} слов.`

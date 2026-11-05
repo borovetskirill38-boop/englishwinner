@@ -107,6 +107,8 @@
     const selectedTopic = $("topic").value;
     session = new Quiz.Session(words, distractors, Math.random, selectedMode, selectedFormat, selectedAnswerMode, selectedLevel, selectedTopic);
     $("typed-outcome").hidden = true;
+    $("mistake-review").hidden = true;
+    replaceChildren($("mistake-review-list"));
     const mode = Quiz.MODES[session.mode];
     $("training-format").textContent = Quiz.FORMATS[session.format].name.toLocaleUpperCase("ru");
     $("training-level").textContent = `Уровень: ${session.levelSize} слов`;
@@ -196,6 +198,33 @@
     $("typed-answer").focus({ preventScroll: true });
   }
 
+  function renderMistakeReview() {
+    const express = session.format === "express";
+    const mistakes = session.incorrectWords;
+    $("mistake-review").hidden = !express;
+    $("mistake-review-table").hidden = !express || mistakes.length === 0;
+    replaceChildren($("mistake-review-list"));
+    if (!express) return;
+    $("mistake-review-message").textContent = mistakes.length
+      ? `Повторите ${Quiz.wordCount(mistakes.length)} с правильными переводами.`
+      : "Все ответы верные — слов для повторения нет.";
+    $("mistake-review-source-heading").textContent = session.mode === "en-ru" ? "Английский" : "Русский";
+    $("mistake-review-table").classList.toggle("is-reversed", session.mode === "ru-en");
+    const mode = Quiz.MODES[session.mode];
+    const rows = mistakes.map((entry) => {
+      const row = document.createElement("tr");
+      const word = document.createElement("td");
+      word.textContent = Quiz.questionFor(entry, session.mode);
+      word.lang = mode.questionLang;
+      const translation = document.createElement("td");
+      translation.textContent = session.mode === "en-ru" ? entry.translation : entry.word;
+      translation.lang = mode.answerLang;
+      replaceChildren(row, word, translation);
+      return row;
+    });
+    replaceChildren($("mistake-review-list"), ...rows);
+  }
+
   function complete() {
     show("complete");
     const express = session.format === "express";
@@ -210,6 +239,7 @@
     $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
     $("result-correct").textContent = session.correct;
     $("result-mistakes").textContent = session.mistakes;
+    renderMistakeReview();
     if (express) {
       $("result-message").textContent = session.correct === session.total
         ? `Ни одной ошибки! Попробуйте новую подборку из ${session.total} слов.`
