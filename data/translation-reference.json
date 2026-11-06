@@ -1,0 +1,28 @@
+{
+  "openRussian": {
+    "name": "OpenRussian dictionary data",
+    "authors": "OpenRussian.org editors and contributors; Wiktionary contributors",
+    "url": "https://github.com/Badestrand/russian-dictionary/tree/50e210c4803237779cb562bc1abcea529066031c",
+    "commit": "50e210c4803237779cb562bc1abcea529066031c",
+    "license": "CC-BY-SA-4.0",
+    "files": {
+      "nouns.csv": "c388f9e6dde51932832be8d7e9afdbe9f0acee72fcf70677f0fe25ea61293c84",
+      "adjectives.csv": "89ab5d10dcd2f21f6b485de704aef372f32251468e3aa96f18b21e259f26b80a",
+      "verbs.csv": "8659de6799b949fb35f080b08088fb7d347ed300490954ebb380a31642646e1d",
+      "others.csv": "9f22a16b17fc9a564298112168b667fced11aafb254ccebf5b7544fc37cdaa92",
+      "LICENSE": "7abe19ec9bb73b36141b999b861d24ad855e808bafe0f81e84cce28556f6c297"
+    }
+  },
+  "wordnet": {
+    "name": "Princeton WordNet 3.0 (adjective index for part-of-speech checks)",
+    "authors": "Princeton University",
+    "url": "https://raw.githubusercontent.com/nltk/nltk_data/550b6625bcef1f2abff2ff770a5a0d272c9c6b2a/packages/corpora/wordnet.zip",
+    "commit": "550b6625bcef1f2abff2ff770a5a0d272c9c6b2a",
+    "license": "Princeton WordNet License",
+    "use": "Part-of-speech filter for the offline audit; WordNet definitions are not embedded in the quiz.",
+    "files": {
+      "wordnet-index.adj": "42f58dda2c7cff66eb8fa55ba62e0a873a9b3f43c878e8201108f5dab6dcff28",
+      "wordnet-LICENSE": "7731175a77952e259390b496fab905e57118b8d19ad3a8383c67eee724ff443f"
+    }
+  }
+}

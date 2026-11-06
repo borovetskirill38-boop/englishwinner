@@ -36,7 +36,7 @@ function loadData() {
     if (!translations.has(word)) fail(`Нет перевода для ${word}`);
     words.push({ word, translation: translations.get(word), frequency: Number(count), rank: index + 1,
       ...(answerAliases[word] ? {
-        aliases: [].concat(...Object.values(answerAliases[word])), meaningAliases: answerAliases[word],
+        aliases: [...new Set([].concat(...Object.values(answerAliases[word])))], meaningAliases: answerAliases[word],
       } : {}) });
   });
   if (words.length !== WORD_COUNT || translations.size !== WORD_COUNT) fail(`Должно быть ровно ${WORD_COUNT} слов`);
