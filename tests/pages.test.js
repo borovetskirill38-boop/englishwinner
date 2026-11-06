@@ -7,7 +7,7 @@ const path = require("node:path");
 const { execFileSync } = require("node:child_process");
 const { publish } = require("../scripts/publish-pages.js");
 
-test("website publication preserves source and Pages history and is repeatable", () => {
+test("website publication preserves large HTML files, source and Pages history and is repeatable", () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "englishwinner-pages-"));
   const source = path.join(dir, "source"), remote = path.join(dir, "remote.git");
   fs.mkdirSync(source);
@@ -36,14 +36,17 @@ test("website publication preserves source and Pages history and is repeatable",
     assert.equal(git(["rev-parse", "HEAD"]), head);
     assert.equal(git(["status", "--porcelain"]), "");
     assert.deepEqual(publish(source), { commit: first.commit, source: head, changed: false });
-    fs.writeFileSync(path.join(source, "index.html"), "<!doctype html><title>Updated</title>\n");
+    const largeHTML = "<!doctype html><title>Updated</title>\n<!--" + "word ".repeat(250000) + "-->\n";
+    assert.ok(Buffer.byteLength(largeHTML) > 1024 * 1024);
+    fs.writeFileSync(path.join(source, "index.html"), largeHTML);
     assert.throws(() => publish(source));
     git(["add", "."]); git(["commit", "-m", "Update website"]);
     const second = publish(source);
     assert.notEqual(second.commit, first.commit);
     git(["merge-base", "--is-ancestor", first.commit, second.commit], remote);
-    assert.equal(git(["show", "gh-pages:index.html"], remote), "<!doctype html><title>Updated</title>");
+    assert.equal(git(["rev-parse", "gh-pages:index.html"], remote), git(["rev-parse", "HEAD:index.html"]));
     assert.equal(git(["status", "--porcelain"]), "");
+    assert.deepEqual(publish(source), { commit: second.commit, source: second.source, changed: false });
     git(["remote", "set-url", "origin", path.join(dir, "missing-remote")]);
     assert.throws(() => publish(source));
     assert.equal(git(["rev-parse", "gh-pages"], remote), second.commit);

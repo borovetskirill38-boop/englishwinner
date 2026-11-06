@@ -10,7 +10,10 @@ function publish(repository = path.resolve(__dirname, ".."), remote = "origin") 
   }
   git(["diff", "--quiet", "HEAD"]);
   const source = git(["rev-parse", "--verify", "HEAD^{commit}"]);
-  const file = (name) => execFileSync("git", ["show", `HEAD:${name}`], { cwd: repository });
+  // The complete offline dictionary can exceed Node's default 1 MiB buffer.
+  const file = (name) => execFileSync("git", ["show", `HEAD:${name}`], {
+    cwd: repository, maxBuffer: 16 * 1024 * 1024,
+  });
   let previous = null;
   let exists = false;
   try {
