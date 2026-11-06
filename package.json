@@ -1,11 +1,11 @@
 {
   "name": "english-winner",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "private": true,
   "description": "21 тема, все слова сразу и три частотных уровня: 1000, 3000 и 5000; два направления и ручной ввод",
   "scripts": {
     "build": "node scripts/build.js",
-    "test": "node tests/quiz.test.js && node tests/typing.test.js && node tests/attempts.test.js && node tests/review.test.js && node tests/levels.test.js && node tests/topics.test.js && node tests/compat.test.js && node tests/pages.test.js",
+    "test": "node tests/quiz.test.js && node tests/typing.test.js && node tests/synonyms.test.js && node tests/attempts.test.js && node tests/review.test.js && node tests/levels.test.js && node tests/topics.test.js && node tests/compat.test.js && node tests/pages.test.js",
     "check": "node scripts/build.js --check && npm test",
     "publish:pages": "node scripts/publish-pages.js"
   },

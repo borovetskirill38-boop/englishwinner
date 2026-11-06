@@ -50,7 +50,9 @@ with sync_playwright() as playwright:
       const source = JSON.parse(document.getElementById('vocabulary-data').textContent).words;
       const expected = source.slice(0, Number(level)).filter(entry => entry.topics.includes(topic)).map(entry => {
         const meanings = entry.topicTranslations && entry.topicTranslations[topic];
-        return meanings ? Object.assign({}, entry, {translation: meanings.join('; '), aliases: []}) : entry;
+        const aliases = meanings ? meanings.reduce((values, meaning) =>
+          values.concat(entry.meaningAliases && entry.meaningAliases[meaning] || []), []) : [];
+        return meanings ? Object.assign({}, entry, {translation: meanings.join('; '), aliases}) : entry;
       });
       const allowed = new Map(expected.map(entry => [entry.word, entry]));
       const session = window.__topicSession;

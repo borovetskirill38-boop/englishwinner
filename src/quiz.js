@@ -113,7 +113,9 @@ const Quiz = (() => {
     return words.filter((entry) => (entry.topics || []).includes(topic)).map((entry) => {
       const meanings = entry.topicTranslations && entry.topicTranslations[topic];
       // Keep each word's rank and identity; choose only its meanings in this topic.
-      return meanings ? Object.assign({}, entry, { translation: meanings.join("; "), aliases: [] }) : entry;
+      const aliases = meanings ? [].concat(...meanings.map((meaning) =>
+        entry.meaningAliases && entry.meaningAliases[meaning] || [])) : [];
+      return meanings ? Object.assign({}, entry, { translation: meanings.join("; "), aliases }) : entry;
     });
   }
 

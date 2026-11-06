@@ -35,14 +35,24 @@ function loadData() {
         || excluded.has(word) || words.length >= WORD_COUNT) return;
     if (!translations.has(word)) fail(`Нет перевода для ${word}`);
     words.push({ word, translation: translations.get(word), frequency: Number(count), rank: index + 1,
-      ...(answerAliases[word] ? { aliases: answerAliases[word] } : {}) });
+      ...(answerAliases[word] ? {
+        aliases: [].concat(...Object.values(answerAliases[word])), meaningAliases: answerAliases[word],
+      } : {}) });
   });
   if (words.length !== WORD_COUNT || translations.size !== WORD_COUNT) fail(`Должно быть ровно ${WORD_COUNT} слов`);
   if (new Set(words.map((w) => w.word)).size !== words.length) fail("Слова повторяются");
-  for (const [word, aliases] of Object.entries(answerAliases)) {
-    if (!words.some((entry) => entry.word === word) || !Array.isArray(aliases)
-        || aliases.some((alias) => typeof alias !== "string" || !/[а-яё]/i.test(alias))) {
+  for (const [word, senses] of Object.entries(answerAliases)) {
+    const translation = translations.get(word);
+    if (!translation || !senses || typeof senses !== "object" || Array.isArray(senses) || !Object.keys(senses).length) {
       fail(`Некорректные дополнительные переводы: ${word}`);
+    }
+    const meanings = translation.split(";").map((text) => text.trim());
+    for (const [meaning, aliases] of Object.entries(senses)) {
+      if (!meanings.includes(meaning) || !Array.isArray(aliases) || !aliases.length
+          || new Set(aliases.map((text) => typeof text === "string" ? text.toLocaleLowerCase("ru").replace(/ё/g, "е") : text)).size !== aliases.length
+          || aliases.some((alias) => typeof alias !== "string" || alias !== alias.trim() || !/[а-яё]/i.test(alias))) {
+        fail(`Некорректные дополнительные переводы: ${word} / ${meaning}`);
+      }
     }
   }
   const bank = JSON.parse(read("data/distractors.json"));

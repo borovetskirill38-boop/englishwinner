@@ -56,7 +56,9 @@ for (const level of ["1000", "3000", "5000"]) {
     const declared = new Set(group.words);
     const expected = prefix.filter((entry) => declared.has(entry.word)).map((entry) => {
       const meanings = topicTranslations[entry.word] && topicTranslations[entry.word][group.id];
-      return meanings ? Object.assign({}, entry, { translation: meanings.join("; "), aliases: [] }) : entry;
+      const aliases = meanings ? meanings.reduce((accepted, meaning) =>
+        accepted.concat(entry.meaningAliases && entry.meaningAliases[meaning] || []), []) : [];
+      return meanings ? Object.assign({}, entry, { translation: meanings.join("; "), aliases }) : entry;
     });
     const allowed = new Map(expected.map((entry) => [entry.word, entry]));
     const englishIndex = Quiz.buildEnglishIndex(expected);
@@ -121,14 +123,19 @@ for (const level of ["1000", "3000", "5000"]) {
 }
 
 test("a small topic uses every available word in express, without importing higher-level words", () => {
-  const session = new Quiz.Session(words, distractors, seeded(3), "en-ru", "express", "choice", "1000", "food");
-  const expected = words.slice(0, 1000).filter((entry) => entry.topics.includes("food"));
+  // Keep the small-pool scenario independent of future dictionary additions.
+  const fixture = words.map((entry, index) => Object.assign({}, entry, {
+    topics: index < 8 ? ["food"] : (index >= 1000 ? ["food"] : ["basics"]),
+    topicTranslations: {},
+  }));
+  const session = new Quiz.Session(fixture, distractors, seeded(3), "en-ru", "express", "choice", "1000", "food");
+  const expected = fixture.slice(0, 1000).filter((entry) => entry.topics.includes("food"));
   assert.ok(expected.length >= 4 && expected.length < 20);
   assert.equal(session.vocabularySize, expected.length);
   assert.equal(session.total, expected.length);
   assert.equal(new Set(session.order.map((entry) => entry.word)).size, expected.length);
-  assert.ok(!session.order.some((entry) => entry.word === "pork"));
-  assert.ok(Quiz.wordsForTopic(Quiz.wordsForLevel(words, "5000"), "food").some((entry) => entry.word === "pork"));
+  assert.ok(session.order.every((entry) => entry.rank <= expected[expected.length - 1].rank));
+  assert.ok(Quiz.wordsForTopic(Quiz.wordsForLevel(fixture, "5000"), "food").some((entry) => entry.word === "pork"));
 });
 
 test("polysemous words use meanings of the selected topic without mutating the all-topics dictionary", () => {
