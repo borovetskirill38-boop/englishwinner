@@ -53,6 +53,10 @@ button { transition: background .15s, border-color .15s, transform .15s; }
 h1 { margin: 21px 0 19px; font-size: clamp(39px, 4.8vw, 57px); line-height: 1.14; letter-spacing: -2px; font-weight: 650; }
 h1 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; color: #657e54; }
 .hero-description { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.8; }
+.section-link { display: flex; justify-content: space-between; align-items: center; gap: 18px; max-width: 650px; margin-top: 24px; padding: 18px 22px; border: 1px solid #8fa98e; border-radius: 13px; background: var(--green-tint); color: var(--accent); text-decoration: none; }
+.section-link:hover { background: #e0eddd; border-color: var(--accent); }
+.section-link strong { display: block; font-size: 15px; line-height: 1.5; }
+.section-link span span { display: block; margin-top: 4px; font-size: 12px; line-height: 1.5; color: var(--muted); }
 .welcome-card { margin-top: 36px; border-radius: 22px; border: 1px solid var(--line); display: grid; grid-template-columns: .92fr 1.08fr; overflow: hidden; background: #fff; box-shadow: 0 9px 35px #243c3303; }
 .word-art { position: relative; min-height: 357px; background: #eaf0e2; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .art-caption { position: absolute; top: 29px; left: 28px; right: 20px; color: #5c7655; font-size: 8px; font-weight: 700; letter-spacing: 1.6px; }
@@ -357,6 +361,8 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
       <div class="eyebrow"><span class="status-dot"></span>ВАША ПРАКТИКА АНГЛИЙСКОГО</div>
       <h1 id="intro-title">Большой словарь.<br><em>Маленькие шаги.</em></h1>
       <p class="hero-description">5000 частотных слов, которые встречаются снова и снова.<br class="desktop-break"> Узнайте, сколько вы уже знаете, и запомните больше.</p>
+
+      <a id="phrases-link" class="section-link" href="./phrases.html"><span><strong>Выражения и фразовые глаголы</strong><span>Отдельные тесты: 500 выражений и 500 фразовых глаголов</span></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
 
       <div class="welcome-card">
         <div class="word-art" aria-hidden="true">

@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="500 устойчивых английских выражений и 500 фразовых глаголов. Отдельные тесты с четырьмя вариантами: 20 случайных вопросов или полный проход из 500, оба направления перевода.">
+  <meta name="theme-color" content="#f7f8f3">
+  <title>English Winner — выражения и фразовые глаголы</title>
+  <style>:root {
+  color-scheme: light;
+  --background: #f7f8f3;
+  --ink: #213c33;
+  --muted: #69776e;
+  --accent: #245c45;
+  --line: #e0e6db;
+  --green: #206442;
+  --green-tint: #ecf6eb;
+  --red: #a42c37;
+  --red-tint: #fff0ee;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-synthesis: none;
+  -webkit-text-size-adjust: 100%;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--background); color: var(--ink); }
+button, a, summary { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: default; }
+button, summary, a { touch-action: manipulation; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid #356cd3; outline-offset: 5px; }
+h1:focus { outline: none; }
+button { transition: background .15s, border-color .15s, transform .15s; }
+.svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.shell { max-width: 1120px; padding-inline: 40px; margin-inline: auto; }
+.header { min-height: 106px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 11px; color: var(--ink); text-decoration: none; font-size: 23px; font-weight: 750; letter-spacing: -1px; }
+.brand-light { font-weight: 400; }
+.brand-dot { color: #6f8d53; }
+.brand-mark { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 13px; color: #f8f9ec; background: var(--accent); transform: rotate(-5deg); }
+.brand-mark svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.header-actions { display: flex; align-items: center; gap: 22px; }
+.offline { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: #6c9256; display: inline-block; flex-shrink: 0; }
+.button-quiet { color: var(--ink); padding: 10px 0 10px 15px; border: 0; border-left: 1px solid var(--line); background: transparent; display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.button-quiet:hover { color: var(--accent); text-decoration: underline; }
+.eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 700; letter-spacing: 2.1px; color: #5d775b; }
+.intro { padding-top: 49px; }
+h1 { margin: 21px 0 19px; font-size: clamp(39px, 4.8vw, 57px); line-height: 1.14; letter-spacing: -2px; font-weight: 650; }
+h1 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; color: #657e54; }
+.hero-description { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.8; }
+.section-link { display: flex; justify-content: space-between; align-items: center; gap: 18px; max-width: 650px; margin-top: 24px; padding: 18px 22px; border: 1px solid #8fa98e; border-radius: 13px; background: var(--green-tint); color: var(--accent); text-decoration: none; }
+.section-link:hover { background: #e0eddd; border-color: var(--accent); }
+.section-link strong { display: block; font-size: 15px; line-height: 1.5; }
+.section-link span span { display: block; margin-top: 4px; font-size: 12px; line-height: 1.5; color: var(--muted); }
+.welcome-card { margin-top: 36px; border-radius: 22px; border: 1px solid var(--line); display: grid; grid-template-columns: .92fr 1.08fr; overflow: hidden; background: #fff; box-shadow: 0 9px 35px #243c3303; }
+.word-art { position: relative; min-height: 357px; background: #eaf0e2; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.art-caption { position: absolute; top: 29px; left: 28px; right: 20px; color: #5c7655; font-size: 8px; font-weight: 700; letter-spacing: 1.6px; }
+.word-paper { position: absolute; width: 216px; height: 205px; border-radius: 12px; border: 1px solid #d8e0cf; }
+.paper-back { background: #d5e0c8; transform: translate(9px, -1px) rotate(8deg); }
+.paper-front { background: #fffefa; transform: translate(-8px, -8px) rotate(-5deg); padding: 25px 24px; box-shadow: 0 8px 16px #2a4d3320; }
+.paper-label { display: block; font-size: 8px; letter-spacing: 2px; color: #849278; }
+.paper-word { display: block; margin-top: 17px; font-family: Georgia, serif; font-size: 54px; letter-spacing: -2px; }
+.paper-line { display: block; width: 128px; margin-top: 9px; border-top: 1px solid var(--line); }
+.paper-translation { display: block; margin-top: 13px; color: #718568; font-size: 16px; }
+.paper-check { display: grid; place-items: center; position: absolute; right: -16px; bottom: 18px; width: 42px; height: 42px; border-radius: 50%; background: #2c6144; color: #fff; border: 5px solid #eaf0e2; }
+.art-count { position: absolute; bottom: 27px; font-size: 11px; color: #58714f; }
+.art-count strong { color: var(--ink); font-size: 15px; margin-right: 5px; }
+.art-spark { position: absolute; color: #81976e; }
+.spark-one { left: 47px; top: 90px; font-size: 37px; transform: rotate(10deg); }
+.spark-two { right: 42px; bottom: 90px; font-size: 26px; font-weight: 300; }
+.welcome-content { padding: 35px 38px 26px; }
+.small-label { font-size: 9px; font-weight: 700; color: #77876f; letter-spacing: 1.5px; }
+h2 { margin: 15px 0 21px; font-size: 29px; font-weight: 550; letter-spacing: -.8px; line-height: 1.2; }
+.rules { padding: 0; list-style: none; margin: 0 0 25px; display: grid; gap: 13px; }
+.rules li { display: flex; align-items: baseline; gap: 12px; font-size: 12px; line-height: 1.5; color: #607065; }
+.rule-number { font-size: 9px; color: #819472; font-weight: 600; }
+.button-primary { display: inline-flex; justify-content: center; align-items: center; gap: 22px; border: 1px solid var(--accent); border-radius: 10px; background: var(--accent); color: #fff; padding: 16px 22px; font-size: 14px; line-height: 1.25; font-weight: 550; min-height: 51px; }
+.button-primary:hover:not(:disabled) { background: #194632; border-color: #194632; transform: translateY(-1px); }
+.button-primary:active:not(:disabled) { transform: translateY(0); }
+.button-primary:disabled { background: #edf0e8; color: #85917e; border-color: #e3e8dc; }
+#start { width: 100%; }
+.mode-selector { border: 0; padding: 0; margin: 0 0 20px; min-width: 0; }
+.mode-selector legend { margin-bottom: 10px; font-size: 11px; font-weight: 550; color: var(--muted); }
+.mode-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.level-options { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.level-options .mode-label { height: 100%; padding: 13px 8px; }
+.level-options .mode-label strong { display: block; padding-right: 7px; line-height: 1.45; }
+.level-options .mode-label > span { font-size: 10px; overflow-wrap: break-word; }
+.selection-note { margin: 9px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.topic-selector { margin-bottom: 22px; }
+.topic-selector > label { display: block; margin-bottom: 10px; font-size: 11px; font-weight: 550; color: var(--muted); }
+.topic-selector select { display: block; width: 100%; max-width: 100%; min-width: 0; min-height: 48px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); font: inherit; font-size: 16px; cursor: pointer; }
+.topic-selector select:focus-visible { outline: 3px solid #356cd3; outline-offset: 3px; }
+.level-badge { display: inline-block; margin: 7px 0 0; color: var(--muted); font-size: 11px; }
+.mode-option { position: relative; cursor: pointer; touch-action: manipulation; }
+.mode-option input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.mode-label { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line); border-radius: 10px; padding: 13px 14px; background: #fff; color: var(--muted); }
+.mode-label strong { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--ink); }
+.mode-label .icon { width: 16px; height: 16px; }
+.mode-label > span { font-size: 11px; }
+.mode-option input:checked + .mode-label { border-color: #39734b; background: var(--green-tint); box-shadow: inset 0 0 0 1px #39734b; }
+.mode-option input:checked + .mode-label::after { content: ""; position: absolute; width: 7px; height: 7px; top: 14px; right: 12px; border-radius: 50%; background: #39734b; }
+.mode-option input:focus-visible + .mode-label { outline: 3px solid #356cd3; outline-offset: 4px; }
+.mode-option:hover .mode-label { border-color: #8fa47d; }
+.format-selector .mode-label { height: 100%; }
+.format-selector .mode-label strong { display: block; padding-right: 7px; line-height: 1.4; }
+.format-selector .mode-label > span { line-height: 1.5; }
+.start-note { margin: 12px 0 0; color: #798774; font-size: 10px; line-height: 1.6; text-align: center; }
+.intro-notes { margin: 23px 0 0; display: flex; justify-content: center; gap: 35px; font-size: 11px; color: #788572; }
+.intro-notes span { display: flex; gap: 8px; align-items: center; }
+.intro-notes .icon { width: 16px; height: 16px; }
+.training { padding-top: 28px; max-width: 830px; margin: auto; }
+.training-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+.question-count { font-size: 17px; margin: 9px 0 0; letter-spacing: -.3px; }
+.question-count strong { font-weight: 650; }
+.question-count > span { color: #819078; margin-left: 2px; font-size: 14px; }
+.mode-switch { display: flex; align-items: center; gap: 12px; min-width: 215px; min-height: 64px; padding: 12px 18px; border: 1px solid var(--accent); border-radius: 12px; background: var(--accent); color: #fff; box-shadow: 0 4px 12px #245c451c; text-align: left; }
+.mode-switch:hover { background: #194632; border-color: #194632; transform: translateY(-1px); }
+.mode-switch:active { transform: translateY(0); }
+.mode-switch-symbol { width: 34px; height: 34px; display: grid; place-items: center; flex-shrink: 0; border-radius: 9px; background: #ffffff1a; }
+.mode-switch-symbol .icon { width: 21px; height: 21px; }
+.mode-switch-content { display: flex; flex-direction: column; gap: 5px; }
+.mode-switch-content strong { font-size: 14px; font-weight: 650; line-height: 1.3; }
+.direction-languages { display: flex; align-items: center; gap: 8px; font-size: 11px; line-height: 1; opacity: .85; }
+.direction-languages .icon { width: 14px; height: 14px; }
+progress { display: block; width: 100%; height: 5px; margin: 18px 0 23px; border: 0; border-radius: 8px; overflow: hidden; background: #e3e9db; color: #638650; }
+progress::-webkit-progress-bar { background: #e3e9db; border-radius: 8px; }
+progress::-webkit-progress-value { background: #638650; border-radius: 8px; transition: width .2s; }
+progress::-moz-progress-bar { background: #638650; border-radius: 8px; }
+.quiz-card { padding: 28px 32px 25px; border: 1px solid var(--line); background: #fff; border-radius: 20px; box-shadow: 0 12px 40px #243c3304; }
+.question-heading { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.question-heading .small-label { font-size: 8px; }
+.question-badge { font-size: 10px; color: #7c8975; }
+.english-word { font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: clamp(43px, 6.8vw, 70px); letter-spacing: -1.8px; text-align: center; margin: 32px 0 9px; overflow-wrap: anywhere; }
+.english-word.russian-word { font-size: clamp(27px, 4.5vw, 46px); letter-spacing: -.7px; line-height: 1.3; }
+.word-note { text-align: center; font-size: 12px; color: #84907d; margin: 0 0 29px; }
+.typed-form label { display: block; margin-bottom: 9px; font-size: 12px; color: var(--muted); }
+.typing-attempts { margin: 0 0 10px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.typed-controls { display: flex; align-items: stretch; gap: 12px; }
+.typed-controls input { flex: 1; width: 100%; min-width: 0; min-height: 54px; padding: 14px 16px; border: 1px solid #bdcbb4; border-radius: 10px; background: #fff; color: var(--ink); font: inherit; font-size: 17px; }
+.typed-controls input::placeholder { color: #87917e; font-size: 13px; }
+.typed-controls input:focus { outline: 3px solid #a7bda0; outline-offset: 2px; }
+.typed-controls input.is-wrong { border-color: #be4550; background: var(--red-tint); color: var(--red); }
+.typed-controls input.is-wrong:focus { outline-color: #e9b0ae; }
+.typed-controls input.is-wrong:disabled { opacity: 1; -webkit-text-fill-color: var(--red); }
+.typed-skip { display: flex; align-items: center; justify-content: center; gap: 9px; margin-top: 13px; font-size: 11px; color: var(--muted); }
+.typed-skip .icon { width: 15px; height: 15px; }
+.typed-outcome { max-width: 830px; margin: 20px auto 0; padding: 13px 17px; border: 1px solid #b5cfa9; border-radius: 10px; background: var(--green-tint); color: var(--green); font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.typed-outcome.is-wrong { background: var(--red-tint); border-color: #e4b2b2; color: var(--red); }
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.option { width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; color: var(--ink); padding: 16px 15px; min-height: 70px; border: 1px solid #dfe5d9; background: #fff; border-radius: 11px; font-size: 14px; line-height: 1.5; }
+.option:hover:not(:disabled) { background: #f3f6ed; border-color: #8fa47d; }
+.option-number { width: 28px; height: 28px; border-radius: 7px; background: #f2f4ee; color: #7a8a70; display: grid; place-items: center; font-size: 11px; flex-shrink: 0; }
+.option-text { flex: 1; overflow-wrap: anywhere; }
+.option .option-result { width: 19px; height: 19px; flex-shrink: 0; }
+.option:not(.correct):not(.wrong) .option-result { visibility: hidden; }
+.option:disabled { opacity: 1; color: #7c8774; }
+.option.correct { background: var(--green-tint); border-color: #33804b; color: var(--green); }
+.option.correct .option-number { background: #dcefd6; color: var(--green); }
+.option.wrong { background: var(--red-tint); border-color: #be4550; color: var(--red); }
+.option.wrong .option-number { background: #fadbd8; color: var(--red); }
+.answer-area { margin-top: 20px; }
+.feedback { display: flex; gap: 10px; align-items: flex-start; min-height: 57px; padding: 1px 0 12px; }
+.feedback:empty { display: none; }
+.feedback:not(.is-correct):not(.is-wrong) { visibility: hidden; }
+.feedback.is-correct { color: var(--green); }
+.feedback.is-wrong { color: var(--red); }
+.feedback-icon { display: flex; padding-top: 1px; }
+.feedback-icon .icon { width: 18px; height: 18px; }
+.feedback strong { font-size: 13px; }
+.feedback p { margin: 4px 0 0; color: #66755e; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+#feedback-selected { color: var(--red); }
+.feedback.has-answer p { color: var(--ink); font-size: 15px; font-weight: 600; }
+.question-bottom { border-top: 1px solid #edf0e8; padding-top: 18px; display: flex; gap: 14px; justify-content: space-between; align-items: center; }
+.question-bottom p { margin: 0; font-size: 10px; color: #7f8a78; line-height: 1.5; }
+.next-button { font-size: 12px; padding: 12px 16px; min-height: 45px; gap: 13px; white-space: nowrap; }
+.next-button .icon { width: 17px; height: 17px; }
+.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 20px; }
+.metric { display: flex; gap: 13px; align-items: center; background: #fefefb; border: 1px solid var(--line); padding: 17px 20px; border-radius: 12px; }
+.metric-icon { width: 37px; height: 37px; display: grid; place-items: center; border-radius: 11px; }
+.metric-icon .icon { width: 18px; height: 18px; }
+.metric-green { color: #458255; background: #eaf2e4; }
+.metric-red { color: #ae6667; background: #faefea; }
+.metric-neutral { color: #7c8b69; background: #eef0e6; }
+.metric-label { display: block; font-size: 10px; color: #798670; margin-bottom: 3px; }
+.metric strong { font-size: 20px; font-weight: 550; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
+.keyboard-help { display: flex; gap: 22px; justify-content: center; color: #7a8772; font-size: 10px; margin: 21px 0 0; }
+kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px; background: #fdfdf8; border: 1px solid #e0e5d8; border-bottom-width: 2px; border-radius: 4px; }
+.completion { text-align: center; max-width: 700px; margin: auto; padding-top: 35px; }
+.completion .eyebrow { justify-content: center; }
+.result-mode { margin: 12px 0 0; font-size: 12px; color: var(--muted); }
+.button-text { display: block; margin: 18px auto 0; padding: 10px; min-height: 44px; border: 0; background: transparent; color: var(--accent); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+.completion h1 { font-size: clamp(34px, 4vw, 47px); }
+.completion .hero-description { font-size: 14px; }
+.result-ring { --result-angle: 0deg; --result-hue: 0; margin: 30px auto; width: 155px; height: 155px; padding: 8px; border-radius: 50%; background: conic-gradient(hsl(var(--result-hue), 65%, 42%) var(--result-angle), hsl(var(--result-hue), 45%, 86%) 0); transform: rotate(-90deg); }
+.result-ring > div { width: 100%; height: 100%; border-radius: 50%; background: var(--background); display: flex; flex-direction: column; justify-content: center; gap: 6px; transform: rotate(90deg); }
+.result-ring strong { color: hsl(var(--result-hue), 65%, 28%); font-size: 36px; font-weight: 550; letter-spacing: -1px; }
+.result-ring span { font-size: 10px; color: #76846c; }
+.result-summary { display: flex; justify-content: center; gap: 0; margin: 28px 0; }
+.result-summary > div { padding: 0 27px; display: flex; flex-direction: column; gap: 5px; }
+.result-summary > div + div { border-left: 1px solid var(--line); }
+.result-summary strong { font-size: 26px; font-weight: 500; }
+.result-summary span { font-size: 11px; color: #75826d; }
+.mistake-review { margin: 28px 0; padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: #fefefb; text-align: left; }
+.mistake-review h2 { margin: 0; font-size: 23px; letter-spacing: -.5px; }
+.mistake-review p { margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.mistake-review table { width: 100%; table-layout: fixed; border-collapse: collapse; margin-top: 20px; font-size: 14px; line-height: 1.6; }
+.mistake-review th { padding: 0 12px 10px 0; color: var(--muted); font-size: 11px; font-weight: 500; }
+.mistake-review th:first-child { width: 42%; }
+.mistake-review table.is-reversed th:first-child { width: 58%; }
+.mistake-review td { padding: 13px 12px 13px 0; border-top: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+.mistake-review td:last-child { color: var(--green); font-weight: 600; }
+.mistake-review th:last-child, .mistake-review td:last-child { padding-right: 0; }
+.completion .button-primary { min-width: 240px; }
+.footer { margin-top: 50px; padding-top: 21px; padding-bottom: 25px; border-top: 1px solid var(--line); display: flex; gap: 20px; justify-content: space-between; font-size: 10px; color: #7d8975; }
+.footer-note { padding-top: 2px; }
+.footer-identity { display: flex; flex-direction: column; gap: 6px; line-height: 1.6; }
+.footer-credit { color: var(--ink); font-size: 12px; }
+.footer-rights { color: var(--muted); font-size: 10px; }
+.about { max-width: 550px; text-align: right; }
+.about summary { cursor: pointer; padding: 2px; list-style-position: inside; }
+.about-content { text-align: left; line-height: 1.7; padding: 10px 0 0 16px; }
+.about-content a { color: #3f6c47; }
+.startup-warning { margin-top: 20px; padding: 18px 20px; border: 1px solid #d7c99e; border-radius: 12px; color: #6d571d; background: #fff8e5; font-size: 13px; line-height: 1.7; }
+.startup-warning p { margin: 7px 0 0; }
+.startup-warning a { color: inherit; font-weight: 600; }
+@media (max-width: 760px) {
+  .shell { padding-inline: 24px; }
+  .header { min-height: 86px; }
+  .brand { font-size: 20px; gap: 8px; }
+  .brand-mark { width: 34px; height: 34px; border-radius: 10px; }
+  .offline { font-size: 10px; }
+  .intro { padding-top: 25px; }
+  .welcome-card { grid-template-columns: .85fr 1.15fr; }
+  .welcome-content { padding: 30px 24px 23px; }
+  .word-paper { width: 175px; height: 190px; }
+  .paper-word { font-size: 48px; }
+  .paper-line { width: 115px; }
+  .art-caption { left: 19px; font-size: 7px; }
+  .spark-one { left: 12px; top: 75px; }
+  .spark-two { right: 20px; bottom: 80px; }
+  h2 { font-size: 25px; }
+  .intro-notes { gap: 17px; font-size: 10px; }
+  .header-actions { gap: 13px; }
+  .button-quiet { font-size: 11px; padding-left: 11px; }
+  body.is-training .offline { display: none; }
+  .quiz-card { padding: 24px; }
+  .metric { padding: 15px 12px; gap: 10px; }
+}
+@media (max-width: 540px) {
+  .shell { padding-inline: 20px; }
+  .header { min-height: 76px; gap: 10px; }
+  .brand { font-size: 19px; }
+  .brand-mark { width: 31px; height: 31px; }
+  .brand-mark svg { width: 25px; height: 25px; }
+  .offline { font-size: 9px; gap: 5px; }
+  .intro { padding-top: 23px; }
+  .eyebrow { font-size: 8px; letter-spacing: 1.5px; }
+  h1 { font-size: 39px; letter-spacing: -1.5px; margin-top: 19px; }
+  .hero-description { font-size: 13px; line-height: 1.8; }
+  .desktop-break { display: none; }
+  .welcome-card { grid-template-columns: 1fr; margin-top: 28px; border-radius: 16px; }
+  .word-art { min-height: 236px; }
+  .art-caption { top: 20px; left: 22px; font-size: 7px; letter-spacing: 1.3px; }
+  .word-paper { width: 158px; height: 145px; border-radius: 10px; }
+  .paper-front { padding: 15px 20px; transform: translate(-5px, 2px) rotate(-5deg); }
+  .paper-back { transform: translate(8px, 7px) rotate(7deg); }
+  .paper-label { font-size: 7px; }
+  .paper-word { font-size: 41px; margin-top: 8px; }
+  .paper-line { margin-top: 6px; width: 105px; }
+  .paper-translation { margin-top: 9px; font-size: 12px; }
+  .paper-check { width: 34px; height: 34px; bottom: 14px; right: -12px; border-width: 4px; }
+  .paper-check .icon { width: 17px; height: 17px; }
+  .art-count { font-size: 9px; bottom: 15px; }
+  .art-count strong { font-size: 12px; }
+  .spark-one { left: 44px; top: 67px; font-size: 32px; }
+  .spark-two { right: 39px; bottom: 62px; }
+  .welcome-content { padding: 26px 23px 23px; }
+  h2 { font-size: 27px; margin: 12px 0 18px; }
+  .rules li { font-size: 12px; }
+  .intro-notes { flex-direction: column; align-items: center; gap: 11px; }
+  .training { padding-top: 20px; }
+  .training-heading { flex-direction: column; align-items: stretch; gap: 14px; }
+  .mode-switch { width: 100%; min-width: 0; justify-content: center; }
+  .quiz-card { padding: 22px 17px 19px; border-radius: 15px; }
+  .question-heading { flex-wrap: wrap; gap: 7px; }
+  .question-heading .small-label { font-size: 7px; letter-spacing: 1px; }
+  .question-badge { font-size: 8px; }
+  .english-word { font-size: 51px; margin-top: 25px; }
+  .word-note { font-size: 11px; margin-bottom: 23px; }
+  .typed-controls { flex-direction: column; gap: 10px; }
+  .typed-controls input { min-height: 54px; font-size: 16px; }
+  .typed-controls .button-primary { min-height: 47px; }
+  .typed-outcome { font-size: 11px; padding: 11px 13px; }
+  .options { grid-template-columns: 1fr; gap: 9px; }
+  .option { min-height: 59px; font-size: 13px; padding: 12px; gap: 11px; }
+  .answer-area { margin-top: 15px; }
+  .feedback { min-height: 54px; }
+  .feedback strong { font-size: 12px; }
+  .feedback p { font-size: 11px; }
+  .question-bottom { flex-direction: column; gap: 12px; padding-top: 14px; }
+  .next-button { width: 100%; }
+  .question-bottom p { font-size: 9px; }
+  .metrics { gap: 8px; margin-top: 14px; }
+  .metric { gap: 8px; padding: 13px 8px; border-radius: 10px; }
+  .metric-icon { width: 27px; height: 29px; border-radius: 7px; }
+  .metric-icon .icon { width: 15px; height: 15px; }
+  .metric-label { font-size: 9px; }
+  .metric strong { font-size: 18px; }
+  .keyboard-help { display: none; }
+  .footer { margin-top: 35px; padding-top: 18px; display: block; font-size: 9px; }
+  .about { text-align: left; margin-top: 12px; }
+  .about-content { padding-left: 0; font-size: 11px; }
+  .completion { padding-top: 30px; }
+  .mistake-review { padding: 20px 16px; }
+  .mistake-review h2 { font-size: 21px; }
+  .mistake-review table { font-size: 13px; }
+  .result-summary > div { padding: 0 17px; }
+  .result-summary span { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}
+
+.phrases-intro { max-width: 830px; margin: auto; padding-top: 25px; }
+.words-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: 13px; line-height: 1.5; text-align: right; }
+.words-link .icon { width: 14px; height: 14px; transform: rotate(180deg); }
+#training-collection { display: block; }
+.phrases-settings { max-width: 680px; margin-top: 30px; padding: 30px; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
+.collection-selector .mode-label { height: 100%; min-height: 92px; }
+.collection-selector .mode-label strong { display: block; padding-right: 8px; line-height: 1.5; }
+.phrases-page .phrase-prompt { max-width: 100%; font-size: clamp(27px, 4vw, 45px); line-height: 1.3; letter-spacing: -1px; overflow-wrap: anywhere; }
+.phrases-page .option { min-height: 78px; }
+.phrases-page .option-text { overflow-wrap: anywhere; line-height: 1.6; }
+.phrases-page .feedback p { font-size: 14px; }
+.phrases-page .feedback > div { min-width: 0; }
+.phrases-page .metric { justify-content: center; text-align: center; }
+@media (max-width: 600px) {
+  .phrases-settings { padding: 20px 16px; }
+  .collection-selector .mode-options { grid-template-columns: 1fr; }
+  .collection-selector .mode-label { min-height: 0; }
+  .phrases-page .header { gap: 14px; }
+  .phrases-page .brand { font-size: 21px; }
+  .phrases-page .words-link { font-size: 11px; max-width: 100px; }
+  .phrases-page .feedback p { font-size: 12px; }
+}
+</style>
+</head>
+<body class="phrases-page">
+  <svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="icon-cross" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="icon-repeat" viewBox="0 0 24 24"><path d="M20 7h-4V3M4 17h4v4m11-14a8 8 0 0 0-13-2M5 17a8 8 0 0 0 13 2"/></symbol>
+  </svg>
+  <header class="header shell">
+    <a class="brand" href="./index.html" aria-label="English Winner — тест на слова"><span>english<span class="brand-light">winner</span><span class="brand-dot">.</span></span></a>
+    <a class="words-link" href="./index.html"><span>К тесту на слова</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+  </header>
+  <main class="shell">
+    <div id="startup-warning" class="startup-warning" role="status"><strong>Для теста нужен браузер с JavaScript.</strong><p>Если на iPhone файл открылся в предпросмотре, откройте веб-версию в Safari.</p><a href="https://borovetskirill38-boop.github.io/englishwinner/phrases.html">Открыть веб-версию</a><noscript><p>Включите JavaScript в браузере.</p></noscript></div>
+    <section id="intro" class="intro phrases-intro" aria-labelledby="intro-title">
+      <div class="eyebrow"><span class="status-dot"></span>АНГЛИЙСКИЙ В ВЫРАЖЕНИЯХ</div>
+      <h1 id="intro-title">Знакомые слова.<br><em>Новый смысл.</em></h1>
+      <p class="hero-description">500 устойчивых выражений и 500 фразовых глаголов.<br>Два отдельных теста для повседневного английского.</p>
+      <div class="phrases-settings">
+        <fieldset class="mode-selector collection-selector">
+          <legend>Что будем изучать?</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="collection-expressions" name="collection" type="radio" value="expressions" checked><span class="mode-label"><strong>Устойчивые выражения</strong><span>500 выражений · a piece of cake</span></span></label>
+            <label class="mode-option"><input id="collection-phrasal-verbs" name="collection" type="radio" value="phrasal-verbs"><span class="mode-label"><strong>Фразовые глаголы</strong><span>500 глаголов · give up</span></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="mode-selector">
+          <legend>Направление перевода</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="mode-en-ru" name="mode" type="radio" value="en-ru" checked><span class="mode-label"><strong>EN → RU</strong><span>На русский</span></span></label>
+            <label class="mode-option"><input id="mode-ru-en" name="mode" type="radio" value="ru-en"><span class="mode-label"><strong>RU → EN</strong><span>На английский</span></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="mode-selector format-selector">
+          <legend>Сколько вопросов?</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="format-express" name="format" type="radio" value="express" checked><span class="mode-label"><strong>Экспресс-тест</strong><span>20 случайных вопросов</span></span></label>
+            <label class="mode-option"><input id="format-full" name="format" type="radio" value="full"><span class="mode-label"><strong>Полный тест</strong><span>Все 500 вопросов</span></span></label>
+          </div>
+        </fieldset>
+        <button id="start" class="button-primary" type="button" disabled>Начать тест <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+        <p class="start-note">Четыре варианта ответа · Без таймера · Новый порядок каждый раз</p>
+      </div>
+    </section>
+    <section id="training" class="training" hidden aria-labelledby="word">
+      <div class="training-heading"><div><span id="training-format" class="small-label"></span><p id="training-collection" class="level-badge"></p><p class="question-count">Вопрос <strong id="question-number">1</strong><span> / <span id="total-count">20</span></span></p></div><button id="change-mode" class="mode-switch" type="button"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span id="direction" class="direction-languages">EN → RU</span></span></button></div>
+      <progress id="progress" value="0" max="20" aria-label="Отвечено вопросов"></progress>
+      <div class="quiz-card">
+        <div class="question-heading"><span class="small-label">ВЫБЕРИТЕ ПРАВИЛЬНЫЙ ПЕРЕВОД</span><span class="question-badge">4 варианта · 1 верный</span></div>
+        <h1 id="word" class="english-word phrase-prompt" tabindex="-1"></h1>
+        <p id="word-note" class="word-note"></p>
+        <div id="options" class="options" role="group" aria-labelledby="word"></div>
+        <div class="answer-area">
+          <div id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true"><span id="feedback-icon" class="feedback-icon" aria-hidden="true"></span><div><strong id="feedback-title"></strong><p id="feedback-selected" hidden></p><p id="feedback-detail"></p></div></div>
+          <div class="question-bottom"><p>Перевод останется на экране до следующего вопроса.</p><button id="next" class="button-primary next-button" type="button" disabled>Следующий вопрос <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div>
+        </div>
+      </div>
+      <div class="metrics" aria-label="Результаты текущего прохода"><div class="metric"><div><span class="metric-label">Верно</span><strong id="correct-count">0</strong></div></div><div class="metric"><div><span class="metric-label">Ошибки</span><strong id="mistake-count">0</strong></div></div><div class="metric"><div><span class="metric-label">Точность</span><strong id="accuracy">0%</strong></div></div></div>
+      <p class="keyboard-help"><span><kbd>1</kbd>–<kbd>4</kbd> выбрать ответ</span><span><kbd>Enter</kbd> следующий вопрос</span></p>
+    </section>
+    <section id="complete" class="completion" hidden aria-labelledby="complete-title">
+      <span id="complete-count" class="eyebrow">ТЕСТ ЗАВЕРШЁН</span><p id="result-mode" class="result-mode"></p>
+      <div id="result-ring" class="result-ring"><div><strong id="result-percent">0%</strong><span>верных ответов</span></div></div>
+      <h1 id="complete-title" tabindex="-1">Шаг за шагом.<br><em>К живому английскому.</em></h1>
+      <p id="result-message" class="hero-description"></p>
+      <div class="result-summary"><div><strong id="result-correct">0</strong><span>верно</span></div><div><strong id="result-mistakes">0</strong><span>ошибок</span></div><div><strong id="result-total">20</strong><span>вопросов пройдено</span></div></div>
+      <section id="mistake-review" class="mistake-review" hidden aria-labelledby="mistake-review-title"><h2 id="mistake-review-title">Повторите эти выражения</h2><p id="mistake-review-message"></p><table id="mistake-review-table"><thead><tr><th id="review-source" scope="col">Английский</th><th scope="col">Правильный перевод</th></tr></thead><tbody id="mistake-review-list"></tbody></table></section>
+      <button id="restart-complete" class="button-primary" type="button">Пройти ещё раз <svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg></button>
+      <p class="start-note">Без ограничений на число попыток. При новом запуске вопросы перемешиваются.</p>
+      <button id="change-mode-complete" class="button-text" type="button">Выбрать другой тест</button>
+    </section>
+  </main>
+  <footer class="footer shell"><div class="footer-identity"><span class="footer-note">Немного практики. Каждый день.</span><span class="footer-credit">Made by <strong>Kirill Borovets</strong></span><span class="footer-rights">© 2026 Kirill Borovets. Все права защищены.</span></div><details class="about"><summary>О подборке и правилах</summary><div class="about-content"><p>Два отдельных учебных набора: 500 устойчивых выражений, включая разговорные формулы и идиомы, и 500 фразовых и предложных глаголов. Это подборка для практики повседневного английского, а не статистический рейтинг частотности. Переводы подготовлены для проекта.</p><p>У каждого выражения выбрано одно распространённое значение. В другом контексте возможны другие переводы. Полный тест охватывает все 500 записей выбранного набора, экспресс — 20 случайных без повторов. Наборы не смешиваются. В обоих направлениях четыре варианта ответа, ручного ввода нет. После ответа нажмите «Следующий вопрос». В конце экспресс-теста показаны ошибки с переводами для повторения.</p><p>Код приложения: MIT. Учебные данные и переводы: <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p></div></details></footer>
+  <script id="phrase-data" type="application/json">{"expressions":[{"english":"good morning","translation":"доброе утро"},{"english":"good afternoon","translation":"добрый день (после полудня)"},{"english":"good evening","translation":"добрый вечер"},{"english":"good night","translation":"спокойной ночи"},{"english":"hello there","translation":"приветствую"},{"english":"nice to meet you","translation":"приятно познакомиться"},{"english":"pleased to meet you","translation":"рад знакомству"},{"english":"how are you","translation":"как поживаете"},{"english":"how's it going","translation":"как идут дела"},{"english":"how have you been","translation":"как вы поживали всё это время"},{"english":"what's new","translation":"что нового"},{"english":"what's the matter","translation":"в чём дело"},{"english":"long time no see","translation":"давно не виделись"},{"english":"see you soon","translation":"до скорой встречи"},{"english":"see you later","translation":"увидимся позже"},{"english":"see you tomorrow","translation":"до завтра"},{"english":"have a nice day","translation":"хорошего дня"},{"english":"have a good weekend","translation":"хороших выходных"},{"english":"have a good trip","translation":"счастливого пути"},{"english":"take care","translation":"берегите себя"},{"english":"all the best","translation":"всего наилучшего"},{"english":"best wishes","translation":"наилучшие пожелания"},{"english":"good luck","translation":"удачи"},{"english":"happy birthday","translation":"с днём рождения"},{"english":"happy new year","translation":"с новым годом"},{"english":"merry Christmas","translation":"счастливого Рождества"},{"english":"enjoy your meal","translation":"приятного аппетита"},{"english":"welcome back","translation":"с возвращением"},{"english":"make yourself at home","translation":"чувствуйте себя как дома"},{"english":"help yourself","translation":"угощайтесь"},{"english":"after you","translation":"после вас"},{"english":"you're welcome","translation":"не за что"},{"english":"thank you very much","translation":"большое спасибо"},{"english":"thanks anyway","translation":"всё равно спасибо"},{"english":"thanks in advance","translation":"заранее спасибо"},{"english":"much appreciated","translation":"очень признателен"},{"english":"excuse me","translation":"извините (чтобы привлечь внимание)"},{"english":"I'm sorry","translation":"мне жаль"},{"english":"my apologies","translation":"приношу извинения"},{"english":"I beg your pardon","translation":"прошу прощения"},{"english":"sorry to bother you","translation":"извините за беспокойство"},{"english":"no problem","translation":"без проблем"},{"english":"never mind","translation":"ничего страшного"},{"english":"don't mention it","translation":"не стоит благодарности"},{"english":"that's all right","translation":"всё в порядке"},{"english":"it's my fault","translation":"это моя вина"},{"english":"by all means","translation":"разумеется (разрешение или согласие)"},{"english":"if you don't mind","translation":"если вы не возражаете"},{"english":"would you mind","translation":"не могли бы вы"},{"english":"may I help you","translation":"могу я вам помочь"},{"english":"can I have a word","translation":"можно с вами поговорить"},{"english":"one moment please","translation":"одну минуту, пожалуйста"},{"english":"just a moment","translation":"минутку, пожалуйста"},{"english":"be my guest","translation":"пожалуйста, пользуйтесь"},{"english":"no need to hurry","translation":"торопиться незачем"},{"english":"there's no rush","translation":"спешки нет"},{"english":"take your time","translation":"не торопитесь"},{"english":"it's up to you","translation":"вам решать"},{"english":"it's your turn","translation":"ваша очередь"},{"english":"that's enough","translation":"этого достаточно"},{"english":"that's all","translation":"это всё"},{"english":"that's it","translation":"вот и всё"},{"english":"here you are","translation":"вот, держите"},{"english":"here we go","translation":"ну вот, начинаем"},{"english":"there you go","translation":"вот так, получилось"},{"english":"what a pity","translation":"какая жалость"},{"english":"what a shame","translation":"как жаль"},{"english":"well done","translation":"молодец"},{"english":"good for you","translation":"рад за вас"},{"english":"better luck next time","translation":"в следующий раз повезёт больше"},{"english":"of course","translation":"конечно"},{"english":"of course not","translation":"конечно нет"},{"english":"certainly not","translation":"ни в коем случае (вежливый отказ)"},{"english":"why not","translation":"почему бы и нет"},{"english":"not necessarily","translation":"не обязательно"},{"english":"not really","translation":"не совсем"},{"english":"not at all","translation":"ничуть"},{"english":"not yet","translation":"ещё нет"},{"english":"not anymore","translation":"больше не"},{"english":"not quite","translation":"не вполне"},{"english":"so far so good","translation":"пока всё идёт хорошо"},{"english":"fair enough","translation":"справедливо, согласен"},{"english":"I agree","translation":"я согласен"},{"english":"I disagree","translation":"я не согласен"},{"english":"I suppose so","translation":"полагаю, что да"},{"english":"I don't think so","translation":"не думаю, что это так"},{"english":"I hope so","translation":"надеюсь, что да"},{"english":"I hope not","translation":"надеюсь, что нет"},{"english":"I doubt it","translation":"сомневаюсь в этом"},{"english":"I see what you mean","translation":"понимаю, что вы имеете в виду"},{"english":"that makes sense","translation":"это имеет смысл"},{"english":"that depends","translation":"это зависит от обстоятельств"},{"english":"that's true","translation":"это правда"},{"english":"that's right","translation":"это верно"},{"english":"you have a point","translation":"в ваших словах есть смысл"},{"english":"I couldn't agree more","translation":"полностью с вами согласен"},{"english":"as you wish","translation":"как пожелаете"},{"english":"as far as I know","translation":"насколько мне известно"},{"english":"as far as I can tell","translation":"насколько я могу судить"},{"english":"as far as I'm concerned","translation":"что касается меня"},{"english":"in my opinion","translation":"по моему мнению"},{"english":"from my point of view","translation":"с моей точки зрения"},{"english":"to my mind","translation":"на мой взгляд"},{"english":"to be honest","translation":"честно говоря"},{"english":"to tell the truth","translation":"по правде говоря"},{"english":"to be fair","translation":"справедливости ради"},{"english":"to be frank","translation":"откровенно говоря"},{"english":"to put it simply","translation":"проще говоря"},{"english":"to put it mildly","translation":"мягко говоря"},{"english":"generally speaking","translation":"вообще говоря"},{"english":"strictly speaking","translation":"строго говоря"},{"english":"roughly speaking","translation":"приблизительно говоря"},{"english":"needless to say","translation":"само собой разумеется"},{"english":"believe it or not","translation":"хотите верьте, хотите нет"},{"english":"if I'm not mistaken","translation":"если я не ошибаюсь"},{"english":"if I remember correctly","translation":"если я правильно помню"},{"english":"correct me if I'm wrong","translation":"поправьте меня, если я ошибаюсь"},{"english":"what do you mean","translation":"что вы имеете в виду"},{"english":"what do you think","translation":"что вы думаете"},{"english":"are you sure","translation":"вы уверены"},{"english":"are you kidding","translation":"вы шутите"},{"english":"you never know","translation":"никогда не знаешь наверняка"},{"english":"who knows","translation":"кто знает"},{"english":"I have no idea","translation":"понятия не имею"},{"english":"no wonder","translation":"неудивительно"},{"english":"by the way","translation":"кстати"},{"english":"as a matter of fact","translation":"на самом деле"},{"english":"in fact","translation":"фактически"},{"english":"in other words","translation":"другими словами"},{"english":"that is to say","translation":"то есть"},{"english":"for example","translation":"например"},{"english":"for instance","translation":"к примеру"},{"english":"such as","translation":"такой как"},{"english":"and so on","translation":"и так далее"},{"english":"and so forth","translation":"и тому подобное"},{"english":"or rather","translation":"или, точнее"},{"english":"above all","translation":"прежде всего (по важности)"},{"english":"first of all","translation":"в первую очередь"},{"english":"to begin with","translation":"для начала"},{"english":"last but not least","translation":"последний по порядку, но не по важности"},{"english":"on the one hand","translation":"с одной стороны"},{"english":"on the other hand","translation":"с другой стороны"},{"english":"all in all","translation":"в целом"},{"english":"in short","translation":"короче говоря"},{"english":"in brief","translation":"вкратце"},{"english":"to sum up","translation":"подводя итог"},{"english":"in conclusion","translation":"в заключение"},{"english":"on balance","translation":"взвесив всё"},{"english":"in general","translation":"в общем"},{"english":"in particular","translation":"в частности"},{"english":"at least","translation":"по крайней мере"},{"english":"at most","translation":"самое большее"},{"english":"more or less","translation":"более или менее"},{"english":"so to speak","translation":"так сказать"},{"english":"as it were","translation":"если можно так выразиться"},{"english":"in a way","translation":"в некотором смысле"},{"english":"in any case","translation":"во всяком случае"},{"english":"at any rate","translation":"как бы то ни было"},{"english":"in any event","translation":"при любом исходе"},{"english":"either way","translation":"в любом из двух случаев"},{"english":"in the meantime","translation":"тем временем"},{"english":"for the time being","translation":"пока что"},{"english":"at the moment","translation":"в данный момент"},{"english":"at present","translation":"в настоящее время"},{"english":"right now","translation":"прямо сейчас"},{"english":"right away","translation":"немедленно"},{"english":"in a minute","translation":"через минуту"},{"english":"in a while","translation":"через некоторое время"},{"english":"for a while","translation":"на некоторое время"},{"english":"a long time ago","translation":"давным-давно"},{"english":"the other day","translation":"на днях (недавно)"},{"english":"these days","translation":"в наши дни"},{"english":"now and then","translation":"время от времени"},{"english":"every now and again","translation":"периодически"},{"english":"once in a while","translation":"изредка"},{"english":"once upon a time","translation":"однажды (начало сказки)"},{"english":"sooner or later","translation":"рано или поздно"},{"english":"so far","translation":"до сих пор"},{"english":"from now on","translation":"отныне"},{"english":"from then on","translation":"с тех пор"},{"english":"as soon as possible","translation":"как можно скорее"},{"english":"as usual","translation":"как обычно"},{"english":"as always","translation":"как всегда"},{"english":"at first","translation":"поначалу"},{"english":"at last","translation":"наконец-то"},{"english":"in the end","translation":"в конце концов"},{"english":"at the same time","translation":"в то же время"},{"english":"all the time","translation":"постоянно"},{"english":"in no time","translation":"очень быстро"},{"english":"on time","translation":"вовремя (по расписанию)"},{"english":"in time","translation":"вовремя (до того, как станет слишком поздно)"},{"english":"ahead of time","translation":"раньше намеченного срока"},{"english":"at once","translation":"сразу"},{"english":"one at a time","translation":"по одному"},{"english":"for the first time","translation":"впервые"},{"english":"for the last time","translation":"в последний раз"},{"english":"time and again","translation":"неоднократно"},{"english":"day after day","translation":"день за днём"},{"english":"day by day","translation":"с каждым днём"},{"english":"on a daily basis","translation":"ежедневно"},{"english":"on purpose","translation":"нарочно"},{"english":"by accident","translation":"случайно"},{"english":"by mistake","translation":"по ошибке"},{"english":"in advance","translation":"заранее"},{"english":"in a hurry","translation":"в спешке"},{"english":"at ease","translation":"непринуждённо"},{"english":"at risk","translation":"под угрозой"},{"english":"in danger","translation":"в опасности"},{"english":"in trouble","translation":"в беде"},{"english":"in charge of","translation":"ответственный за"},{"english":"in control of","translation":"управляющий чем-либо"},{"english":"in contact with","translation":"на связи с"},{"english":"in touch with","translation":"поддерживающий связь с"},{"english":"in common","translation":"общее"},{"english":"in public","translation":"публично"},{"english":"in private","translation":"наедине"},{"english":"in person","translation":"лично"},{"english":"in detail","translation":"подробно"},{"english":"in writing","translation":"в письменной форме"},{"english":"in practice","translation":"на практике"},{"english":"in theory","translation":"в теории"},{"english":"in principle","translation":"в принципе"},{"english":"in return","translation":"взамен"},{"english":"in addition","translation":"вдобавок"},{"english":"in addition to","translation":"в дополнение к"},{"english":"in spite of","translation":"несмотря на"},{"english":"instead of","translation":"вместо"},{"english":"because of","translation":"из-за"},{"english":"due to","translation":"вследствие"},{"english":"thanks to","translation":"благодаря"},{"english":"according to","translation":"согласно"},{"english":"apart from","translation":"помимо"},{"english":"except for","translation":"за исключением"},{"english":"as for","translation":"что касается"},{"english":"as to","translation":"относительно"},{"english":"with regard to","translation":"в отношении"},{"english":"in terms of","translation":"с точки зрения (параметра оценки)"},{"english":"on behalf of","translation":"от имени"},{"english":"in favor of","translation":"в пользу"},{"english":"by means of","translation":"посредством"},{"english":"in order to","translation":"для того чтобы"},{"english":"so as to","translation":"с тем чтобы"},{"english":"as long as","translation":"при условии что"},{"english":"as soon as","translation":"как только"},{"english":"even if","translation":"даже если"},{"english":"even though","translation":"хотя и"},{"english":"rather than","translation":"вместо того чтобы"},{"english":"as well as","translation":"а также"},{"english":"no matter what","translation":"что бы ни случилось"},{"english":"for good","translation":"навсегда"},{"english":"a blessing in disguise","translation":"неприятность, обернувшаяся удачей"},{"english":"a breath of fresh air","translation":"глоток свежего воздуха (о приятной перемене)"},{"english":"a drop in the ocean","translation":"капля в море"},{"english":"a fish out of water","translation":"человек не в своей стихии"},{"english":"a flash in the pan","translation":"кратковременный успех без продолжения"},{"english":"a grey area","translation":"неоднозначная область без чётких правил"},{"english":"a hard nut to crack","translation":"крепкий орешек (о сложной задаче или человеке)"},{"english":"a heart of gold","translation":"золотое сердце"},{"english":"a leopard can't change its spots","translation":"человеку трудно изменить свою натуру"},{"english":"a piece of cake","translation":"проще простого"},{"english":"a red flag","translation":"тревожный признак"},{"english":"a shoulder to cry on","translation":"человек, которому можно выплакаться"},{"english":"a skeleton in the closet","translation":"постыдная тайна из прошлого"},{"english":"a storm in a teacup","translation":"буря в стакане воды"},{"english":"a taste of your own medicine","translation":"испытать на себе своё же дурное обращение"},{"english":"a tough act to follow","translation":"достижение, которое трудно превзойти"},{"english":"a wake-up call","translation":"событие, заставляющее осознать проблему"},{"english":"a wolf in sheep's clothing","translation":"волк в овечьей шкуре"},{"english":"add fuel to the fire","translation":"подливать масла в огонь"},{"english":"against all odds","translation":"вопреки всем трудностям"},{"english":"all bark and no bite","translation":"много угрожать, но ничего не делать"},{"english":"all ears","translation":"внимательно слушать"},{"english":"all hands on deck","translation":"нужна помощь всех без исключения"},{"english":"all in the same boat","translation":"все в одинаково трудном положении"},{"english":"all talk and no action","translation":"одни разговоры без дела"},{"english":"an arm and a leg","translation":"целое состояние (об очень высокой цене)"},{"english":"an uphill battle","translation":"трудная борьба с большими препятствиями"},{"english":"the apple of someone's eye","translation":"чей-то любимец"},{"english":"as cool as a cucumber","translation":"совершенно невозмутимый"},{"english":"at a crossroads","translation":"на перепутье перед важным выбором"},{"english":"at each other's throats","translation":"яростно ссориться друг с другом"},{"english":"at the drop of a hat","translation":"сразу, без колебаний"},{"english":"at the end of your rope","translation":"на пределе терпения и сил"},{"english":"back to square one","translation":"снова в исходной точке без результата"},{"english":"back to the drawing board","translation":"начинать разработку заново после неудачи"},{"english":"bark up the wrong tree","translation":"искать причину или виновника не там"},{"english":"be a fly on the wall","translation":"быть незаметным наблюдателем"},{"english":"be in hot water","translation":"попасть в неприятности"},{"english":"be on cloud nine","translation":"быть на седьмом небе от счастья"},{"english":"be on the fence","translation":"колебаться между двумя решениями"},{"english":"be on the same page","translation":"одинаково понимать ситуацию"},{"english":"be out of your depth","translation":"не справляться из-за нехватки знаний или опыта"},{"english":"have your heart in the right place","translation":"иметь добрые намерения, даже если поступаешь неудачно"},{"english":"be the last straw","translation":"стать последней каплей терпения"},{"english":"beat a dead horse","translation":"бесполезно обсуждать уже решённый вопрос"},{"english":"beat around the bush","translation":"ходить вокруг да около"},{"english":"beat the clock","translation":"успеть до истечения срока"},{"english":"behind closed doors","translation":"за закрытыми дверями, без публики"},{"english":"behind the scenes","translation":"за кулисами происходящего"},{"english":"below the belt","translation":"подло, против правил"},{"english":"bend over backwards","translation":"из кожи вон лезть, чтобы помочь"},{"english":"between a rock and a hard place","translation":"между двух огней"},{"english":"bite off more than you can chew","translation":"взяться за непосильную задачу"},{"english":"bite the bullet","translation":"решиться на необходимое неприятное действие"},{"english":"bite the hand that feeds you","translation":"вредить тому, кто тебе помогает"},{"english":"blow off steam","translation":"выпустить пар, снять напряжение"},{"english":"blow your own trumpet","translation":"хвастаться своими достижениями"},{"english":"break a leg","translation":"ни пуха ни пера (пожелание удачи)"},{"english":"break the ice","translation":"растопить лёд в общении"},{"english":"break the bank","translation":"оказаться непомерно дорогим"},{"english":"bring home the bacon","translation":"зарабатывать на жизнь семьи"},{"english":"bring something to the table","translation":"вносить полезный вклад в общее дело"},{"english":"burn bridges","translation":"сжигать мосты, лишая себя пути назад"},{"english":"burn the candle at both ends","translation":"изнурять себя работой без достаточного отдыха"},{"english":"burn the midnight oil","translation":"работать или учиться допоздна"},{"english":"bury the hatchet","translation":"заключить мир после ссоры"},{"english":"by the book","translation":"строго по правилам"},{"english":"by the skin of your teeth","translation":"еле-еле, с минимальным запасом"},{"english":"call a spade a spade","translation":"называть вещи своими именами"},{"english":"call it a day","translation":"закончить работу на сегодня"},{"english":"call the shots","translation":"принимать главные решения"},{"english":"the calm before the storm","translation":"затишье перед бурей"},{"english":"can't hold a candle to","translation":"сильно уступать в сравнении"},{"english":"carry the weight of the world on your shoulders","translation":"чувствовать чрезмерную ответственность за всё"},{"english":"catch someone red-handed","translation":"поймать кого-либо с поличным"},{"english":"change of heart","translation":"перемена решения или отношения"},{"english":"chase rainbows","translation":"гнаться за недостижимой мечтой"},{"english":"chew the fat","translation":"непринуждённо болтать"},{"english":"chip on your shoulder","translation":"затаённая обида, из-за которой легко вступают в конфликт"},{"english":"close but no cigar","translation":"почти получилось, но до успеха не хватило"},{"english":"come full circle","translation":"после ряда перемен вернуться к исходному положению"},{"english":"come rain or shine","translation":"при любых обстоятельствах"},{"english":"have a finger in every pie","translation":"быть причастным ко множеству разных дел"},{"english":"couch potato","translation":"любитель лежать перед телевизором"},{"english":"cry over spilt milk","translation":"сожалеть о том, чего уже не изменить"},{"english":"cry wolf","translation":"поднимать ложную тревогу"},{"english":"cut corners","translation":"экономить время или деньги в ущерб качеству"},{"english":"cut to the chase","translation":"сразу перейти к сути"},{"english":"dark horse","translation":"человек со скрытыми способностями"},{"english":"dead end","translation":"тупик без дальнейших возможностей"},{"english":"devil's advocate","translation":"человек, намеренно отстаивающий противоположную точку зрения"},{"english":"dig your own grave","translation":"своими действиями готовить себе неприятности"},{"english":"don't count your chickens before they hatch","translation":"не радуйся успеху раньше времени"},{"english":"don't judge a book by its cover","translation":"не суди по внешности"},{"english":"don't put all your eggs in one basket","translation":"не ставь всё на один вариант"},{"english":"down in the dumps","translation":"в унынии"},{"english":"draw a blank","translation":"не суметь ничего вспомнить или найти"},{"english":"draw the line","translation":"установить предел допустимого"},{"english":"drive someone up the wall","translation":"крайне раздражать кого-либо"},{"english":"drop someone a line","translation":"написать кому-либо короткое сообщение"},{"english":"easier said than done","translation":"легче сказать, чем сделать"},{"english":"eat humble pie","translation":"признать свою неправоту и извиниться"},{"english":"eat your words","translation":"взять свои слова обратно"},{"english":"elephant in the room","translation":"очевидная проблема, которую все избегают обсуждать"},{"english":"every cloud has a silver lining","translation":"в любой неприятности есть положительная сторона"},{"english":"face the music","translation":"отвечать за последствия своих поступков"},{"english":"fall on deaf ears","translation":"остаться без внимания (о просьбе или совете)"},{"english":"feel like a million dollars","translation":"чувствовать себя великолепно"},{"english":"fight fire with fire","translation":"бороться с противником его же методами"},{"english":"find your feet","translation":"освоиться в новой обстановке"},{"english":"fit as a fiddle","translation":"в отличной физической форме"},{"english":"food for thought","translation":"пища для размышлений"},{"english":"foot the bill","translation":"оплатить общий счёт"},{"english":"from rags to riches","translation":"из бедности к богатству"},{"english":"get a foot in the door","translation":"получить первую возможность войти в профессию или организацию"},{"english":"get cold feet","translation":"струсить перед важным шагом"},{"english":"get the ball rolling","translation":"дать делу начало"},{"english":"get the hang of it","translation":"понять, как это делать"},{"english":"get your act together","translation":"собраться и наладить свои дела"},{"english":"get your wires crossed","translation":"неправильно понять друг друга"},{"english":"give someone a hand","translation":"помочь кому-либо"},{"english":"give someone the benefit of the doubt","translation":"истолковать сомнения в чью-либо пользу"},{"english":"give someone the cold shoulder","translation":"демонстративно игнорировать кого-либо"},{"english":"go back to basics","translation":"вернуться к основам"},{"english":"go down in flames","translation":"с треском провалиться"},{"english":"go down the drain","translation":"пропасть впустую (об усилиях или деньгах)"},{"english":"go the extra mile","translation":"сделать больше, чем от тебя ожидают"},{"english":"go with the flow","translation":"приспосабливаться к ходу событий"},{"english":"the grass is always greener on the other side","translation":"чужая жизнь всегда кажется лучше"},{"english":"have a change of scenery","translation":"сменить обстановку"},{"english":"have a lot on your plate","translation":"иметь слишком много дел или забот"},{"english":"have a soft spot for","translation":"питать особую слабость к кому-либо или чему-либо"},{"english":"have bigger fish to fry","translation":"иметь более важные дела"},{"english":"have butterflies in your stomach","translation":"испытывать волнение перед важным событием"},{"english":"have second thoughts","translation":"начать сомневаться в принятом решении"},{"english":"have the best of both worlds","translation":"пользоваться преимуществами двух разных вариантов"},{"english":"head over heels in love","translation":"по уши влюблённый"},{"english":"hear something through the grapevine","translation":"узнать что-либо по слухам"},{"english":"hit a nerve","translation":"задеть больное место"},{"english":"hit rock bottom","translation":"опуститься до самой низкой точки в жизни"},{"english":"hit the books","translation":"серьёзно засесть за учёбу"},{"english":"hit the nail on the head","translation":"попасть в самую точку"},{"english":"hit the road","translation":"отправиться в путь"},{"english":"hit the sack","translation":"пойти спать"},{"english":"hold your horses","translation":"не торопиться, притормозить"},{"english":"in a nutshell","translation":"в двух словах, кратко"},{"english":"in full swing","translation":"в самом разгаре"},{"english":"in the blink of an eye","translation":"в мгновение ока"},{"english":"in the dark","translation":"в неведении"},{"english":"in the heat of the moment","translation":"сгоряча, под влиянием сильных чувств"},{"english":"in the nick of time","translation":"в самый последний момент, ещё не поздно"},{"english":"in the same breath","translation":"почти одновременно сказать противоречащие вещи"},{"english":"it takes two to tango","translation":"за конфликт или общее дело отвечают обе стороны"},{"english":"it's not rocket science","translation":"в этом нет ничего сложного"},{"english":"jump on the bandwagon","translation":"примкнуть к популярному движению или тенденции"},{"english":"jump the gun","translation":"действовать преждевременно"},{"english":"keep a low profile","translation":"не привлекать к себе внимания"},{"english":"keep an eye on","translation":"присматривать за кем-либо или чем-либо"},{"english":"keep someone at arm's length","translation":"держать кого-либо на расстоянии в отношениях"},{"english":"keep something under wraps","translation":"держать что-либо в секрете"},{"english":"keep your chin up","translation":"не падать духом"},{"english":"keep your fingers crossed","translation":"надеяться на удачный исход"},{"english":"keep your head above water","translation":"едва справляться с финансовыми или другими трудностями"},{"english":"keep your options open","translation":"не ограничивать заранее возможные варианты"},{"english":"keep your word","translation":"сдержать обещание"},{"english":"kick the bucket","translation":"сыграть в ящик (разговорно о смерти)"},{"english":"kill two birds with one stone","translation":"убить двух зайцев одним выстрелом"},{"english":"know something inside out","translation":"знать что-либо досконально"},{"english":"cut someone some slack","translation":"не судить кого-либо слишком строго"},{"english":"laugh your head off","translation":"смеяться до упаду"},{"english":"leave no stone unturned","translation":"перепробовать все способы поиска решения"},{"english":"let sleeping dogs lie","translation":"не ворошить старые неприятности"},{"english":"give someone the green light","translation":"дать кому-либо разрешение действовать"},{"english":"like a duck to water","translation":"быстро и естественно освоить новое занятие"},{"english":"like looking for a needle in a haystack","translation":"как искать иголку в стоге сена"},{"english":"lose your train of thought","translation":"потерять нить мысли"},{"english":"make a long story short","translation":"рассказать самое главное без подробностей"},{"english":"make ends meet","translation":"сводить концы с концами"},{"english":"make matters worse","translation":"усугубить положение"},{"english":"make someone's day","translation":"очень порадовать кого-либо"},{"english":"make waves","translation":"вызывать заметные перемены или споры"},{"english":"miss the boat","translation":"упустить возможность"},{"english":"more than meets the eye","translation":"сложнее или значительнее, чем кажется на первый взгляд"},{"english":"move heaven and earth","translation":"сделать всё возможное ради цели"},{"english":"music to my ears","translation":"то, что очень приятно услышать"},{"english":"no pain, no gain","translation":"без труда нет результата"},{"english":"not my cup of tea","translation":"не в моём вкусе"},{"english":"off the beaten track","translation":"вдали от привычных туристических маршрутов"},{"english":"on a shoestring","translation":"с очень небольшим бюджетом"},{"english":"on thin ice","translation":"в рискованном положении"},{"english":"once in a blue moon","translation":"крайне редко"},{"english":"out of the blue","translation":"совершенно неожиданно"},{"english":"out of the frying pan into the fire","translation":"из огня да в полымя"},{"english":"over the hill","translation":"уже не в расцвете сил"},{"english":"pass the buck","translation":"перекладывать ответственность на других"},{"english":"pay through the nose","translation":"заплатить неоправданно дорого"},{"english":"play it by ear","translation":"действовать по обстоятельствам без заранее готового плана"},{"english":"play with fire","translation":"играть с огнём, опасно рисковать"},{"english":"pull someone's leg","translation":"подшучивать над кем-либо, разыгрывать"},{"english":"pull strings","translation":"использовать личные связи для достижения цели"},{"english":"pull yourself together","translation":"взять себя в руки"},{"english":"put someone on the spot","translation":"поставить кого-либо в неловкое положение требованием ответа"},{"english":"put the cart before the horse","translation":"делать всё в неправильном порядке"},{"english":"put your foot in your mouth","translation":"сказать что-либо бестактное по неосторожности"},{"english":"put your money where your mouth is","translation":"подкрепить свои слова делом или деньгами"},{"english":"rain cats and dogs","translation":"лить как из ведра"},{"english":"read between the lines","translation":"читать между строк"},{"english":"red tape","translation":"бюрократические проволочки"},{"english":"ring a bell","translation":"казаться знакомым, напоминать что-либо"},{"english":"rock the boat","translation":"нарушать привычный порядок, вызывая недовольство"},{"english":"rub salt in the wound","translation":"сыпать соль на рану"},{"english":"rule of thumb","translation":"практическое приблизительное правило"},{"english":"save for a rainy day","translation":"откладывать на чёрный день"},{"english":"see eye to eye","translation":"сходиться во мнениях"},{"english":"see the light at the end of the tunnel","translation":"увидеть надежду на завершение трудностей"},{"english":"sell like hot cakes","translation":"очень быстро раскупаться"},{"english":"scratch the surface","translation":"лишь поверхностно затронуть тему или проблему"},{"english":"sleep on it","translation":"отложить решение до следующего дня"},{"english":"smell a rat","translation":"подозревать обман"},{"english":"be born with a silver spoon in your mouth","translation":"родиться в богатой привилегированной семье"},{"english":"speak of the devil","translation":"лёгок на помине"},{"english":"spill the beans","translation":"раскрыть тайную информацию"},{"english":"steal someone's thunder","translation":"перетянуть на себя внимание, затмив другого"},{"english":"stick to your guns","translation":"твёрдо придерживаться своей позиции"},{"english":"straight from the horse's mouth","translation":"из первых рук, от самого источника"},{"english":"take a rain check","translation":"вежливо перенести приглашение на другой раз"},{"english":"take it with a pinch of salt","translation":"отнестись к информации с долей недоверия"},{"english":"take something for granted","translation":"воспринимать что-либо как само собой разумеющееся"},{"english":"take the bull by the horns","translation":"решительно взяться за трудную проблему"},{"english":"the ball is in your court","translation":"теперь твоя очередь действовать или решать"},{"english":"the best thing since sliced bread","translation":"нечто исключительно удачное и полезное"},{"english":"the tip of the iceberg","translation":"лишь малая видимая часть большой проблемы"},{"english":"through thick and thin","translation":"несмотря на все трудности"},{"english":"throw in the towel","translation":"сдаться, прекратить борьбу"},{"english":"throw someone under the bus","translation":"подставить другого ради собственной выгоды"},{"english":"time flies","translation":"время летит незаметно"},{"english":"turn a blind eye","translation":"намеренно закрывать глаза на нарушение"},{"english":"twist someone's arm","translation":"уговорить кого-либо вопреки его первоначальному нежеланию"},{"english":"under the weather","translation":"слегка нездоровый"},{"english":"up in the air","translation":"ещё не решено, остаётся неопределённым"},{"english":"water under the bridge","translation":"прошлое, о котором уже не стоит переживать"},{"english":"wear your heart on your sleeve","translation":"открыто показывать свои чувства"},{"english":"when pigs fly","translation":"когда рак на горе свистнет (никогда)"},{"english":"your guess is as good as mine","translation":"я знаю не больше тебя"},{"english":"bite your tongue","translation":"сдержаться и не сказать того, что хотелось"},{"english":"cross that bridge when you come to it","translation":"решать проблему, когда она действительно возникнет"},{"english":"have a sweet tooth","translation":"любить сладкое"},{"english":"throw caution to the wind","translation":"действовать смело, забыв об осторожности"},{"english":"the early bird catches the worm","translation":"кто раньше действует, тот получает преимущество"},{"english":"you can't have your cake and eat it","translation":"нельзя одновременно получить два несовместимых преимущества"}],"phrasal-verbs":[{"english":"abide by","translation":"соблюдать (правила или соглашение)"},{"english":"account for","translation":"объяснять причину"},{"english":"accuse of","translation":"обвинять в"},{"english":"act on","translation":"действовать на основании (совета или информации)"},{"english":"act out","translation":"разыгрывать по ролям"},{"english":"act up","translation":"барахлить (об устройстве)"},{"english":"adapt to","translation":"приспосабливаться к"},{"english":"add up","translation":"сходиться (о числах или фактах)"},{"english":"add up to","translation":"составлять в общей сложности"},{"english":"agree on","translation":"договариваться о"},{"english":"agree to","translation":"соглашаться на (предложение)"},{"english":"agree with","translation":"соглашаться с (чьим-либо мнением)"},{"english":"aim at","translation":"целиться в"},{"english":"allow for","translation":"учитывать (при расчётах или планировании)"},{"english":"answer back","translation":"дерзить в ответ"},{"english":"answer for","translation":"нести ответственность за"},{"english":"apologize for","translation":"извиняться за"},{"english":"apply for","translation":"подавать заявление на"},{"english":"approve of","translation":"одобрять"},{"english":"ask around","translation":"расспрашивать разных людей"},{"english":"ask for","translation":"просить о"},{"english":"ask out","translation":"приглашать на свидание"},{"english":"back away","translation":"отступать назад"},{"english":"back down","translation":"отказываться от своих требований"},{"english":"back off","translation":"переставать давить на кого-либо"},{"english":"back out","translation":"отказываться от договорённости"},{"english":"back up","translation":"создавать резервную копию"},{"english":"bank on","translation":"полагаться на (ожидаемое событие)"},{"english":"bear with","translation":"проявлять терпение по отношению к"},{"english":"beat up","translation":"избивать"},{"english":"belong to","translation":"принадлежать"},{"english":"benefit from","translation":"извлекать пользу из"},{"english":"blow away","translation":"поражать (производить сильное впечатление)"},{"english":"blow out","translation":"задувать (свечу)"},{"english":"blow over","translation":"утихать (о неприятностях или скандале)"},{"english":"blow up","translation":"взрывать"},{"english":"boil down to","translation":"сводиться к"},{"english":"book in","translation":"регистрироваться по прибытии (в гостиницу)"},{"english":"bounce back","translation":"быстро оправляться после неудачи"},{"english":"break away","translation":"отрываться от группы"},{"english":"break down","translation":"ломаться (о машине или механизме)"},{"english":"break in","translation":"вламываться"},{"english":"break into","translation":"проникать со взломом в"},{"english":"break off","translation":"прерывать (переговоры или отношения)"},{"english":"break out","translation":"вспыхивать (о пожаре или войне)"},{"english":"break through","translation":"прорываться сквозь"},{"english":"break up","translation":"расставаться (о паре)"},{"english":"bring about","translation":"вызывать (изменения)"},{"english":"bring along","translation":"приводить с собой"},{"english":"bring back","translation":"возвращать обратно"},{"english":"bring down","translation":"снижать (цену или показатель)"},{"english":"bring forward","translation":"переносить на более ранний срок"},{"english":"bring in","translation":"приносить доход"},{"english":"bring out","translation":"выпускать (новый товар или книгу)"},{"english":"bring together","translation":"объединять людей"},{"english":"bring up","translation":"поднимать тему (в разговоре)"},{"english":"brush off","translation":"отмахиваться от"},{"english":"brush up on","translation":"освежать знания в"},{"english":"build up","translation":"постепенно наращивать"},{"english":"bump into","translation":"случайно встречать"},{"english":"burn down","translation":"сгорать дотла"},{"english":"burn out","translation":"выгорать (от переутомления)"},{"english":"burst into","translation":"внезапно разражаться (слезами или смехом)"},{"english":"butt in","translation":"бесцеремонно вмешиваться в разговор"},{"english":"buy out","translation":"выкупать (чью-либо долю)"},{"english":"call back","translation":"перезванивать"},{"english":"call for","translation":"требовать (призывать к действию)"},{"english":"call in","translation":"вызывать специалиста"},{"english":"call off","translation":"отменять (мероприятие)"},{"english":"call on","translation":"навещать"},{"english":"call out","translation":"выкрикивать"},{"english":"call up","translation":"призывать на военную службу"},{"english":"calm down","translation":"успокаиваться"},{"english":"care about","translation":"считать важным (не быть равнодушным)"},{"english":"care for","translation":"ухаживать за (больным человеком)"},{"english":"carry on","translation":"продолжать (начатое дело)"},{"english":"carry out","translation":"выполнять (задание или план)"},{"english":"catch on","translation":"становиться популярным"},{"english":"catch up","translation":"наверстывать упущенное"},{"english":"catch up with","translation":"догонять"},{"english":"check in","translation":"регистрироваться на рейс"},{"english":"check out","translation":"выписываться из гостиницы"},{"english":"check up on","translation":"проверять, всё ли в порядке с"},{"english":"cheer up","translation":"взбодриться"},{"english":"chip in","translation":"скидываться деньгами"},{"english":"clean up","translation":"наводить чистоту"},{"english":"clear away","translation":"убирать со стола"},{"english":"clear out","translation":"освобождать от ненужных вещей"},{"english":"clear up","translation":"прояснять (недоразумение)"},{"english":"close down","translation":"закрываться навсегда (о предприятии)"},{"english":"come about","translation":"происходить (возникать)"},{"english":"come across","translation":"случайно находить"},{"english":"come along","translation":"идти вместе с другими"},{"english":"come apart","translation":"разваливаться на части"},{"english":"come around","translation":"приходить в сознание"},{"english":"come back","translation":"возвращаться"},{"english":"come by","translation":"раздобыть"},{"english":"come down","translation":"снижаться (о цене)"},{"english":"come down with","translation":"заболевать (чем-либо)"},{"english":"come forward","translation":"вызываться (предлагать помощь или сведения)"},{"english":"come from","translation":"происходить из (быть родом из)"},{"english":"come in","translation":"входить внутрь"},{"english":"come into","translation":"получать в наследство"},{"english":"come off","translation":"отрываться (об отделяющейся детали)"},{"english":"come on","translation":"начинаться (о передаче или фильме)"},{"english":"come out","translation":"выходить в свет (о книге или фильме)"},{"english":"come over","translation":"приходить в гости"},{"english":"come through","translation":"выстоять (преодолеть трудности)"},{"english":"come to","translation":"составлять (итоговую сумму)"},{"english":"come under","translation":"подвергаться (критике или нападению)"},{"english":"come up","translation":"возникать (о вопросе или возможности)"},{"english":"come up against","translation":"сталкиваться с (препятствием)"},{"english":"come up with","translation":"придумывать (идею или решение)"},{"english":"count on","translation":"рассчитывать на (чью-либо помощь)"},{"english":"cover up","translation":"скрывать (проступок или правду)"},{"english":"cross out","translation":"вычёркивать"},{"english":"cut back on","translation":"урезать (расходы на что-либо)"},{"english":"cut down on","translation":"сокращать употребление (чего-либо)"},{"english":"cut in","translation":"перебивать (в разговоре)"},{"english":"cut off","translation":"отрезать (связь или доступ)"},{"english":"cut out","translation":"вырезать (ножницами)"},{"english":"deal with","translation":"разбираться с (проблемой)"},{"english":"die down","translation":"постепенно утихать (о шуме или волнении)"},{"english":"die out","translation":"вымирать"},{"english":"dig into","translation":"углублённо изучать"},{"english":"do away with","translation":"упразднять"},{"english":"do up","translation":"застёгивать"},{"english":"do without","translation":"обходиться без"},{"english":"drag on","translation":"затягиваться (длиться слишком долго)"},{"english":"draw up","translation":"составлять (документ)"},{"english":"dress up","translation":"наряжаться"},{"english":"drop by","translation":"заглядывать ненадолго"},{"english":"drop in","translation":"заходить без предварительной договорённости"},{"english":"drop off","translation":"подвозить и высаживать"},{"english":"drop out","translation":"бросать учёбу"},{"english":"eat out","translation":"есть вне дома (в кафе или ресторане)"},{"english":"end up","translation":"в итоге оказываться"},{"english":"enter into","translation":"вступать в (соглашение)"},{"english":"face up to","translation":"признавать и принимать (неприятную правду)"},{"english":"fall apart","translation":"разваливаться (об отношениях или плане)"},{"english":"fall back on","translation":"прибегать к запасному варианту"},{"english":"fall behind","translation":"отставать (от графика)"},{"english":"fall down","translation":"падать на землю"},{"english":"fall for","translation":"попадаться на (обман)"},{"english":"fall off","translation":"сваливаться с"},{"english":"fall out","translation":"ссориться"},{"english":"fall through","translation":"срываться (о планах или сделке)"},{"english":"feel like","translation":"хотеть (что-либо сделать)"},{"english":"figure out","translation":"разбираться (находить объяснение)"},{"english":"fill in","translation":"заполнять (пропуски)"},{"english":"fill out","translation":"заполнять (анкету)"},{"english":"find out","translation":"узнавать (выяснять новую информацию)"},{"english":"fit in","translation":"вписываться в коллектив"},{"english":"focus on","translation":"сосредотачиваться на"},{"english":"follow up","translation":"принимать дальнейшие меры"},{"english":"fool around","translation":"дурачиться"},{"english":"get across","translation":"доносить (мысль до собеседника)"},{"english":"get ahead","translation":"продвигаться вперёд (в карьере)"},{"english":"get along","translation":"ладить друг с другом"},{"english":"get around","translation":"передвигаться по разным местам"},{"english":"get at","translation":"подразумевать (намекать на)"},{"english":"get away","translation":"уезжать отдохнуть"},{"english":"get away with","translation":"оставаться безнаказанным за"},{"english":"get back","translation":"возвращаться (в прежнее место)"},{"english":"get back at","translation":"мстить"},{"english":"get by","translation":"кое-как справляться (с ограниченными средствами)"},{"english":"get down","translation":"подавлять (ухудшать настроение)"},{"english":"get down to","translation":"приступать к (делу)"},{"english":"get in","translation":"садиться в (машину)"},{"english":"get into","translation":"увлекаться (чем-либо новым)"},{"english":"get off","translation":"выходить из (автобуса или поезда)"},{"english":"get on","translation":"садиться в (автобус или поезд)"},{"english":"get on with","translation":"продолжать заниматься (делом)"},{"english":"get out","translation":"выбираться наружу"},{"english":"get out of","translation":"избегать (обязанности)"},{"english":"get over","translation":"оправляться после (болезни или потрясения)"},{"english":"get through","translation":"дозваниваться"},{"english":"get together","translation":"собираться вместе"},{"english":"get up","translation":"вставать (с постели)"},{"english":"give away","translation":"отдавать бесплатно"},{"english":"give back","translation":"возвращать (взятую вещь)"},{"english":"give in","translation":"уступать (под давлением)"},{"english":"give off","translation":"выделять (запах, тепло или свет)"},{"english":"give out","translation":"раздавать (материалы)"},{"english":"give up","translation":"бросать (привычку или занятие)"},{"english":"give up on","translation":"терять надежду на"},{"english":"go ahead","translation":"приступать (получив разрешение)"},{"english":"go along with","translation":"поддерживать (чужой план)"},{"english":"go away","translation":"уходить прочь"},{"english":"go back","translation":"возвращаться назад"},{"english":"go by","translation":"проходить (о времени)"},{"english":"go down","translation":"уменьшаться (о количестве)"},{"english":"go for","translation":"стремиться получить"},{"english":"go off","translation":"срабатывать (о будильнике)"},{"english":"go on","translation":"продолжаться"},{"english":"go out","translation":"выходить развлечься"},{"english":"go over","translation":"просматривать (повторно проверять)"},{"english":"go through","translation":"переживать (трудный период)"},{"english":"go up","translation":"повышаться (о цене или уровне)"},{"english":"grow apart","translation":"отдаляться друг от друга"},{"english":"grow up","translation":"взрослеть"},{"english":"hand back","translation":"возвращать (передавая в руки)"},{"english":"hand down","translation":"передавать следующим поколениям"},{"english":"hand in","translation":"сдавать (работу или документ)"},{"english":"hand out","translation":"раздавать (листовки)"},{"english":"hand over","translation":"передавать (контроль или полномочия)"},{"english":"hang around","translation":"слоняться без дела"},{"english":"hang on","translation":"подождать (немного)"},{"english":"hang out","translation":"проводить время вместе"},{"english":"hang up","translation":"класть трубку"},{"english":"head for","translation":"направляться к"},{"english":"hold back","translation":"сдерживать (эмоции)"},{"english":"hold on","translation":"держаться (не отпускать)"},{"english":"hold out","translation":"продержаться (не сдаваться)"},{"english":"hold up","translation":"задерживать (движение или работу)"},{"english":"join in","translation":"присоединяться к общему занятию"},{"english":"keep away","translation":"держаться подальше"},{"english":"keep back","translation":"не подпускать (удерживать на расстоянии)"},{"english":"keep on","translation":"продолжать делать снова и снова"},{"english":"keep out","translation":"не впускать"},{"english":"keep up","translation":"поддерживать (темп или уровень)"},{"english":"keep up with","translation":"не отставать от"},{"english":"knock down","translation":"сносить (здание)"},{"english":"knock out","translation":"отправлять в нокаут"},{"english":"lay off","translation":"увольнять (из-за сокращения)"},{"english":"lead to","translation":"приводить к (результату)"},{"english":"leave behind","translation":"оставлять позади"},{"english":"leave out","translation":"пропускать (не включать)"},{"english":"let down","translation":"подводить (разочаровывать)"},{"english":"let in","translation":"впускать"},{"english":"let off","translation":"освобождать от наказания"},{"english":"let out","translation":"выпускать наружу"},{"english":"lie down","translation":"ложиться"},{"english":"live off","translation":"жить за чужой счёт"},{"english":"live on","translation":"питаться преимущественно (чем-либо)"},{"english":"live up to","translation":"оправдывать (ожидания)"},{"english":"lock up","translation":"запирать на замок"},{"english":"log in","translation":"входить в учётную запись"},{"english":"log out","translation":"выходить из учётной записи"},{"english":"look after","translation":"присматривать за"},{"english":"look around","translation":"осматриваться"},{"english":"look at","translation":"смотреть на"},{"english":"look back on","translation":"вспоминать (прошлое)"},{"english":"look down on","translation":"смотреть свысока на"},{"english":"look for","translation":"искать"},{"english":"look forward to","translation":"с нетерпением ждать"},{"english":"look into","translation":"расследовать"},{"english":"look out","translation":"быть начеку"},{"english":"look up","translation":"искать (в словаре или справочнике)"},{"english":"look up to","translation":"восхищаться (уважать кого-либо)"},{"english":"make do with","translation":"обходиться имеющимся"},{"english":"make for","translation":"направляться к"},{"english":"make into","translation":"превратить во что-либо"},{"english":"make of","translation":"составлять мнение о чём-либо"},{"english":"make off","translation":"поспешно скрыться"},{"english":"make off with","translation":"украсть и убежать"},{"english":"make out","translation":"разобрать с трудом (увидеть или услышать)"},{"english":"make over","translation":"преобразить внешность"},{"english":"make up","translation":"выдумать историю"},{"english":"make up for","translation":"компенсировать"},{"english":"make up with","translation":"помириться с кем-либо"},{"english":"mark down","translation":"снизить цену"},{"english":"mark off","translation":"отметить выполненный пункт в списке"},{"english":"mark out","translation":"разметить"},{"english":"mark up","translation":"повысить цену"},{"english":"measure up to","translation":"соответствовать требованиям"},{"english":"mess around","translation":"бездельничать"},{"english":"mess up","translation":"напортачить"},{"english":"miss out on","translation":"упустить возможность"},{"english":"mix up","translation":"перепутать"},{"english":"mix with","translation":"общаться с людьми"},{"english":"move in","translation":"въехать в жильё"},{"english":"move on","translation":"двигаться дальше"},{"english":"move out","translation":"съехать из жилья"},{"english":"move over","translation":"подвинуться"},{"english":"move up","translation":"подняться на более высокую позицию"},{"english":"narrow down","translation":"сузить круг вариантов"},{"english":"nod off","translation":"задремать"},{"english":"open up","translation":"открыться в откровенном разговоре"},{"english":"opt for","translation":"сделать выбор в пользу чего-либо"},{"english":"own up","translation":"признаться в проступке"},{"english":"pack in","translation":"бросить занятие (разговорное)"},{"english":"pack up","translation":"собрать вещи"},{"english":"pan out","translation":"сложиться успешно"},{"english":"part with","translation":"расстаться с вещью"},{"english":"pass away","translation":"скончаться"},{"english":"pass by","translation":"пройти мимо"},{"english":"pass down","translation":"передать следующему поколению"},{"english":"pass for","translation":"сойти за кого-либо"},{"english":"pass off as","translation":"выдать за кого-либо или что-либо"},{"english":"pass on","translation":"передать дальше (информацию)"},{"english":"pass out","translation":"потерять сознание"},{"english":"pass over","translation":"обойти вниманием"},{"english":"pass up","translation":"отказаться от представившегося шанса"},{"english":"patch up","translation":"уладить ссору"},{"english":"pay back","translation":"вернуть долг"},{"english":"pay for","translation":"заплатить за что-либо"},{"english":"pay off","translation":"полностью погасить долг"},{"english":"pay up","translation":"заплатить причитающееся"},{"english":"phase out","translation":"постепенно вывести из употребления"},{"english":"pick at","translation":"есть без аппетита понемногу"},{"english":"pick on","translation":"постоянно придираться к кому-либо"},{"english":"pick out","translation":"выбрать из нескольких"},{"english":"pick up","translation":"подобрать с земли"},{"english":"pile up","translation":"накапливаться кучей"},{"english":"pin down","translation":"установить точно"},{"english":"pitch in","translation":"включиться в общую работу"},{"english":"play along","translation":"подыгрывать"},{"english":"play around","translation":"дурачиться"},{"english":"play back","translation":"воспроизвести запись"},{"english":"play down","translation":"преуменьшить значение"},{"english":"play on","translation":"играть на чужих чувствах"},{"english":"play up","translation":"капризничать (о ребёнке)"},{"english":"point out","translation":"указать на что-либо"},{"english":"point to","translation":"свидетельствовать о чём-либо"},{"english":"pop in","translation":"заглянуть ненадолго в гости"},{"english":"pop out","translation":"ненадолго выйти"},{"english":"press ahead","translation":"решительно продолжать начатое"},{"english":"press for","translation":"настойчиво добиваться"},{"english":"pull apart","translation":"разобрать на части, разъединяя"},{"english":"pull away","translation":"отъехать от места остановки"},{"english":"pull back","translation":"отступить назад"},{"english":"pull down","translation":"снести здание"},{"english":"pull in","translation":"прибыть на станцию (о поезде)"},{"english":"pull off","translation":"успешно осуществить сложное дело"},{"english":"pull out","translation":"выйти из проекта"},{"english":"pull over","translation":"съехать на обочину и остановиться"},{"english":"pull through","translation":"выкарабкаться после тяжёлой болезни"},{"english":"pull together","translation":"сплотиться"},{"english":"pull up","translation":"остановиться (о машине)"},{"english":"push ahead","translation":"продвигаться вперёд вопреки трудностям"},{"english":"push for","translation":"настаивать на принятии решения"},{"english":"push on","translation":"продолжить путь несмотря на усталость"},{"english":"push through","translation":"добиться принятия закона или решения"},{"english":"put across","translation":"донести мысль до слушателя"},{"english":"put aside","translation":"отбросить разногласия"},{"english":"put away","translation":"убрать на место"},{"english":"put back","translation":"положить обратно"},{"english":"put down","translation":"положить на поверхность"},{"english":"put down to","translation":"объяснять чем-либо (причину)"},{"english":"put forward","translation":"выдвинуть предложение"},{"english":"put in","translation":"подать заявление"},{"english":"put off","translation":"отложить на потом"},{"english":"put on","translation":"надеть одежду"},{"english":"put out","translation":"потушить огонь"},{"english":"put through","translation":"соединить по телефону"},{"english":"put together","translation":"собрать из частей"},{"english":"put up","translation":"разместить на ночлег"},{"english":"put up with","translation":"терпеть неприятное"},{"english":"queue up","translation":"встать в очередь"},{"english":"quiet down","translation":"утихнуть"},{"english":"reach out","translation":"обратиться за поддержкой или установить контакт"},{"english":"read into","translation":"приписывать скрытый смысл"},{"english":"read out","translation":"зачитать вслух"},{"english":"read over","translation":"перечитать для проверки"},{"english":"read through","translation":"прочитать от начала до конца"},{"english":"refer to","translation":"ссылаться на что-либо"},{"english":"reflect on","translation":"размышлять над чем-либо"},{"english":"relate to","translation":"относиться к чему-либо, быть связанным"},{"english":"rely on","translation":"полагаться на кого-либо или что-либо"},{"english":"remind of","translation":"напоминать о чём-либо"},{"english":"resort to","translation":"прибегнуть к крайнему средству"},{"english":"result in","translation":"привести к определённому результату"},{"english":"ride out","translation":"переждать трудный период"},{"english":"ring back","translation":"перезвонить"},{"english":"ring up","translation":"позвонить по телефону"},{"english":"rip off","translation":"обобрать, запросив чрезмерную цену"},{"english":"rip up","translation":"разорвать на куски"},{"english":"roll back","translation":"отменить введённые изменения"},{"english":"roll out","translation":"запустить новый продукт"},{"english":"rub off on","translation":"передаться другому человеку (о привычке)"},{"english":"rub out","translation":"стереть написанное карандашом"},{"english":"rule out","translation":"исключить возможность"},{"english":"run across","translation":"случайно наткнуться на что-либо"},{"english":"run after","translation":"бежать вслед за кем-либо"},{"english":"run away","translation":"убежать"},{"english":"run down","translation":"критиковать и принижать"},{"english":"run into","translation":"случайно встретить знакомого"},{"english":"run off","translation":"быстро отпечатать копии"},{"english":"run out of","translation":"исчерпать запас чего-либо"},{"english":"run over","translation":"переехать машиной"},{"english":"run through","translation":"быстро просмотреть основные пункты"},{"english":"run up","translation":"накопить большой долг"},{"english":"save up","translation":"накопить деньги на покупку"},{"english":"see off","translation":"проводить отъезжающего"},{"english":"see through","translation":"раскусить обман"},{"english":"see to","translation":"позаботиться о выполнении дела"},{"english":"sell off","translation":"распродать имущество"},{"english":"sell out","translation":"распродать весь запас"},{"english":"send away","translation":"отослать прочь"},{"english":"send back","translation":"отправить обратно"},{"english":"send for","translation":"послать за кем-либо"},{"english":"send in","translation":"отправить заявку на рассмотрение"},{"english":"send off","translation":"отправить по почте"},{"english":"send out","translation":"разослать многим получателям"},{"english":"set about","translation":"приступить к делу"},{"english":"set aside","translation":"отложить для будущего использования"},{"english":"set back","translation":"задержать продвижение дела"},{"english":"set down","translation":"изложить письменно"},{"english":"set off","translation":"отправиться в путь"},{"english":"set out","translation":"изложить по порядку"},{"english":"set up","translation":"основать организацию"},{"english":"settle down","translation":"остепениться, перейти к спокойной жизни"},{"english":"settle for","translation":"согласиться на меньшее"},{"english":"settle in","translation":"освоиться на новом месте"},{"english":"shake off","translation":"избавиться от преследователя"},{"english":"show off","translation":"хвастаться напоказ"},{"english":"show up","translation":"явиться на встречу"},{"english":"shut down","translation":"закрыть предприятие"},{"english":"shut off","translation":"перекрыть воду или газ"},{"english":"shut out","translation":"не впускать"},{"english":"sign in","translation":"войти в учётную запись"},{"english":"sign off","translation":"завершить передачу или сообщение"},{"english":"sign up","translation":"записаться на участие"},{"english":"sit down","translation":"сесть"},{"english":"sit through","translation":"высидеть до конца"},{"english":"sleep in","translation":"поспать подольше утром"},{"english":"sleep on","translation":"отложить решение до утра"},{"english":"slow down","translation":"сбавить скорость"},{"english":"sort out","translation":"разобраться с проблемой"},{"english":"speak out","translation":"высказаться открыто"},{"english":"speak up","translation":"говорить громче"},{"english":"split up","translation":"расстаться (о паре)"},{"english":"stand aside","translation":"отойти в сторону"},{"english":"stand by","translation":"быть наготове"},{"english":"stand for","translation":"обозначать (о сокращении)"},{"english":"stand in for","translation":"временно подменить кого-либо"},{"english":"stand out","translation":"выделяться среди остальных"},{"english":"stand up","translation":"встать на ноги"},{"english":"stand up for","translation":"защищать чьи-либо права или интересы"},{"english":"start over","translation":"начать заново"},{"english":"stay away","translation":"держаться подальше"},{"english":"stay in","translation":"остаться дома"},{"english":"stay out","translation":"не возвращаться домой"},{"english":"stay up","translation":"не ложиться спать"},{"english":"step aside","translation":"уступить место другому"},{"english":"step down","translation":"уйти с должности"},{"english":"step in","translation":"вмешаться для помощи"},{"english":"step up","translation":"усилить меры"},{"english":"stick around","translation":"задержаться поблизости"},{"english":"stick to","translation":"придерживаться плана"},{"english":"stick up for","translation":"заступиться за кого-либо"},{"english":"sum up","translation":"подвести итог"},{"english":"switch off","translation":"выключить"},{"english":"switch on","translation":"включить"},{"english":"take after","translation":"походить на родственника"},{"english":"take apart","translation":"разобрать механизм на детали"},{"english":"take away","translation":"унести"},{"english":"take back","translation":"взять свои слова обратно"},{"english":"take down","translation":"записать услышанное"},{"english":"take in","translation":"приютить у себя"},{"english":"take off","translation":"снять одежду"},{"english":"take on","translation":"взять на себя обязанности"},{"english":"take out","translation":"вынуть изнутри"},{"english":"take over","translation":"взять управление на себя"},{"english":"take up","translation":"начать новое занятие"},{"english":"talk back","translation":"дерзить в ответ"},{"english":"talk into","translation":"уговорить сделать что-либо"},{"english":"talk out of","translation":"отговорить от чего-либо"},{"english":"talk over","translation":"обсудить подробно"},{"english":"tear down","translation":"снести здание"},{"english":"tear up","translation":"разорвать на куски"},{"english":"think back","translation":"вспомнить прошлое"},{"english":"think over","translation":"обдумать перед решением"},{"english":"think through","translation":"продумать до конца"},{"english":"throw away","translation":"выбросить ненужное"},{"english":"throw out","translation":"отклонить предложение"},{"english":"tidy up","translation":"навести порядок"},{"english":"try on","translation":"примерить одежду"},{"english":"try out","translation":"испытать на практике"},{"english":"turn around","translation":"развернуться в обратную сторону"},{"english":"turn away","translation":"отказать во входе"},{"english":"turn down","translation":"отклонить предложение"},{"english":"turn in","translation":"сдать работу на проверку"},{"english":"turn into","translation":"превратиться во что-либо"},{"english":"turn off","translation":"выключить"},{"english":"turn on","translation":"включить"},{"english":"turn out","translation":"оказаться в итоге"},{"english":"turn over","translation":"перевернуть на другую сторону"},{"english":"turn up","translation":"прибавить громкость"},{"english":"use up","translation":"израсходовать полностью"},{"english":"wake up","translation":"проснуться"},{"english":"walk away","translation":"уйти, прекратив участие"},{"english":"warm up","translation":"разогреться перед нагрузкой"},{"english":"wash up","translation":"помыть посуду"},{"english":"watch out","translation":"быть начеку"},{"english":"wear off","translation":"постепенно ослабнуть (о действии)"},{"english":"wear out","translation":"износить до непригодности"},{"english":"whip up","translation":"быстро приготовить еду"},{"english":"wind down","translation":"постепенно расслабиться"},{"english":"wind up","translation":"в конечном итоге оказаться где-либо"},{"english":"wipe out","translation":"полностью уничтожить"},{"english":"work out","translation":"заниматься физическими упражнениями"},{"english":"wrap up","translation":"завершить дело"},{"english":"write down","translation":"записать"},{"english":"write off","translation":"списать как безнадёжное"},{"english":"write out","translation":"выписать полностью"},{"english":"write up","translation":"оформить развёрнутый письменный отчёт"},{"english":"zero in on","translation":"сосредоточиться на конкретной цели"},{"english":"zoom in","translation":"увеличить масштаб изображения"}],"exclusions":{"expressions":[["nice to meet you","pleased to meet you"],["you're welcome","don't mention it"],["thank you very much","much appreciated"],["I'm sorry","my apologies","I beg your pardon","sorry to bother you"],["no problem","never mind","that's all right"],["by all means","of course","be my guest"],["if you don't mind","would you mind"],["one moment please","just a moment"],["no need to hurry","there's no rush","take your time","hold your horses"],["that's all","that's it","that's enough","call it a day"],["what a pity","what a shame"],["good luck","break a leg","keep your fingers crossed"],["not necessarily","not really","not quite"],["I agree","I couldn't agree more","fair enough","see eye to eye","be on the same page"],["you have a point","that makes sense","that's true","that's right","hit the nail on the head"],["in my opinion","from my point of view","to my mind","as far as I'm concerned"],["to be honest","to tell the truth","to be frank"],["to put it simply","in short","in brief","to sum up","in conclusion","in a nutshell","make a long story short","cut to the chase"],["I have no idea","your guess is as good as mine","who knows","draw a blank","in the dark"],["what do you mean","I see what you mean"],["for example","for instance"],["and so on","and so forth"],["above all","first of all","to begin with"],["all in all","in general","generally speaking","on balance"],["in any case","at any rate","in any event","either way"],["in the meantime","at the same time"],["for the time being","at the moment","at present","right now","these days"],["right away","at once","at the drop of a hat","in no time","in the blink of an eye"],["now and then","every now and again","once in a while","once in a blue moon"],["so far","so far so good"],["as usual","as always"],["at last","in the end","sooner or later"],["all the time","on a daily basis","day after day","time and again"],["on time","in time","ahead of time","in the nick of time","beat the clock","by the skin of your teeth"],["by accident","by mistake"],["in advance","ahead of time"],["in contact with","in touch with"],["in private","behind closed doors","behind the scenes"],["in addition","in addition to","as well as"],["because of","due to","thanks to"],["apart from","except for"],["as for","as to","with regard to","in terms of"],["in order to","so as to"],["no matter what","come rain or shine","through thick and thin","against all odds"],["a blessing in disguise","every cloud has a silver lining"],["a hard nut to crack","an uphill battle","like looking for a needle in a haystack"],["a piece of cake","it's not rocket science"],["all bark and no bite","all talk and no action"],["all the best","best wishes"],["at risk","in danger","in trouble","be in hot water","on thin ice","play with fire"],["at the end of your rope","keep your head above water","be out of your depth"],["back to square one","back to the drawing board","come full circle"],["be on cloud nine","feel like a million dollars"],["be on the fence","keep your options open","have second thoughts","change of heart"],["bend over backwards","move heaven and earth","go the extra mile","leave no stone unturned"],["an arm and a leg","break the bank","pay through the nose"],["call the shots","in charge of","in control of"],["find your feet","get the hang of it","like a duck to water"],["get cold feet","have butterflies in your stomach"],["get your act together","pull yourself together"],["keep something under wraps","a skeleton in the closet"],["add fuel to the fire","make matters worse","rub salt in the wound"],["eat humble pie","eat your words"],["play it by ear","go with the flow"],["are you kidding","pull someone's leg"],["it's up to you","it's your turn","the ball is in your court"],["bury the hatchet","eat humble pie"],["make ends meet","keep your head above water"]],"phrasal-verbs":[["account for","put down to"],["act up","play up","play around","fool around","mess around"],["adapt to","fit in","settle in"],["add up","add up to","come to"],["agree on","agree to","agree with","give in","settle for","go along with","back down","approve of"],["focus on","zero in on","aim at"],["answer back","talk back"],["answer for","take on"],["apply for","put in","send in","hand in","turn in"],["ask for","call for","press for","push for"],["back away","back off","pull back","step aside","stand aside","step down"],["back out","pull out","walk away","drop out","pack in","give up"],["back up","go along with","stand by","stand up for","stick up for"],["bank on","count on","rely on","fall back on"],["bear with","put up with"],["blow away","blow up","wipe out"],["blow out","put out","switch off","turn off","shut off"],["blow over","die down","quiet down","calm down","settle down","wind down"],["book in","check in"],["bounce back","get over","pull through","shake off","get through","come through"],["break away","break off","come off"],["break down","come apart","fall apart"],["break in","break into","burst into","break out"],["break off","cut off","cut in","butt in"],["break through","come through","get through"],["break up","split up","fall out"],["bring about","result in","lead to"],["bring along","come along"],["bring back","give back","hand back","send back","put back","take back","come back","get back","go back"],["bring down","mark down","come down","go down","turn down","slow down"],["bring forward","move up"],["bring in","pull in","take in"],["bring out","come out","roll out"],["bring together","get together","pull together","join in"],["bring up","point out","put forward"],["brush off","pass over"],["brush up on","go over","read over","run through"],["build up","pile up","run up","step up"],["bump into","come across","run across","run into"],["burn down","knock down","pull down","tear down"],["burn out","wear out"],["buy out","take over"],["call back","ring back"],["call in","send for","call on"],["call off","cut out","do away with"],["call on","come over","drop by","drop in","pop in"],["call out","read out","speak out","speak up"],["call up","ring up"],["care about","care for","look after","see to"],["carry on","go on","go ahead","keep on","get on with","press ahead","push ahead","push on"],["carry out","pull off","work out"],["catch on","catch up","catch up with","keep up with","get at","figure out"],["catch up with","run after"],["check up on","look into","go over"],["cheer up","calm down"],["chip in","pitch in"],["clean up","tidy up","clear up","wash up"],["clear away","clear out","put away","put aside","set aside"],["close down","shut down","shut off"],["come about","come up","turn up","show up"],["come around","come to"],["come by","pick up"],["come down with","pick up"],["come forward","step in","pitch in"],["come from","result in","lead to"],["come in","get in","let in","take in"],["come into","hand down","pass down"],["come on","switch on","turn on"],["come off","pan out","work out","pull off"],["come out","get out","go out","let out","take out"],["come under","go through"],["come up against","run into","deal with"],["come up with","make up"],["cover up","keep back","hold back"],["cut back on","cut down on","cut out"],["cut off","shut out","keep out","turn away"],["cut out","leave out","throw out","rule out","pass over"],["deal with","sort out","figure out","work out"],["die down","wear off"],["die out","phase out"],["dig into","look into","look at"],["do away with","phase out","throw away","throw out"],["do up","dress up"],["do without","make do with"],["drag on","go on"],["draw up","set down","write down","write out","write up"],["drop off","nod off","fall off"],["drop out","pack in","pack up","give up"],["end up","turn out","wind up","pan out"],["enter into","get into"],["face up to","own up"],["fall apart","fall through","break down","mess up"],["fall down","fall off"],["fall for","take in"],["feel like","go for","opt for"],["figure out","find out","make out","work out","see through"],["fill in","fill out","stand in for"],["fit in","mix with","get along","get on"],["fool around","play around","mess around"],["get across","put across"],["get ahead","move up","go up"],["get along","get on with"],["get at","get across","point to"],["get away","go away","run away","make off","go out"],["get away with","let off"],["get back at","pay back"],["get by","make do with","do without","live off","live on"],["get down","put down","run down"],["get down to","set about","go ahead","take up"],["get in","get on"],["get into","take up"],["get off","get out","let out"],["get on with","carry on","keep on","go on"],["get out of","back out","pull out"],["get through","put through"],["get up","stand up","wake up"],["give away","give out","hand out","hand over"],["give in","back down","give up"],["give off","give out"],["give up","give up on","pack in"],["go ahead","set about"],["go along with","play along","play on"],["go away","walk away","send away"],["go by","pass by","pass away"],["go down","come down","wear off"],["go for","opt for","pick out"],["go off","go out","wear off"],["go on","push on"],["go out","come out"],["go over","run over","read over","read through","run through"],["go through","ride out","sit through","see through","get through"],["go up","mark up","put up","step up","turn up"],["grow apart","fall out","break up","split up"],["grow up","settle down"],["hand back","take back"],["hand down","pass down","pass on"],["hand in","turn in","send in"],["hand out","give out","send out"],["hand over","take over","pass on"],["hang around","hang out","stick around","mess around"],["hang on","hold on","hold out"],["head for","make for"],["hold back","keep back","hold up"],["hold out","stand by"],["hold up","set back","put back","put off"],["join in","pitch in","chip in","get together"],["keep away","stay away"],["keep back","keep out","shut out"],["keep on","carry on"],["keep up","keep up with","catch up with"],["knock down","pull down","tear down"],["knock out","wipe out"],["lay off","let off"],["leave behind","leave out","pass over"],["leave out","miss out on","pass up"],["let down","mess up"],["let in","take in","put up"],["let off","give away","get away with"],["let out","give off","give out"],["lie down","sit down"],["live off","live on"],["live up to","measure up to"],["lock up","shut down"],["log in","sign in"],["log out","sign off"],["look after","care for","see to"],["look around","look at"],["look back on","think back","reflect on"],["look down on","run down"],["look for","look up","dig into"],["look forward to","count on"],["look into","dig into"],["look out","watch out"],["look up","find out","look for"],["look up to","approve of"],["make do with","settle for"],["make into","turn into"],["make of","think over"],["make off","run away","run off"],["make off with","rip off"],["make out","pick out","figure out"],["make over","do up"],["make up","come up with","put together"],["make up for","pay back"],["make up with","patch up"],["mark down","bring down"],["mark off","cross out","rule out"],["mark out","point out"],["mark up","put up","go up"],["mess up","mix up","mix with"],["mix with","hang out","get together"],["move in","get in"],["move on","go on","go ahead","push on"],["move out","get out","go away"],["move over","step aside","stand aside"],["move up","step up","turn up"],["narrow down","rule out"],["nod off","drop off","sleep in"],["open up","speak out","own up"],["pack in","give up","pack up"],["pack up","break down"],["pan out","turn out","end up","work out"],["part with","give away","hand over"],["pass away","die out"],["pass by","go by"],["pass down","hand down"],["pass for","pass off as"],["pass off as","make out"],["pass out","knock out"],["pass over","leave out","miss out on"],["pass up","turn down","give up"],["pay back","give back","take back"],["pay for","pay off","pay up"],["phase out","do away with"],["pick at","pick on"],["pick on","run down","put down"],["pick out","make out"],["pick up","take up"],["pile up","build up","run up"],["pin down","figure out","find out"],["pitch in","chip in","join in"],["play along","go along with"],["play around","fool around"],["play back","play on"],["play down","run down","put down"],["play on","play up"],["play up","act up"],["point out","bring up","show up"],["point to","refer to"],["pop out","go out"],["press ahead","push ahead","push on","carry on"],["press for","push for","call for"],["pull apart","take apart","come apart"],["pull away","get away"],["pull back","back away"],["pull in","pull up"],["pull out","back out","walk away"],["pull over","pull up"],["pull through","bounce back","get over"],["pull together","bring together","get together"],["push ahead","press ahead","move on"],["push for","press for"],["push on","carry on","keep on"],["push through","bring about","carry out"],["put aside","set aside","put away"],["put away","tidy up","clear away"],["put back","bring back","give back"],["put down","set down","write down","take down","run down"],["put forward","bring up","come up with"],["put in","hand in","send in","apply for"],["put off","hold up","set back"],["put on","try on","dress up"],["put out","blow out"],["put together","make up","set up"],["put up","take in","put on"],["quiet down","calm down","die down"],["read into","make of"],["read out","call out"],["read over","go over"],["read through","go through"],["refer to","point to","bring up"],["reflect on","think over","think through"],["relate to","refer to"],["rely on","count on","bank on"],["remind of","bring back"],["resort to","fall back on"],["result in","lead to"],["ride out","go through","get through"],["rip up","tear up"],["roll back","take back","go back"],["roll out","bring out","put out"],["rub off on","pass on"],["rub out","cross out","wipe out"],["rule out","leave out","throw out"],["run away","get away","make off"],["run down","put down","look down on"],["run into","come up against"],["run out of","use up","give out"],["run over","go over","run through"],["run through","go through","read through"],["save up","set aside","put aside"],["see off","send off"],["see through","figure out","find out","make out"],["sell off","sell out"],["send away","send off","send out"],["send back","bring back","take back"],["send for","call in"],["send in","put in","hand in"],["set about","get down to"],["set down","put down","write down"],["set off","set out","head for","make for"],["set out","set down","write out"],["set up","put together","build up"],["settle down","calm down","quiet down"],["settle for","make do with","give in"],["shake off","get over"],["show off","play up"],["show up","turn up","come up"],["shut down","close down","lock up"],["shut off","turn off","switch off"],["sign up","apply for","put in"],["sit down","settle down"],["sit through","go through","ride out"],["sleep on","think over"],["slow down","wind down","go down"],["sort out","deal with","figure out"],["speak out","speak up","open up"],["split up","break up"],["stand by","stand up for","back up"],["stand in for","fill in"],["stand out","show up"],["stand up","stand up for","stick up for"],["stand up for","stick up for"],["start over","go back","back up"],["stay in","stay out"],["stay out","keep out"],["step aside","stand aside"],["step down","back down"],["step in","butt in","cut in"],["step up","build up","go up"],["stick around","hang around","hang out"],["stick to","keep on","keep up","abide by"],["sum up","add up","boil down to"],["switch off","turn off"],["switch on","turn on"],["take apart","pull apart"],["take away","take out","carry out"],["take down","write down","set down"],["take off","get off","set off"],["take on","take up"],["take out","put out","bring out"],["take over","buy out","hand over"],["take up","get into","start over"],["talk into","push for","press for"],["talk out of","turn down"],["talk over","go over","think over"],["think back","look back on"],["think through","work out"],["throw away","throw out","do away with"],["throw out","turn down","rule out"],["tidy up","clean up","clear up"],["try on","put on"],["try out","work out","check out"],["turn around","turn over","roll back"],["turn away","keep out","shut out"],["turn down","throw out","pass up"],["turn in","hand in"],["turn over","turn around","hand over"],["turn up","show up","come up","go up"],["wake up","get up"],["walk away","go away","back out","pull out"],["warm up","work out"],["wash up","clean up","tidy up"],["wear out","burn out","use up"],["whip up","put together","make up"],["wind down","calm down","slow down"],["wind up","end up","turn out"],["work out","figure out","sort out","pan out"],["wrap up","pack up","sum up","wind up"],["write off","rule out","give up on"],["write out","write down","write up"],["write up","draw up"],["zero in on","focus on"],["zoom in","zero in on"]]}}</script>
+  <script>/* Fixed expressions and phrasal verbs: no browser or word-quiz dependencies. */
+const PhraseQuiz = (() => {
+  "use strict";
+
+  const COLLECTIONS = Object.freeze({
+    expressions: "Устойчивые выражения",
+    "phrasal-verbs": "Фразовые глаголы",
+  });
+  const MODES = Object.freeze({ "en-ru": "Английский → русский", "ru-en": "Русский → английский" });
+  const FORMATS = Object.freeze({ full: "Полный тест", express: "Экспресс-тест" });
+
+  function hasOwn(object, key) { return Object.prototype.hasOwnProperty.call(object, key); }
+
+  function normalize(text) {
+    return text.normalize("NFKC").toLocaleLowerCase("ru").replace(/ё/g, "е")
+      .replace(/[’‘]/g, "'").replace(/[.,!?…:;«»"“”]/g, " ").replace(/\s+/g, " ").trim();
+  }
+
+  function meanings(entry) {
+    return entry.translation.split(";").map((text) => normalize(text.replace(/\([^)]*\)/g, " "))).filter(Boolean);
+  }
+
+  function shuffle(items, random = Math.random) {
+    const result = items.slice();
+    for (let i = result.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  }
+
+  function checkMode(mode) {
+    if (!hasOwn(MODES, mode)) throw new Error(`Неизвестное направление: ${mode}`);
+  }
+
+  function buildExclusionIndex(groups) {
+    const index = new Map();
+    for (const group of groups) {
+      const family = new Set(group.map(normalize));
+      for (const phrase of family) {
+        const related = index.get(phrase);
+        if (related) related.forEach((other) => family.add(other));
+      }
+      family.forEach((phrase) => index.set(phrase, family));
+    }
+    return index;
+  }
+
+  function optionsFor(entry, vocabulary, random = Math.random, mode = "en-ru", exclusions = new Map()) {
+    checkMode(mode);
+    const target = new Set(meanings(entry));
+    const family = exclusions.get(normalize(entry.english));
+    const label = (candidate) => mode === "en-ru" ? candidate.translation : candidate.english;
+    const candidates = new Map();
+    for (const candidate of vocabulary) {
+      if (normalize(candidate.english) === normalize(entry.english)) continue;
+      if (family && family.has(normalize(candidate.english))) continue;
+      if (meanings(candidate).some((meaning) => target.has(meaning))) continue;
+      const text = label(candidate);
+      if (normalize(text) === normalize(label(entry))) continue;
+      candidates.set(normalize(text), { english: candidate.english, translation: candidate.translation, text, correct: false });
+    }
+    if (candidates.size < 3) throw new Error(`Недостаточно разных вариантов для ${entry.english}`);
+    const choices = shuffle([...candidates.values()], random).slice(0, 3);
+    choices.push({ english: entry.english, translation: entry.translation, text: label(entry), correct: true });
+    return shuffle(choices, random);
+  }
+
+  class Session {
+    constructor(data, collection = "expressions", mode = "en-ru", format = "express", random = Math.random) {
+      if (!hasOwn(COLLECTIONS, collection)) throw new Error(`Неизвестный набор: ${collection}`);
+      checkMode(mode);
+      if (!hasOwn(FORMATS, format)) throw new Error(`Неизвестный формат: ${format}`);
+      const vocabulary = data && data[collection];
+      if (!Array.isArray(vocabulary) || vocabulary.length !== 500) throw new Error("В наборе должно быть ровно 500 выражений");
+      if (vocabulary.some((entry) => !entry || typeof entry.english !== "string" || !entry.english.trim()
+          || typeof entry.translation !== "string" || !entry.translation.trim())) throw new Error("В наборе есть пустая запись");
+      if (new Set(vocabulary.map((entry) => normalize(entry.english))).size !== 500) throw new Error("В наборе есть повторяющиеся выражения");
+      this.collection = collection;
+      this.mode = mode;
+      this.format = format;
+      this.random = random;
+      this.exclusions = buildExclusionIndex(data.exclusions && data.exclusions[collection] || []);
+      this.vocabulary = vocabulary.slice();
+      this.order = shuffle(this.vocabulary, random).slice(0, format === "express" ? 20 : 500);
+      this.index = 0;
+      this.selected = null;
+      this.answered = 0;
+      this.correct = 0;
+      this.incorrectEntries = [];
+      this.options = optionsFor(this.entry, this.vocabulary, random, mode, this.exclusions);
+    }
+
+    get entry() { return this.order[this.index]; }
+    get prompt() { return this.finished ? "" : (this.mode === "en-ru" ? this.entry.english : this.entry.translation); }
+    get total() { return this.order.length; }
+    get finished() { return this.index >= this.total; }
+    get mistakes() { return this.answered - this.correct; }
+    get accuracy() { return this.answered ? Math.round(this.correct / this.answered * 100) : 0; }
+
+    answer(optionIndex) {
+      if (this.finished || this.selected !== null || !Number.isInteger(optionIndex)
+          || optionIndex < 0 || optionIndex >= this.options.length) return null;
+      const option = this.options[optionIndex];
+      this.selected = optionIndex;
+      this.answered += 1;
+      if (option.correct) this.correct += 1;
+      else this.incorrectEntries.push(this.entry);
+      return { correct: option.correct, english: this.entry.english, translation: this.entry.translation, selected: option };
+    }
+
+    advance() {
+      if (this.finished || this.selected === null) return false;
+      this.index += 1;
+      this.selected = null;
+      this.options = this.finished ? [] : optionsFor(this.entry, this.vocabulary, this.random, this.mode, this.exclusions);
+      return true;
+    }
+  }
+
+  return { COLLECTIONS, MODES, FORMATS, normalize, shuffle, optionsFor, Session };
+})();
+
+if (typeof module !== "undefined" && module.exports) module.exports = PhraseQuiz;
+
+/* Separate multiple-choice page for expressions and multiword verbs. */
+(() => {
+  "use strict";
+  const data = JSON.parse(document.getElementById("phrase-data").textContent);
+  const $ = (id) => document.getElementById(id);
+  let session = null;
+
+  function replaceChildren(element, ...children) {
+    while (element.firstChild) element.removeChild(element.firstChild);
+    children.forEach((child) => element.appendChild(child));
+  }
+  function icon(name) {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "icon");
+    svg.setAttribute("aria-hidden", "true");
+    const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    use.setAttribute("href", `#icon-${name}`);
+    svg.appendChild(use);
+    return svg;
+  }
+  function show(screen) {
+    ["intro", "training", "complete"].forEach((id) => { $(id).hidden = id !== screen; });
+  }
+  function stats() {
+    $("correct-count").textContent = session.correct;
+    $("mistake-count").textContent = session.mistakes;
+    $("accuracy").textContent = `${session.accuracy}%`;
+    $("progress").value = session.answered;
+    $("progress").max = session.total;
+    $("progress").setAttribute("aria-valuetext", `${session.answered} из ${session.total} вопросов`);
+  }
+  function renderQuestion() {
+    $("question-number").textContent = session.index + 1;
+    $("total-count").textContent = session.total;
+    $("word").textContent = session.prompt;
+    $("word").lang = session.mode === "en-ru" ? "en" : "ru";
+    $("word-note").textContent = session.mode === "en-ru" ? "Выберите перевод на русский" : "Выберите выражение на английском";
+    $("feedback").className = "feedback";
+    $("feedback-title").textContent = "";
+    $("feedback-selected").textContent = "";
+    $("feedback-selected").hidden = true;
+    $("feedback-detail").textContent = "";
+    replaceChildren($("feedback-icon"));
+    $("next").disabled = true;
+    replaceChildren($("next"), document.createTextNode(session.index === session.total - 1 ? "Посмотреть результат" : "Следующий вопрос"), icon("arrow"));
+    const options = session.options.map((option, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "option";
+      const number = document.createElement("span");
+      number.className = "option-number";
+      number.textContent = index + 1;
+      number.setAttribute("aria-hidden", "true");
+      const text = document.createElement("span");
+      text.className = "option-text";
+      text.textContent = option.text;
+      text.lang = session.mode === "en-ru" ? "ru" : "en";
+      replaceChildren(button, number, text);
+      button.addEventListener("click", () => answer(index));
+      return button;
+    });
+    replaceChildren($("options"), ...options);
+    stats();
+    $("word").focus({ preventScroll: true });
+  }
+  function start() {
+    const selected = (name) => document.querySelector(`input[name="${name}"]:checked`).value;
+    session = new PhraseQuiz.Session(data, selected("collection"), selected("mode"), selected("format"));
+    $("training-format").textContent = session.format === "express" ? "ЭКСПРЕСС-ТЕСТ" : "ПОЛНЫЙ ТЕСТ";
+    $("training-collection").textContent = PhraseQuiz.COLLECTIONS[session.collection];
+    $("direction").textContent = session.mode === "en-ru" ? "EN → RU" : "RU → EN";
+    show("training");
+    renderQuestion();
+    window.scrollTo(0, 0);
+  }
+  function answer(index) {
+    if (!session || $("training").hidden) return;
+    const result = session.answer(index);
+    if (!result) return;
+    [...$("options").children].forEach((button, i) => {
+      const option = session.options[i];
+      button.disabled = true;
+      if (option.correct || i === index) {
+        button.classList.add(option.correct ? "correct" : "wrong");
+        button.setAttribute("aria-label", `${option.text} — ${option.correct ? "правильный" : "неправильный"} ответ`);
+      }
+    });
+    $("feedback").classList.add(result.correct ? "is-correct" : "is-wrong");
+    $("feedback-title").textContent = result.correct ? "Верно! Так держать." : "Неправильно. Запомним перевод.";
+    if (!result.correct) {
+      const choice = result.selected;
+      $("feedback-selected").textContent = `Вы выбрали: ${session.mode === "en-ru" ? `${choice.translation} — ${choice.english}` : `${choice.english} — ${choice.translation}`}`;
+      $("feedback-selected").hidden = false;
+    }
+    const pair = session.mode === "en-ru" ? `${result.english} — ${result.translation}` : `${result.translation} — ${result.english}`;
+    $("feedback-detail").textContent = result.correct ? pair : `Правильный ответ: ${pair}`;
+    replaceChildren($("feedback-icon"), icon(result.correct ? "check" : "cross"));
+    $("next").disabled = false;
+    stats();
+    $("next").focus({ preventScroll: true });
+  }
+  function complete() {
+    show("complete");
+    $("complete-count").textContent = session.format === "express" ? "ЭКСПРЕСС-ТЕСТ ЗАВЕРШЁН" : "ВСЕ 500 ВОПРОСОВ ПРОЙДЕНЫ";
+    $("result-mode").textContent = `${PhraseQuiz.COLLECTIONS[session.collection]} · ${session.mode === "en-ru" ? "EN → RU" : "RU → EN"}`;
+    $("result-percent").textContent = `${session.accuracy}%`;
+    $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
+    $("result-ring").style.setProperty("--result-hue", String(session.accuracy * 1.2));
+    $("result-correct").textContent = session.correct;
+    $("result-mistakes").textContent = session.mistakes;
+    $("result-total").textContent = session.total;
+    $("result-message").textContent = session.correct === session.total ? "Ни одной ошибки! Попробуйте новый проход." : "Ещё один шаг вперёд. Продолжайте практику в своём темпе.";
+    $("mistake-review").hidden = session.format !== "express";
+    $("mistake-review-table").hidden = session.mistakes === 0;
+    $("mistake-review-title").textContent = session.collection === "expressions" ? "Выражения для повторения" : "Фразовые глаголы для повторения";
+    $("mistake-review-message").textContent = session.mistakes ? "Повторите правильные переводы:" : "Все ответы верные — ошибок нет.";
+    $("review-source").textContent = session.mode === "en-ru" ? "Английский" : "Русский";
+    const rows = session.incorrectEntries.map((entry) => {
+      const row = document.createElement("tr");
+      const prompt = document.createElement("td");
+      const translation = document.createElement("td");
+      prompt.textContent = session.mode === "en-ru" ? entry.english : entry.translation;
+      prompt.lang = session.mode === "en-ru" ? "en" : "ru";
+      translation.textContent = session.mode === "en-ru" ? entry.translation : entry.english;
+      translation.lang = session.mode === "en-ru" ? "ru" : "en";
+      replaceChildren(row, prompt, translation);
+      return row;
+    });
+    replaceChildren($("mistake-review-list"), ...rows);
+    $("complete-title").focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+  }
+  function next() {
+    if (!session || $("training").hidden || !session.advance()) return;
+    if (session.finished) complete();
+    else renderQuestion();
+  }
+  function chooseMode() {
+    show("intro");
+    document.querySelector('input[name="collection"]:checked').focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+  }
+  $("start").addEventListener("click", start);
+  $("next").addEventListener("click", next);
+  $("change-mode").addEventListener("click", chooseMode);
+  $("change-mode-complete").addEventListener("click", chooseMode);
+  $("restart-complete").addEventListener("click", start);
+  document.addEventListener("keydown", (event) => {
+    if (event.repeat || !session || $("training").hidden || event.altKey || event.ctrlKey || event.metaKey) return;
+    const active = document.activeElement;
+    if (active && active.matches("input, textarea, select, [contenteditable]")) return;
+    if (/^[1-4]$/.test(event.key)) { event.preventDefault(); answer(Number(event.key) - 1); }
+    if (event.key === "Enter" && session.selected !== null) { event.preventDefault(); next(); }
+  });
+  $("start").disabled = false;
+  $("startup-warning").hidden = true;
+})();
+</script>
+</body>
+</html>
