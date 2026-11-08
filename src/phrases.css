@@ -1,19 +1,2 @@
-.phrases-intro { max-width: 830px; margin: auto; padding-top: 25px; }
-#training-collection { display: block; }
-.phrases-settings { max-width: 680px; margin-top: 30px; padding: 30px; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
-.collection-selector .mode-label { height: 100%; min-height: 92px; }
-.collection-selector .mode-label strong { display: block; padding-right: 8px; line-height: 1.5; }
+/* Long expressions need a smaller prompt; the page layout uses shared styles. */
 .phrases-page .phrase-prompt { max-width: 100%; font-size: clamp(27px, 4vw, 45px); line-height: 1.3; letter-spacing: -1px; overflow-wrap: anywhere; }
-.phrases-page .option { min-height: 78px; }
-.phrases-page .option-text { overflow-wrap: anywhere; line-height: 1.6; }
-.phrases-page .feedback p { font-size: 14px; }
-.phrases-page .feedback > div { min-width: 0; }
-.phrases-page .metric { justify-content: center; text-align: center; }
-@media (max-width: 600px) {
-  .phrases-settings { padding: 20px 16px; }
-  .collection-selector .mode-options { grid-template-columns: 1fr; }
-  .collection-selector .mode-label { min-height: 0; }
-  .phrases-page .header { gap: 14px; }
-  .phrases-page .brand { font-size: 21px; }
-  .phrases-page .feedback p { font-size: 12px; }
-}

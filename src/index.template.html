@@ -12,25 +12,9 @@
   <style>{{STYLES}}</style>
 </head>
 <body>
-  <svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
-    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
-    <symbol id="icon-cross" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
-    <symbol id="icon-repeat" viewBox="0 0 24 24"><path d="M20 7h-4V3M4 17h4v4m11-14a8 8 0 0 0-13-2M5 17a8 8 0 0 0 13 2"/></symbol>
-    <symbol id="icon-leaf" viewBox="0 0 24 24"><path d="M19 4C8 3 3 8 5 15c6 7 15 1 14-11ZM5 20 15 10"/></symbol>
-    <symbol id="icon-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 10v4m-2-2h4"/></symbol>
-  </svg>
+{{ICONS}}
 
-  <header class="header shell">
-    <a class="brand" href="#" aria-label="English Winner — начало">
-      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 8h7c2 0 3 1 3 3v14c0-3-2-4-5-4H7Zm18 0h-5c-2 0-3 1-3 3v14c0-3 2-4 5-4h3Z"/><path d="m20 13 2 2 4-5"/></svg></span>
-      <span>english<span class="brand-light">winner</span><span class="brand-dot">.</span></span>
-    </a>
-    <div class="header-actions">
-      <span class="offline"><span class="status-dot"></span>Работает офлайн</span>
-      <button class="button-quiet" id="restart" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg>Новый проход</button>
-    </div>
-  </header>
+{{HEADER}}
 
   <main class="shell">
     <div id="startup-warning" class="startup-warning" role="status">
@@ -48,13 +32,7 @@
       <a id="phrases-link" class="section-link" href="./phrases.html"><span><strong>Выражения и фразовые глаголы</strong><span>Отдельные тесты: 500 выражений и 500 фразовых глаголов</span></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
 
       <div class="welcome-card">
-        <div class="word-art" aria-hidden="true">
-          <span class="art-caption">НОВОЕ СЛОВО — НОВАЯ ВОЗМОЖНОСТЬ</span>
-          <div class="word-paper paper-back"></div>
-          <div class="word-paper paper-front"><span class="paper-label">ENGLISH</span><span class="paper-word">grow</span><span class="paper-line"></span><span class="paper-translation">расти</span><span class="paper-check"><svg class="icon"><use href="#icon-check"/></svg></span></div>
-          <span class="art-count"><strong>5000</strong> слов для практики</span>
-          <span class="art-spark spark-one">✳</span><span class="art-spark spark-two">+</span>
-        </div>
+{{WELCOME_ART}}
         <div class="welcome-content">
           <span class="small-label">ПРОСТО ОТКРОЙТЕ И НАЧНИТЕ</span>
           <h2>Два направления.<br>Один большой словарь.</h2>
@@ -63,20 +41,6 @@
             <li><span class="rule-number">02</span><span id="rule-feedback">Сразу узнайте результат и правильный перевод.</span></li>
             <li><span class="rule-number">03</span>Повторяйте: каждый проход перемешивается.</li>
           </ul>
-          <fieldset class="mode-selector level-selector">
-            <legend>Выберите уровень сложности</legend>
-            <div class="mode-options level-options">
-              <label class="mode-option"><input id="level-1000" type="radio" name="level" value="1000" aria-label="Базовый — 1000 самых частотных слов"><span class="mode-label"><strong>1000 слов</strong><span>Базовый</span></span></label>
-              <label class="mode-option"><input id="level-3000" type="radio" name="level" value="3000" aria-label="Средний — 3000 самых частотных слов"><span class="mode-label"><strong>3000 слов</strong><span>Средний</span></span></label>
-              <label class="mode-option"><input id="level-5000" type="radio" name="level" value="5000" aria-label="Продвинутый — 5000 самых частотных слов" checked><span class="mode-label"><strong>5000 слов</strong><span>Продвинутый</span></span></label>
-            </div>
-            <p id="level-description" class="selection-note" aria-live="polite">Вопросы и варианты ответа — из 5000 самых частотных слов.</p>
-          </fieldset>
-          <div class="topic-selector">
-            <label for="topic">Выберите тему</label>
-            <select id="topic" name="topic" aria-describedby="topic-description"><option value="all">Все темы — 5000 слов</option></select>
-            <p id="topic-description" class="selection-note" aria-live="polite">Все слова выбранного уровня.</p>
-          </div>
           <fieldset class="mode-selector">
             <legend>Выберите направление</legend>
             <div class="mode-options">
@@ -91,6 +55,21 @@
               <label class="mode-option"><input id="format-express" type="radio" name="format" value="express" aria-label="Экспресс-тест — 20 случайных слов"><span class="mode-label"><strong>Экспресс-тест</strong><span id="express-format-note">20 случайных слов</span></span></label>
             </div>
           </fieldset>
+          <fieldset class="mode-selector level-selector">
+            <legend>Выберите уровень сложности</legend>
+            <div class="mode-options level-options">
+              <label class="mode-option"><input id="level-1000" type="radio" name="level" value="1000" aria-label="Базовый — 1000 самых частотных слов"><span class="mode-label"><strong>1000 слов</strong><span>Базовый</span></span></label>
+              <label class="mode-option"><input id="level-3000" type="radio" name="level" value="3000" aria-label="Средний — 3000 самых частотных слов"><span class="mode-label"><strong>3000 слов</strong><span>Средний</span></span></label>
+              <label class="mode-option"><input id="level-5000" type="radio" name="level" value="5000" aria-label="Продвинутый — 5000 самых частотных слов" checked><span class="mode-label"><strong>5000 слов</strong><span>Продвинутый</span></span></label>
+            </div>
+            <p id="level-description" class="selection-note" aria-live="polite">Вопросы и варианты ответа — из 5000 самых частотных слов.</p>
+          </fieldset>
+          <div class="topic-selector">
+            <label for="topic">Выберите тему</label>
+            <select id="topic" name="topic" aria-describedby="topic-description"><option value="all">Все темы — 5000 слов</option></select>
+            <p id="topic-description" class="selection-note" aria-live="polite">Все слова выбранного уровня.</p>
+          </div>
+
           <fieldset class="mode-selector format-selector">
             <legend>Как отвечать</legend>
             <div class="mode-options">
@@ -102,13 +81,13 @@
           <p class="start-note">Без таймера. Без регистрации. В своём темпе.</p>
         </div>
       </div>
-      <div class="intro-notes"><span><svg class="icon" aria-hidden="true"><use href="#icon-leaf"/></svg>Можно ошибаться — так мы учимся</span><span><svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg>Неограниченное число проходов</span></div>
+{{INTRO_NOTES}}
     </section>
 
     <p id="typed-outcome" class="typed-outcome" role="status" aria-live="polite" aria-atomic="true" hidden></p>
 
     <section id="training" class="training" hidden aria-labelledby="word">
-      <div class="training-heading"><div><span id="training-format" class="small-label">ПОЛНЫЙ ТЕСТ</span><br><span id="training-level" class="level-badge">Уровень: 5000 слов</span><br><span id="training-topic" class="level-badge">Все темы</span><p class="question-count">Слово <strong id="question-number">1</strong><span> / <span id="total-count">5000</span></span></p></div><button id="change-mode" class="mode-switch" type="button" aria-label="Сменить режим"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span class="direction-languages"><span id="direction-from">EN</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg><span id="direction-to">RU</span></span></span></button></div>
+      <div class="training-heading"><div><span id="training-format" class="small-label">ПОЛНЫЙ ТЕСТ</span><div class="training-meta"><span id="training-level" class="level-badge">Уровень: 5000 слов</span><span id="training-topic" class="level-badge">Все темы</span></div><p class="question-count">Слово <strong id="question-number">1</strong><span> / <span id="total-count">5000</span></span></p></div><button id="change-mode" class="mode-switch" type="button" aria-label="Сменить режим"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span class="direction-languages"><span id="direction-from">EN</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg><span id="direction-to">RU</span></span></span></button></div>
       <progress id="progress" value="0" max="5000" aria-label="Отвечено вопросов"></progress>
       <div class="quiz-card">
         <div class="question-heading"><span class="small-label">КАК ПЕРЕВОДИТСЯ ЭТО СЛОВО?</span><span id="question-badge" class="question-badge">4 варианта · 1 верный</span></div>
@@ -129,11 +108,7 @@
           <div class="question-bottom"><p id="answer-hint">Не спешите. Здесь нет таймера.</p><button class="button-primary next-button" id="next" type="button" disabled>Следующее слово<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div>
         </div>
       </div>
-      <div class="metrics" aria-label="Результаты текущего прохода">
-        <div class="metric"><span class="metric-icon metric-green"><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg></span><div><span class="metric-label">Верно</span><strong id="correct-count">0</strong></div></div>
-        <div class="metric"><span class="metric-icon metric-red"><svg class="icon" aria-hidden="true"><use href="#icon-cross"/></svg></span><div><span class="metric-label">Ошибки</span><strong id="mistake-count">0</strong></div></div>
-        <div class="metric"><span class="metric-icon metric-neutral"><svg class="icon" aria-hidden="true"><use href="#icon-target"/></svg></span><div><span class="metric-label">Точность</span><strong id="accuracy">0%</strong></div></div>
-      </div>
+{{METRICS}}
       <p id="choice-keyboard" class="keyboard-help"><span><kbd>1</kbd>–<kbd>4</kbd> выбрать ответ</span><span><kbd>Enter</kbd> следующее слово</span></p>
       <p id="typing-keyboard" class="keyboard-help" hidden><span><kbd>Enter</kbd> проверить перевод</span><span>Верный ответ — автоматический переход</span></p>
     </section>

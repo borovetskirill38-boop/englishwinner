@@ -296,11 +296,16 @@ python tests/browser-review.py
 python tests/browser-synonyms.py
 python tests/browser-choice-feedback.py
 python tests/browser-phrases.py
+python tests/browser-layout.py
 ```
 
 `browser-phrases.py` отдельно проверяет переход между страницами, все восемь
 сочетаний нового раздела, проходы из 500/20 вопросов, подсчёт результата,
 повторный запуск, перевод неверного выбора и мобильную вёрстку.
+
+Обе страницы используют общие фрагменты шапки, иллюстрации, статистики и заметок
+из `src/shared/`. `browser-layout.py` сравнивает размеры и координаты 17 общих
+элементов на девяти ширинах от 320 до 1440 пикселей, включая кнопку старта и подвал.
 
 Исходники новых наборов: `data/expressions-*.tsv` и `data/phrasal-verbs-*.tsv`
 (по 250 записей в файле, 500 на набор). Переводы подготовлены для проекта и

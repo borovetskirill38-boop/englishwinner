@@ -20,6 +20,8 @@
   }
   function show(screen) {
     ["intro", "training", "complete"].forEach((id) => { $(id).hidden = id !== screen; });
+    $("restart").hidden = screen === "intro";
+    document.body.classList.toggle("is-training", screen !== "intro");
   }
   function stats() {
     $("correct-count").textContent = session.correct;
@@ -145,6 +147,11 @@
   $("change-mode").addEventListener("click", chooseMode);
   $("change-mode-complete").addEventListener("click", chooseMode);
   $("restart-complete").addEventListener("click", start);
+  $("restart").addEventListener("click", start);
+  document.querySelector(".brand").addEventListener("click", (event) => {
+    event.preventDefault();
+    chooseMode();
+  });
   document.addEventListener("keydown", (event) => {
     if (event.repeat || !session || $("training").hidden || event.altKey || event.ctrlKey || event.metaKey) return;
     const active = document.activeElement;

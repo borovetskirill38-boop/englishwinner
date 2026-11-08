@@ -110,10 +110,27 @@ function loadData() {
   return { words, distractors: bank, source };
 }
 
+function sharedTokens(phrases = false) {
+  let art = read("src/shared/welcome-art.html").trimEnd();
+  if (phrases) {
+    art = art.replace(">grow<", ">give up<").replace(">расти<", ">сдаваться<")
+      .replace("НОВОЕ СЛОВО — НОВАЯ ВОЗМОЖНОСТЬ", "НОВЫЙ СМЫСЛ — НОВЫЕ ВОЗМОЖНОСТИ")
+      .replace("<strong>5000</strong> слов для практики", "<strong>500 + 500</strong> для практики");
+  }
+  return {
+    "{{ICONS}}": read("src/shared/icons.html").trimEnd(),
+    "{{HEADER}}": read("src/shared/header.html").trimEnd(),
+    "{{WELCOME_ART}}": art,
+    "{{METRICS}}": read("src/shared/metrics.html").trimEnd(),
+    "{{INTRO_NOTES}}": read("src/shared/intro-notes.html").trimEnd(),
+  };
+}
+
 function build() {
   const data = loadData();
   const template = read("src/index.template.html");
   const tokens = {
+    ...sharedTokens(),
     "{{STYLES}}": read("src/styles.css"),
     "{{DATA}}": JSON.stringify(data).replaceAll("<", "\\u003c"),
     "{{SCRIPT}}": read("src/quiz.js") + "\n" + read("src/app.js"),
@@ -168,6 +185,7 @@ function loadPhraseData() {
 
 function buildPhrases() {
   const tokens = {
+    ...sharedTokens(true),
     "{{STYLES}}": read("src/styles.css") + "\n" + read("src/phrases.css"),
     "{{DATA}}": JSON.stringify(loadPhraseData()).replaceAll("<", "\\u003c"),
     "{{SCRIPT}}": read("src/phrase-core.js") + "\n" + read("src/phrase-app.js"),

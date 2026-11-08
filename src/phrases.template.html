@@ -9,50 +9,55 @@
   <style>{{STYLES}}</style>
 </head>
 <body class="phrases-page">
-  <svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
-    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
-    <symbol id="icon-cross" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
-    <symbol id="icon-repeat" viewBox="0 0 24 24"><path d="M20 7h-4V3M4 17h4v4m11-14a8 8 0 0 0-13-2M5 17a8 8 0 0 0 13 2"/></symbol>
-  </svg>
-  <header class="header shell">
-    <a class="brand" href="./index.html" aria-label="English Winner — тест на слова"><span>english<span class="brand-light">winner</span><span class="brand-dot">.</span></span></a>
-  </header>
+{{ICONS}}
+{{HEADER}}
   <main class="shell">
     <div id="startup-warning" class="startup-warning" role="status"><strong>Для теста нужен браузер с JavaScript.</strong><p>Если на iPhone файл открылся в предпросмотре, откройте веб-версию в Safari.</p><a href="https://borovetskirill38-boop.github.io/englishwinner/phrases.html">Открыть веб-версию</a><noscript><p>Включите JavaScript в браузере.</p></noscript></div>
-    <section id="intro" class="intro phrases-intro" aria-labelledby="intro-title">
+    <section id="intro" class="intro" aria-labelledby="intro-title">
       <div class="eyebrow"><span class="status-dot"></span>АНГЛИЙСКИЙ В ВЫРАЖЕНИЯХ</div>
       <h1 id="intro-title">Знакомые слова.<br><em>Новый смысл.</em></h1>
-      <p class="hero-description">500 устойчивых выражений и 500 фразовых глаголов.<br>Два отдельных теста для повседневного английского.</p>
+      <p class="hero-description">500 устойчивых выражений и 500 фразовых глаголов.<br class="desktop-break"> Два отдельных теста для повседневного английского.</p>
       <a class="section-link words-link" href="./index.html"><span><strong>Словарный запас</strong><span>5000 слов · Уровни 1000, 3000 и 5000</span></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
-      <div class="phrases-settings">
-        <fieldset class="mode-selector collection-selector">
+      <div class="welcome-card">
+{{WELCOME_ART}}
+        <div class="welcome-content">
+          <span class="small-label">ПРОСТО ОТКРОЙТЕ И НАЧНИТЕ</span>
+          <h2>Два направления.<br>Два набора выражений.</h2>
+          <ul class="rules">
+            <li><span class="rule-number">01</span>Выберите единственный верный вариант.</li>
+            <li><span class="rule-number">02</span>Сразу узнайте результат и правильный перевод.</li>
+            <li><span class="rule-number">03</span>Повторяйте: каждый проход перемешивается.</li>
+          </ul>
+        <fieldset class="mode-selector">
+          <legend>Выберите направление</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="mode-en-ru" name="mode" type="radio" value="en-ru" checked><span class="mode-label"><strong>EN <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg> RU</strong><span>На русский</span></span></label>
+            <label class="mode-option"><input id="mode-ru-en" name="mode" type="radio" value="ru-en"><span class="mode-label"><strong>RU <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg> EN</strong><span>На английский</span></span></label>
+          </div>
+        </fieldset>
+          <fieldset class="mode-selector format-selector">
+          <legend>Выберите формат</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="format-full" name="format" type="radio" value="full"><span class="mode-label"><strong>Полный тест</strong><span>Все 500 вопросов</span></span></label>
+            <label class="mode-option"><input id="format-express" name="format" type="radio" value="express" checked><span class="mode-label"><strong>Экспресс-тест</strong><span>20 случайных вопросов</span></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="mode-selector format-selector collection-selector">
           <legend>Что будем изучать?</legend>
           <div class="mode-options">
             <label class="mode-option"><input id="collection-expressions" name="collection" type="radio" value="expressions" checked><span class="mode-label"><strong>Устойчивые выражения</strong><span>500 выражений · a piece of cake</span></span></label>
             <label class="mode-option"><input id="collection-phrasal-verbs" name="collection" type="radio" value="phrasal-verbs"><span class="mode-label"><strong>Фразовые глаголы</strong><span>500 глаголов · give up</span></span></label>
           </div>
         </fieldset>
-        <fieldset class="mode-selector">
-          <legend>Направление перевода</legend>
-          <div class="mode-options">
-            <label class="mode-option"><input id="mode-en-ru" name="mode" type="radio" value="en-ru" checked><span class="mode-label"><strong>EN → RU</strong><span>На русский</span></span></label>
-            <label class="mode-option"><input id="mode-ru-en" name="mode" type="radio" value="ru-en"><span class="mode-label"><strong>RU → EN</strong><span>На английский</span></span></label>
-          </div>
-        </fieldset>
-        <fieldset class="mode-selector format-selector">
-          <legend>Сколько вопросов?</legend>
-          <div class="mode-options">
-            <label class="mode-option"><input id="format-express" name="format" type="radio" value="express" checked><span class="mode-label"><strong>Экспресс-тест</strong><span>20 случайных вопросов</span></span></label>
-            <label class="mode-option"><input id="format-full" name="format" type="radio" value="full"><span class="mode-label"><strong>Полный тест</strong><span>Все 500 вопросов</span></span></label>
-          </div>
-        </fieldset>
+
         <button id="start" class="button-primary" type="button" disabled>Начать тест <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
-        <p class="start-note">Четыре варианта ответа · Без таймера · Новый порядок каждый раз</p>
+        <p class="start-note">Без таймера. Без регистрации. В своём темпе.</p>
+        </div>
       </div>
+{{INTRO_NOTES}}
     </section>
     <section id="training" class="training" hidden aria-labelledby="word">
-      <div class="training-heading"><div><span id="training-format" class="small-label"></span><p id="training-collection" class="level-badge"></p><p class="question-count">Вопрос <strong id="question-number">1</strong><span> / <span id="total-count">20</span></span></p></div><button id="change-mode" class="mode-switch" type="button"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span id="direction" class="direction-languages">EN → RU</span></span></button></div>
+      <div class="training-heading"><div><span id="training-format" class="small-label"></span><div class="training-meta"><span id="training-level" class="level-badge">Набор: 500 записей</span><span id="training-collection" class="level-badge"></span></div><p class="question-count">Вопрос <strong id="question-number">1</strong><span> / <span id="total-count">20</span></span></p></div><button id="change-mode" class="mode-switch" type="button"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span id="direction" class="direction-languages">EN → RU</span></span></button></div>
       <progress id="progress" value="0" max="20" aria-label="Отвечено вопросов"></progress>
       <div class="quiz-card">
         <div class="question-heading"><span class="small-label">ВЫБЕРИТЕ ПРАВИЛЬНЫЙ ПЕРЕВОД</span><span class="question-badge">4 варианта · 1 верный</span></div>
@@ -64,7 +69,7 @@
           <div class="question-bottom"><p>Перевод останется на экране до следующего вопроса.</p><button id="next" class="button-primary next-button" type="button" disabled>Следующий вопрос <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div>
         </div>
       </div>
-      <div class="metrics" aria-label="Результаты текущего прохода"><div class="metric"><div><span class="metric-label">Верно</span><strong id="correct-count">0</strong></div></div><div class="metric"><div><span class="metric-label">Ошибки</span><strong id="mistake-count">0</strong></div></div><div class="metric"><div><span class="metric-label">Точность</span><strong id="accuracy">0%</strong></div></div></div>
+{{METRICS}}
       <p class="keyboard-help"><span><kbd>1</kbd>–<kbd>4</kbd> выбрать ответ</span><span><kbd>Enter</kbd> следующий вопрос</span></p>
     </section>
     <section id="complete" class="completion" hidden aria-labelledby="complete-title">
