@@ -54,7 +54,8 @@ h1 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; color:
 .section-link:hover { background: #e0eddd; border-color: var(--accent); }
 .section-link strong { display: block; font-size: 15px; line-height: 1.5; }
 .section-link span span { display: block; margin-top: 4px; font-size: 12px; line-height: 1.5; color: var(--muted); }
-.welcome-card { margin-top: 36px; border-radius: 22px; border: 1px solid var(--line); display: grid; grid-template-columns: .92fr 1.08fr; overflow: hidden; background: #fff; box-shadow: 0 9px 35px #243c3303; }
+.welcome-card { margin-top: 36px; min-height: 1040px; border-radius: 22px; border: 1px solid var(--line); display: grid; grid-template-columns: .92fr 1.08fr; overflow: hidden; background: #fff; box-shadow: 0 9px 35px #243c3303; }
+/* Reserve the word settings' space on both pages to keep the start button and footer aligned. */
 .word-art { position: relative; min-height: 357px; background: #eaf0e2; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .art-caption { position: absolute; top: 29px; left: 28px; right: 20px; color: #5c7655; font-size: 8px; font-weight: 700; letter-spacing: 1.6px; }
 .word-paper { position: absolute; width: 216px; height: 205px; border-radius: 12px; border: 1px solid #d8e0cf; }
@@ -70,7 +71,9 @@ h1 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; color:
 .art-spark { position: absolute; color: #81976e; }
 .spark-one { left: 47px; top: 90px; font-size: 37px; transform: rotate(10deg); }
 .spark-two { right: 42px; bottom: 90px; font-size: 26px; font-weight: 300; }
-.welcome-content { padding: 35px 38px 26px; }
+.welcome-content { display: flex; flex-direction: column; min-width: 0; padding: 35px 38px 26px; }
+.welcome-content > * { flex-shrink: 0; }
+.welcome-content #start { margin-top: auto; }
 .small-label { font-size: 9px; font-weight: 700; color: #77876f; letter-spacing: 1.5px; }
 h2 { margin: 15px 0 21px; font-size: 29px; font-weight: 550; letter-spacing: -.8px; line-height: 1.2; }
 .rules { padding: 0; list-style: none; margin: 0 0 25px; display: grid; gap: 13px; }
@@ -106,13 +109,14 @@ h2 { margin: 15px 0 21px; font-size: 29px; font-weight: 550; letter-spacing: -.8
 .mode-option:hover .mode-label { border-color: #8fa47d; }
 .format-selector .mode-label { height: 100%; }
 .format-selector .mode-label strong { display: block; padding-right: 7px; line-height: 1.4; }
-.format-selector .mode-label > span { line-height: 1.5; }
+.format-selector .mode-label > span { line-height: 1.5; min-height: 3em; }
 .start-note { margin: 12px 0 0; color: #798774; font-size: 10px; line-height: 1.6; text-align: center; }
 .intro-notes { margin: 23px 0 0; display: flex; justify-content: center; gap: 35px; font-size: 11px; color: #788572; }
 .intro-notes span { display: flex; gap: 8px; align-items: center; }
 .intro-notes .icon { width: 16px; height: 16px; }
 .training { padding-top: 28px; max-width: 830px; margin: auto; }
 .training-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+.training-meta { display: flex; flex-direction: column; }
 .question-count { font-size: 17px; margin: 9px 0 0; letter-spacing: -.3px; }
 .question-count strong { font-weight: 650; }
 .question-count > span { color: #819078; margin-left: 2px; font-size: 14px; }
@@ -233,7 +237,7 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   .brand-mark { width: 34px; height: 34px; border-radius: 10px; }
   .offline { font-size: 10px; }
   .intro { padding-top: 25px; }
-  .welcome-card { grid-template-columns: .85fr 1.15fr; }
+  .welcome-card { grid-template-columns: .85fr 1.15fr; min-height: 1220px; }
   .welcome-content { padding: 30px 24px 23px; }
   .word-paper { width: 175px; height: 190px; }
   .paper-word { font-size: 48px; }
@@ -259,9 +263,13 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   .intro { padding-top: 23px; }
   .eyebrow { font-size: 8px; letter-spacing: 1.5px; }
   h1 { font-size: 39px; letter-spacing: -1.5px; margin-top: 19px; }
+  .intro > h1 { font-size: clamp(31px, 10vw, 39px); }
   .hero-description { font-size: 13px; line-height: 1.8; }
+  .intro > .hero-description { min-height: 5.4em; }
+  .section-link strong { min-height: 3em; }
+  .section-link span span { min-height: 3em; }
   .desktop-break { display: none; }
-  .welcome-card { grid-template-columns: 1fr; margin-top: 28px; border-radius: 16px; }
+  .welcome-card { grid-template-columns: 1fr; grid-template-rows: 236px minmax(0, 1fr); min-height: 1280px; margin-top: 28px; border-radius: 16px; }
   .word-art { min-height: 236px; }
   .art-caption { top: 20px; left: 22px; font-size: 7px; letter-spacing: 1.3px; }
   .word-paper { width: 158px; height: 145px; border-radius: 10px; }
@@ -320,29 +328,15 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   .result-summary > div { padding: 0 17px; }
   .result-summary span { font-size: 10px; }
 }
+@media (max-width: 360px) {
+  .welcome-card { min-height: 1400px; }
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
 }
 
-.phrases-intro { max-width: 830px; margin: auto; padding-top: 25px; }
-#training-collection { display: block; }
-.phrases-settings { max-width: 680px; margin-top: 30px; padding: 30px; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
-.collection-selector .mode-label { height: 100%; min-height: 92px; }
-.collection-selector .mode-label strong { display: block; padding-right: 8px; line-height: 1.5; }
+/* Long expressions need a smaller prompt; the page layout uses shared styles. */
 .phrases-page .phrase-prompt { max-width: 100%; font-size: clamp(27px, 4vw, 45px); line-height: 1.3; letter-spacing: -1px; overflow-wrap: anywhere; }
-.phrases-page .option { min-height: 78px; }
-.phrases-page .option-text { overflow-wrap: anywhere; line-height: 1.6; }
-.phrases-page .feedback p { font-size: 14px; }
-.phrases-page .feedback > div { min-width: 0; }
-.phrases-page .metric { justify-content: center; text-align: center; }
-@media (max-width: 600px) {
-  .phrases-settings { padding: 20px 16px; }
-  .collection-selector .mode-options { grid-template-columns: 1fr; }
-  .collection-selector .mode-label { min-height: 0; }
-  .phrases-page .header { gap: 14px; }
-  .phrases-page .brand { font-size: 21px; }
-  .phrases-page .feedback p { font-size: 12px; }
-}
 </style>
 </head>
 <body class="phrases-page">
@@ -351,45 +345,72 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
     <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
     <symbol id="icon-cross" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
     <symbol id="icon-repeat" viewBox="0 0 24 24"><path d="M20 7h-4V3M4 17h4v4m11-14a8 8 0 0 0-13-2M5 17a8 8 0 0 0 13 2"/></symbol>
+    <symbol id="icon-leaf" viewBox="0 0 24 24"><path d="M19 4C8 3 3 8 5 15c6 7 15 1 14-11ZM5 20 15 10"/></symbol>
+    <symbol id="icon-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 10v4m-2-2h4"/></symbol>
   </svg>
   <header class="header shell">
-    <a class="brand" href="./index.html" aria-label="English Winner — тест на слова"><span>english<span class="brand-light">winner</span><span class="brand-dot">.</span></span></a>
+    <a class="brand" href="#" aria-label="English Winner — начало">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 8h7c2 0 3 1 3 3v14c0-3-2-4-5-4H7Zm18 0h-5c-2 0-3 1-3 3v14c0-3 2-4 5-4h3Z"/><path d="m20 13 2 2 4-5"/></svg></span>
+      <span>english<span class="brand-light">winner</span><span class="brand-dot">.</span></span>
+    </a>
+    <div class="header-actions">
+      <span class="offline"><span class="status-dot"></span>Работает офлайн</span>
+      <button class="button-quiet" id="restart" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg>Новый проход</button>
+    </div>
   </header>
   <main class="shell">
     <div id="startup-warning" class="startup-warning" role="status"><strong>Для теста нужен браузер с JavaScript.</strong><p>Если на iPhone файл открылся в предпросмотре, откройте веб-версию в Safari.</p><a href="https://borovetskirill38-boop.github.io/englishwinner/phrases.html">Открыть веб-версию</a><noscript><p>Включите JavaScript в браузере.</p></noscript></div>
-    <section id="intro" class="intro phrases-intro" aria-labelledby="intro-title">
+    <section id="intro" class="intro" aria-labelledby="intro-title">
       <div class="eyebrow"><span class="status-dot"></span>АНГЛИЙСКИЙ В ВЫРАЖЕНИЯХ</div>
       <h1 id="intro-title">Знакомые слова.<br><em>Новый смысл.</em></h1>
-      <p class="hero-description">500 устойчивых выражений и 500 фразовых глаголов.<br>Два отдельных теста для повседневного английского.</p>
+      <p class="hero-description">500 устойчивых выражений и 500 фразовых глаголов.<br class="desktop-break"> Два отдельных теста для повседневного английского.</p>
       <a class="section-link words-link" href="./index.html"><span><strong>Словарный запас</strong><span>5000 слов · Уровни 1000, 3000 и 5000</span></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
-      <div class="phrases-settings">
-        <fieldset class="mode-selector collection-selector">
+      <div class="welcome-card">
+        <div class="word-art" aria-hidden="true">
+          <span class="art-caption">НОВЫЙ СМЫСЛ — НОВЫЕ ВОЗМОЖНОСТИ</span>
+          <div class="word-paper paper-back"></div>
+          <div class="word-paper paper-front"><span class="paper-label">ENGLISH</span><span class="paper-word">give up</span><span class="paper-line"></span><span class="paper-translation">сдаваться</span><span class="paper-check"><svg class="icon"><use href="#icon-check"/></svg></span></div>
+          <span class="art-count"><strong>500 + 500</strong> для практики</span>
+          <span class="art-spark spark-one">✳</span><span class="art-spark spark-two">+</span>
+        </div>
+        <div class="welcome-content">
+          <span class="small-label">ПРОСТО ОТКРОЙТЕ И НАЧНИТЕ</span>
+          <h2>Два направления.<br>Два набора выражений.</h2>
+          <ul class="rules">
+            <li><span class="rule-number">01</span>Выберите единственный верный вариант.</li>
+            <li><span class="rule-number">02</span>Сразу узнайте результат и правильный перевод.</li>
+            <li><span class="rule-number">03</span>Повторяйте: каждый проход перемешивается.</li>
+          </ul>
+        <fieldset class="mode-selector">
+          <legend>Выберите направление</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="mode-en-ru" name="mode" type="radio" value="en-ru" checked><span class="mode-label"><strong>EN <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg> RU</strong><span>На русский</span></span></label>
+            <label class="mode-option"><input id="mode-ru-en" name="mode" type="radio" value="ru-en"><span class="mode-label"><strong>RU <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg> EN</strong><span>На английский</span></span></label>
+          </div>
+        </fieldset>
+          <fieldset class="mode-selector format-selector">
+          <legend>Выберите формат</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="format-full" name="format" type="radio" value="full"><span class="mode-label"><strong>Полный тест</strong><span>Все 500 вопросов</span></span></label>
+            <label class="mode-option"><input id="format-express" name="format" type="radio" value="express" checked><span class="mode-label"><strong>Экспресс-тест</strong><span>20 случайных вопросов</span></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="mode-selector format-selector collection-selector">
           <legend>Что будем изучать?</legend>
           <div class="mode-options">
             <label class="mode-option"><input id="collection-expressions" name="collection" type="radio" value="expressions" checked><span class="mode-label"><strong>Устойчивые выражения</strong><span>500 выражений · a piece of cake</span></span></label>
             <label class="mode-option"><input id="collection-phrasal-verbs" name="collection" type="radio" value="phrasal-verbs"><span class="mode-label"><strong>Фразовые глаголы</strong><span>500 глаголов · give up</span></span></label>
           </div>
         </fieldset>
-        <fieldset class="mode-selector">
-          <legend>Направление перевода</legend>
-          <div class="mode-options">
-            <label class="mode-option"><input id="mode-en-ru" name="mode" type="radio" value="en-ru" checked><span class="mode-label"><strong>EN → RU</strong><span>На русский</span></span></label>
-            <label class="mode-option"><input id="mode-ru-en" name="mode" type="radio" value="ru-en"><span class="mode-label"><strong>RU → EN</strong><span>На английский</span></span></label>
-          </div>
-        </fieldset>
-        <fieldset class="mode-selector format-selector">
-          <legend>Сколько вопросов?</legend>
-          <div class="mode-options">
-            <label class="mode-option"><input id="format-express" name="format" type="radio" value="express" checked><span class="mode-label"><strong>Экспресс-тест</strong><span>20 случайных вопросов</span></span></label>
-            <label class="mode-option"><input id="format-full" name="format" type="radio" value="full"><span class="mode-label"><strong>Полный тест</strong><span>Все 500 вопросов</span></span></label>
-          </div>
-        </fieldset>
+
         <button id="start" class="button-primary" type="button" disabled>Начать тест <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
-        <p class="start-note">Четыре варианта ответа · Без таймера · Новый порядок каждый раз</p>
+        <p class="start-note">Без таймера. Без регистрации. В своём темпе.</p>
+        </div>
       </div>
+      <div class="intro-notes"><span><svg class="icon" aria-hidden="true"><use href="#icon-leaf"/></svg>Можно ошибаться — так мы учимся</span><span><svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg>Неограниченное число проходов</span></div>
     </section>
     <section id="training" class="training" hidden aria-labelledby="word">
-      <div class="training-heading"><div><span id="training-format" class="small-label"></span><p id="training-collection" class="level-badge"></p><p class="question-count">Вопрос <strong id="question-number">1</strong><span> / <span id="total-count">20</span></span></p></div><button id="change-mode" class="mode-switch" type="button"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span id="direction" class="direction-languages">EN → RU</span></span></button></div>
+      <div class="training-heading"><div><span id="training-format" class="small-label"></span><div class="training-meta"><span id="training-level" class="level-badge">Набор: 500 записей</span><span id="training-collection" class="level-badge"></span></div><p class="question-count">Вопрос <strong id="question-number">1</strong><span> / <span id="total-count">20</span></span></p></div><button id="change-mode" class="mode-switch" type="button"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span id="direction" class="direction-languages">EN → RU</span></span></button></div>
       <progress id="progress" value="0" max="20" aria-label="Отвечено вопросов"></progress>
       <div class="quiz-card">
         <div class="question-heading"><span class="small-label">ВЫБЕРИТЕ ПРАВИЛЬНЫЙ ПЕРЕВОД</span><span class="question-badge">4 варианта · 1 верный</span></div>
@@ -401,7 +422,11 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
           <div class="question-bottom"><p>Перевод останется на экране до следующего вопроса.</p><button id="next" class="button-primary next-button" type="button" disabled>Следующий вопрос <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div>
         </div>
       </div>
-      <div class="metrics" aria-label="Результаты текущего прохода"><div class="metric"><div><span class="metric-label">Верно</span><strong id="correct-count">0</strong></div></div><div class="metric"><div><span class="metric-label">Ошибки</span><strong id="mistake-count">0</strong></div></div><div class="metric"><div><span class="metric-label">Точность</span><strong id="accuracy">0%</strong></div></div></div>
+      <div class="metrics" aria-label="Результаты текущего прохода">
+        <div class="metric"><span class="metric-icon metric-green"><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg></span><div><span class="metric-label">Верно</span><strong id="correct-count">0</strong></div></div>
+        <div class="metric"><span class="metric-icon metric-red"><svg class="icon" aria-hidden="true"><use href="#icon-cross"/></svg></span><div><span class="metric-label">Ошибки</span><strong id="mistake-count">0</strong></div></div>
+        <div class="metric"><span class="metric-icon metric-neutral"><svg class="icon" aria-hidden="true"><use href="#icon-target"/></svg></span><div><span class="metric-label">Точность</span><strong id="accuracy">0%</strong></div></div>
+      </div>
       <p class="keyboard-help"><span><kbd>1</kbd>–<kbd>4</kbd> выбрать ответ</span><span><kbd>Enter</kbd> следующий вопрос</span></p>
     </section>
     <section id="complete" class="completion" hidden aria-labelledby="complete-title">
@@ -565,6 +590,8 @@ if (typeof module !== "undefined" && module.exports) module.exports = PhraseQuiz
   }
   function show(screen) {
     ["intro", "training", "complete"].forEach((id) => { $(id).hidden = id !== screen; });
+    $("restart").hidden = screen === "intro";
+    document.body.classList.toggle("is-training", screen !== "intro");
   }
   function stats() {
     $("correct-count").textContent = session.correct;
@@ -690,6 +717,11 @@ if (typeof module !== "undefined" && module.exports) module.exports = PhraseQuiz
   $("change-mode").addEventListener("click", chooseMode);
   $("change-mode-complete").addEventListener("click", chooseMode);
   $("restart-complete").addEventListener("click", start);
+  $("restart").addEventListener("click", start);
+  document.querySelector(".brand").addEventListener("click", (event) => {
+    event.preventDefault();
+    chooseMode();
+  });
   document.addEventListener("keydown", (event) => {
     if (event.repeat || !session || $("training").hidden || event.altKey || event.ctrlKey || event.metaKey) return;
     const active = document.activeElement;

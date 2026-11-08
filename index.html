@@ -57,7 +57,8 @@ h1 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; color:
 .section-link:hover { background: #e0eddd; border-color: var(--accent); }
 .section-link strong { display: block; font-size: 15px; line-height: 1.5; }
 .section-link span span { display: block; margin-top: 4px; font-size: 12px; line-height: 1.5; color: var(--muted); }
-.welcome-card { margin-top: 36px; border-radius: 22px; border: 1px solid var(--line); display: grid; grid-template-columns: .92fr 1.08fr; overflow: hidden; background: #fff; box-shadow: 0 9px 35px #243c3303; }
+.welcome-card { margin-top: 36px; min-height: 1040px; border-radius: 22px; border: 1px solid var(--line); display: grid; grid-template-columns: .92fr 1.08fr; overflow: hidden; background: #fff; box-shadow: 0 9px 35px #243c3303; }
+/* Reserve the word settings' space on both pages to keep the start button and footer aligned. */
 .word-art { position: relative; min-height: 357px; background: #eaf0e2; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .art-caption { position: absolute; top: 29px; left: 28px; right: 20px; color: #5c7655; font-size: 8px; font-weight: 700; letter-spacing: 1.6px; }
 .word-paper { position: absolute; width: 216px; height: 205px; border-radius: 12px; border: 1px solid #d8e0cf; }
@@ -73,7 +74,9 @@ h1 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; color:
 .art-spark { position: absolute; color: #81976e; }
 .spark-one { left: 47px; top: 90px; font-size: 37px; transform: rotate(10deg); }
 .spark-two { right: 42px; bottom: 90px; font-size: 26px; font-weight: 300; }
-.welcome-content { padding: 35px 38px 26px; }
+.welcome-content { display: flex; flex-direction: column; min-width: 0; padding: 35px 38px 26px; }
+.welcome-content > * { flex-shrink: 0; }
+.welcome-content #start { margin-top: auto; }
 .small-label { font-size: 9px; font-weight: 700; color: #77876f; letter-spacing: 1.5px; }
 h2 { margin: 15px 0 21px; font-size: 29px; font-weight: 550; letter-spacing: -.8px; line-height: 1.2; }
 .rules { padding: 0; list-style: none; margin: 0 0 25px; display: grid; gap: 13px; }
@@ -109,13 +112,14 @@ h2 { margin: 15px 0 21px; font-size: 29px; font-weight: 550; letter-spacing: -.8
 .mode-option:hover .mode-label { border-color: #8fa47d; }
 .format-selector .mode-label { height: 100%; }
 .format-selector .mode-label strong { display: block; padding-right: 7px; line-height: 1.4; }
-.format-selector .mode-label > span { line-height: 1.5; }
+.format-selector .mode-label > span { line-height: 1.5; min-height: 3em; }
 .start-note { margin: 12px 0 0; color: #798774; font-size: 10px; line-height: 1.6; text-align: center; }
 .intro-notes { margin: 23px 0 0; display: flex; justify-content: center; gap: 35px; font-size: 11px; color: #788572; }
 .intro-notes span { display: flex; gap: 8px; align-items: center; }
 .intro-notes .icon { width: 16px; height: 16px; }
 .training { padding-top: 28px; max-width: 830px; margin: auto; }
 .training-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+.training-meta { display: flex; flex-direction: column; }
 .question-count { font-size: 17px; margin: 9px 0 0; letter-spacing: -.3px; }
 .question-count strong { font-weight: 650; }
 .question-count > span { color: #819078; margin-left: 2px; font-size: 14px; }
@@ -236,7 +240,7 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   .brand-mark { width: 34px; height: 34px; border-radius: 10px; }
   .offline { font-size: 10px; }
   .intro { padding-top: 25px; }
-  .welcome-card { grid-template-columns: .85fr 1.15fr; }
+  .welcome-card { grid-template-columns: .85fr 1.15fr; min-height: 1220px; }
   .welcome-content { padding: 30px 24px 23px; }
   .word-paper { width: 175px; height: 190px; }
   .paper-word { font-size: 48px; }
@@ -262,9 +266,13 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   .intro { padding-top: 23px; }
   .eyebrow { font-size: 8px; letter-spacing: 1.5px; }
   h1 { font-size: 39px; letter-spacing: -1.5px; margin-top: 19px; }
+  .intro > h1 { font-size: clamp(31px, 10vw, 39px); }
   .hero-description { font-size: 13px; line-height: 1.8; }
+  .intro > .hero-description { min-height: 5.4em; }
+  .section-link strong { min-height: 3em; }
+  .section-link span span { min-height: 3em; }
   .desktop-break { display: none; }
-  .welcome-card { grid-template-columns: 1fr; margin-top: 28px; border-radius: 16px; }
+  .welcome-card { grid-template-columns: 1fr; grid-template-rows: 236px minmax(0, 1fr); min-height: 1280px; margin-top: 28px; border-radius: 16px; }
   .word-art { min-height: 236px; }
   .art-caption { top: 20px; left: 22px; font-size: 7px; letter-spacing: 1.3px; }
   .word-paper { width: 158px; height: 145px; border-radius: 10px; }
@@ -323,6 +331,9 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   .result-summary > div { padding: 0 17px; }
   .result-summary span { font-size: 10px; }
 }
+@media (max-width: 360px) {
+  .welcome-card { min-height: 1400px; }
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
 }
@@ -380,20 +391,6 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
             <li><span class="rule-number">02</span><span id="rule-feedback">Сразу узнайте результат и правильный перевод.</span></li>
             <li><span class="rule-number">03</span>Повторяйте: каждый проход перемешивается.</li>
           </ul>
-          <fieldset class="mode-selector level-selector">
-            <legend>Выберите уровень сложности</legend>
-            <div class="mode-options level-options">
-              <label class="mode-option"><input id="level-1000" type="radio" name="level" value="1000" aria-label="Базовый — 1000 самых частотных слов"><span class="mode-label"><strong>1000 слов</strong><span>Базовый</span></span></label>
-              <label class="mode-option"><input id="level-3000" type="radio" name="level" value="3000" aria-label="Средний — 3000 самых частотных слов"><span class="mode-label"><strong>3000 слов</strong><span>Средний</span></span></label>
-              <label class="mode-option"><input id="level-5000" type="radio" name="level" value="5000" aria-label="Продвинутый — 5000 самых частотных слов" checked><span class="mode-label"><strong>5000 слов</strong><span>Продвинутый</span></span></label>
-            </div>
-            <p id="level-description" class="selection-note" aria-live="polite">Вопросы и варианты ответа — из 5000 самых частотных слов.</p>
-          </fieldset>
-          <div class="topic-selector">
-            <label for="topic">Выберите тему</label>
-            <select id="topic" name="topic" aria-describedby="topic-description"><option value="all">Все темы — 5000 слов</option></select>
-            <p id="topic-description" class="selection-note" aria-live="polite">Все слова выбранного уровня.</p>
-          </div>
           <fieldset class="mode-selector">
             <legend>Выберите направление</legend>
             <div class="mode-options">
@@ -408,6 +405,21 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
               <label class="mode-option"><input id="format-express" type="radio" name="format" value="express" aria-label="Экспресс-тест — 20 случайных слов"><span class="mode-label"><strong>Экспресс-тест</strong><span id="express-format-note">20 случайных слов</span></span></label>
             </div>
           </fieldset>
+          <fieldset class="mode-selector level-selector">
+            <legend>Выберите уровень сложности</legend>
+            <div class="mode-options level-options">
+              <label class="mode-option"><input id="level-1000" type="radio" name="level" value="1000" aria-label="Базовый — 1000 самых частотных слов"><span class="mode-label"><strong>1000 слов</strong><span>Базовый</span></span></label>
+              <label class="mode-option"><input id="level-3000" type="radio" name="level" value="3000" aria-label="Средний — 3000 самых частотных слов"><span class="mode-label"><strong>3000 слов</strong><span>Средний</span></span></label>
+              <label class="mode-option"><input id="level-5000" type="radio" name="level" value="5000" aria-label="Продвинутый — 5000 самых частотных слов" checked><span class="mode-label"><strong>5000 слов</strong><span>Продвинутый</span></span></label>
+            </div>
+            <p id="level-description" class="selection-note" aria-live="polite">Вопросы и варианты ответа — из 5000 самых частотных слов.</p>
+          </fieldset>
+          <div class="topic-selector">
+            <label for="topic">Выберите тему</label>
+            <select id="topic" name="topic" aria-describedby="topic-description"><option value="all">Все темы — 5000 слов</option></select>
+            <p id="topic-description" class="selection-note" aria-live="polite">Все слова выбранного уровня.</p>
+          </div>
+
           <fieldset class="mode-selector format-selector">
             <legend>Как отвечать</legend>
             <div class="mode-options">
@@ -425,7 +437,7 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
     <p id="typed-outcome" class="typed-outcome" role="status" aria-live="polite" aria-atomic="true" hidden></p>
 
     <section id="training" class="training" hidden aria-labelledby="word">
-      <div class="training-heading"><div><span id="training-format" class="small-label">ПОЛНЫЙ ТЕСТ</span><br><span id="training-level" class="level-badge">Уровень: 5000 слов</span><br><span id="training-topic" class="level-badge">Все темы</span><p class="question-count">Слово <strong id="question-number">1</strong><span> / <span id="total-count">5000</span></span></p></div><button id="change-mode" class="mode-switch" type="button" aria-label="Сменить режим"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span class="direction-languages"><span id="direction-from">EN</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg><span id="direction-to">RU</span></span></span></button></div>
+      <div class="training-heading"><div><span id="training-format" class="small-label">ПОЛНЫЙ ТЕСТ</span><div class="training-meta"><span id="training-level" class="level-badge">Уровень: 5000 слов</span><span id="training-topic" class="level-badge">Все темы</span></div><p class="question-count">Слово <strong id="question-number">1</strong><span> / <span id="total-count">5000</span></span></p></div><button id="change-mode" class="mode-switch" type="button" aria-label="Сменить режим"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span class="direction-languages"><span id="direction-from">EN</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg><span id="direction-to">RU</span></span></span></button></div>
       <progress id="progress" value="0" max="5000" aria-label="Отвечено вопросов"></progress>
       <div class="quiz-card">
         <div class="question-heading"><span class="small-label">КАК ПЕРЕВОДИТСЯ ЭТО СЛОВО?</span><span id="question-badge" class="question-badge">4 варианта · 1 верный</span></div>
