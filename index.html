@@ -170,6 +170,7 @@ progress::-moz-progress-bar { background: #638650; border-radius: 8px; }
 .feedback-icon .icon { width: 18px; height: 18px; }
 .feedback strong { font-size: 13px; }
 .feedback p { margin: 4px 0 0; color: #66755e; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+#feedback-selected { color: var(--red); }
 .feedback.has-answer p { color: var(--ink); font-size: 15px; font-weight: 600; }
 .question-bottom { border-top: 1px solid #edf0e8; padding-top: 18px; display: flex; gap: 14px; justify-content: space-between; align-items: center; }
 .question-bottom p { margin: 0; font-size: 10px; color: #7f8a78; line-height: 1.5; }
@@ -435,7 +436,7 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
           <button id="skip-word" class="button-text typed-skip" type="button">Пропустить слово — ошибка<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
         </form>
         <div class="answer-area">
-          <div id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true"><span id="feedback-icon" class="feedback-icon" aria-hidden="true"></span><div><strong id="feedback-title"></strong><p id="feedback-detail"></p></div></div>
+          <div id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true"><span id="feedback-icon" class="feedback-icon" aria-hidden="true"></span><div><strong id="feedback-title"></strong><p id="feedback-selected" hidden></p><p id="feedback-detail"></p></div></div>
           <div class="question-bottom"><p id="answer-hint">Не спешите. Здесь нет таймера.</p><button class="button-primary next-button" id="next" type="button" disabled>Следующее слово<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div>
         </div>
       </div>
@@ -862,6 +863,8 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
     $("typed-answer").removeAttribute("aria-invalid");
     $("feedback").className = "feedback";
     $("feedback-title").textContent = "";
+    $("feedback-selected").textContent = "";
+    $("feedback-selected").hidden = true;
     $("feedback-detail").textContent = "";
     replaceChildren($("feedback-icon"));
     $("answer-hint").textContent = typing ? "Три попытки на слово. После третьей ошибки покажем перевод." : "Не спешите. Здесь нет таймера.";
@@ -930,9 +933,18 @@ if (typeof module !== "undefined" && module.exports) module.exports = Quiz;
     });
     $("feedback").classList.add(result.correct ? "is-correct" : "is-wrong");
     $("feedback-title").textContent = result.correct ? "Верно! Так держать." : "Неправильно. Запомним на следующий раз.";
-    $("feedback-detail").textContent = session.mode === "ru-en"
+    if (!result.correct) {
+      const option = session.options[index];
+      const selectedEntry = session.vocabulary.find((entry) => entry.word === option.word);
+      const selectedPair = session.mode === "ru-en"
+        ? `${option.text} — ${selectedEntry.translation}` : `${option.text} — ${selectedEntry.word}`;
+      $("feedback-selected").textContent = `Вы выбрали: ${selectedPair}`;
+      $("feedback-selected").hidden = false;
+    }
+    const correctPair = session.mode === "ru-en"
       ? `${result.translation} — ${session.entry.word}`
       : `${session.entry.word} — ${result.translation}`;
+    $("feedback-detail").textContent = result.correct ? correctPair : `Правильный ответ: ${correctPair}`;
     replaceChildren($("feedback-icon"), icon(result.correct ? "check" : "cross"));
     $("answer-hint").textContent = "Перевод останется на экране, пока вы не продолжите.";
     $("next").disabled = false;
