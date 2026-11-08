@@ -36,6 +36,7 @@ function publish(repository = path.resolve(__dirname, ".."), remote = "origin") 
   const licenses = tree([["blob", blob(file("licenses/CC-BY-SA-4.0.txt")), "CC-BY-SA-4.0.txt"]]);
   const website = tree([
     ["blob", blob(file("index.html")), "index.html"],
+    ["blob", blob(file("phrases.html")), "phrases.html"],
     ["blob", blob(Buffer.alloc(0)), ".nojekyll"],
     ["blob", blob(file("LICENSE")), "LICENSE"],
     ["tree", licenses, "licenses"],

@@ -126,15 +126,73 @@ function build() {
   return html;
 }
 
+function loadPhraseData() {
+  const files = {
+    expressions: ["expressions-conversation.tsv", "expressions-idioms.tsv"],
+    "phrasal-verbs": ["phrasal-verbs-a-l.tsv", "phrasal-verbs-m-z.tsv"],
+  };
+  const data = {};
+  const key = (text) => text.toLocaleLowerCase("en").replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim();
+  for (const [collection, sources] of Object.entries(files)) {
+    data[collection] = [];
+    const seen = new Set();
+    for (const source of sources) {
+      const entries = read(`data/${source}`).split(/\r?\n/).filter((line) => line && !line.startsWith("#"));
+      if (entries.length !== 250) fail(`${source}: должно быть ровно 250 записей`);
+      for (const line of entries) {
+        const [english, translation, ...extra] = line.split("\t");
+        if (!english || !translation || extra.length || english !== english.trim() || translation !== translation.trim()
+            || !/^[a-z]/i.test(english) || !english.includes(" ") || !/[а-яё]/i.test(translation) || seen.has(key(english))) {
+          fail(`Некорректное или повторное выражение ${collection}: ${english}`);
+        }
+        seen.add(key(english));
+        data[collection].push({ english, translation });
+      }
+    }
+    if (data[collection].length !== 500) fail(`${collection}: должно быть ровно 500 записей`);
+  }
+  data.exclusions = JSON.parse(read("data/phrase-confusions.json"));
+  if (Object.keys(data.exclusions).some((collection) => !Object.prototype.hasOwnProperty.call(files, collection))) fail("Неизвестный набор исключений выражений");
+  for (const collection of Object.keys(files)) {
+    const known = new Set(data[collection].map((entry) => entry.english));
+    const groups = data.exclusions[collection];
+    if (!Array.isArray(groups)) fail(`Нет групп синонимов для ${collection}`);
+    for (const group of groups) {
+      if (!Array.isArray(group) || group.length < 2 || new Set(group).size !== group.length || group.some((english) => !known.has(english))) {
+        fail(`Некорректная группа близких выражений: ${JSON.stringify(group)}`);
+      }
+    }
+  }
+  return data;
+}
+
+function buildPhrases() {
+  const tokens = {
+    "{{STYLES}}": read("src/styles.css") + "\n" + read("src/phrases.css"),
+    "{{DATA}}": JSON.stringify(loadPhraseData()).replaceAll("<", "\\u003c"),
+    "{{SCRIPT}}": read("src/phrase-core.js") + "\n" + read("src/phrase-app.js"),
+  };
+  let html = read("src/phrases.template.html");
+  for (const [token, value] of Object.entries(tokens)) {
+    if (html.split(token).length !== 2) fail(`В шаблоне выражений должен быть один маркер ${token}`);
+    html = html.replace(token, () => value);
+  }
+  return html;
+}
+
 if (require.main === module) {
   const html = build();
+  const phrases = buildPhrases();
   if (process.argv.includes("--check")) {
     if (read("index.html") !== html) fail("index.html устарел. Выполните npm run build");
-    console.log(`index.html актуален; ${WORD_COUNT} уникальных слов, три уровня и оба направления проверены.`);
+    if (read("phrases.html") !== phrases) fail("phrases.html устарел. Выполните npm run build");
+    console.log(`index.html и phrases.html актуальны; ${WORD_COUNT} слов и два набора по 500 выражений.`);
   } else {
     fs.writeFileSync(path.join(root, "index.html"), html);
+    fs.writeFileSync(path.join(root, "phrases.html"), phrases);
     console.log(`Собран index.html: ${WORD_COUNT} слов, ${Buffer.byteLength(html)} байт. Интернет не нужен.`);
+    console.log(`Собран phrases.html: 500 выражений и 500 фразовых глаголов, ${Buffer.byteLength(phrases)} байт.`);
   }
 }
 
-module.exports = { build, loadData };
+module.exports = { build, loadData, buildPhrases, loadPhraseData };

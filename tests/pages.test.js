@@ -22,6 +22,7 @@ test("website publication preserves large HTML files, source and Pages history a
     git(["remote", "add", "origin", remote]);
     fs.mkdirSync(path.join(source, "licenses"));
     fs.writeFileSync(path.join(source, "index.html"), "<!doctype html><title>First</title>\n");
+    fs.writeFileSync(path.join(source, "phrases.html"), "<!doctype html><title>Expressions</title>\n");
     fs.writeFileSync(path.join(source, "LICENSE"), "Application license\n");
     fs.writeFileSync(path.join(source, "licenses/CC-BY-SA-4.0.txt"), "Vocabulary license\n");
     git(["add", "."]); git(["commit", "-m", "First website"]);
@@ -30,6 +31,7 @@ test("website publication preserves large HTML files, source and Pages history a
     assert.equal(first.source, head);
     assert.equal(first.changed, true);
     assert.equal(git(["show", "gh-pages:index.html"], remote), "<!doctype html><title>First</title>");
+    assert.equal(git(["show", "gh-pages:phrases.html"], remote), "<!doctype html><title>Expressions</title>");
     assert.equal(git(["show", "gh-pages:.nojekyll"], remote), "");
     assert.equal(git(["show", "gh-pages:licenses/CC-BY-SA-4.0.txt"], remote), "Vocabulary license");
     assert.equal(git(["branch", "--show-current"]), "main");
@@ -39,12 +41,14 @@ test("website publication preserves large HTML files, source and Pages history a
     const largeHTML = "<!doctype html><title>Updated</title>\n<!--" + "word ".repeat(250000) + "-->\n";
     assert.ok(Buffer.byteLength(largeHTML) > 1024 * 1024);
     fs.writeFileSync(path.join(source, "index.html"), largeHTML);
+    fs.writeFileSync(path.join(source, "phrases.html"), "<!doctype html><title>Updated expressions</title>\n");
     assert.throws(() => publish(source));
     git(["add", "."]); git(["commit", "-m", "Update website"]);
     const second = publish(source);
     assert.notEqual(second.commit, first.commit);
     git(["merge-base", "--is-ancestor", first.commit, second.commit], remote);
     assert.equal(git(["rev-parse", "gh-pages:index.html"], remote), git(["rev-parse", "HEAD:index.html"]));
+    assert.equal(git(["show", "gh-pages:phrases.html"], remote), "<!doctype html><title>Updated expressions</title>");
     assert.equal(git(["status", "--porcelain"]), "");
     assert.deepEqual(publish(source), { commit: second.commit, source: second.source, changed: false });
     git(["remote", "set-url", "origin", path.join(dir, "missing-remote")]);

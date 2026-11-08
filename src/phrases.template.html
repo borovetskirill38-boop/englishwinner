@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="500 устойчивых английских выражений и 500 фразовых глаголов. Отдельные тесты с четырьмя вариантами: 20 случайных вопросов или полный проход из 500, оба направления перевода.">
+  <meta name="theme-color" content="#f7f8f3">
+  <title>English Winner — выражения и фразовые глаголы</title>
+  <style>{{STYLES}}</style>
+</head>
+<body class="phrases-page">
+  <svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="icon-cross" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="icon-repeat" viewBox="0 0 24 24"><path d="M20 7h-4V3M4 17h4v4m11-14a8 8 0 0 0-13-2M5 17a8 8 0 0 0 13 2"/></symbol>
+  </svg>
+  <header class="header shell">
+    <a class="brand" href="./index.html" aria-label="English Winner — тест на слова"><span>english<span class="brand-light">winner</span><span class="brand-dot">.</span></span></a>
+    <a class="words-link" href="./index.html"><span>К тесту на слова</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+  </header>
+  <main class="shell">
+    <div id="startup-warning" class="startup-warning" role="status"><strong>Для теста нужен браузер с JavaScript.</strong><p>Если на iPhone файл открылся в предпросмотре, откройте веб-версию в Safari.</p><a href="https://borovetskirill38-boop.github.io/englishwinner/phrases.html">Открыть веб-версию</a><noscript><p>Включите JavaScript в браузере.</p></noscript></div>
+    <section id="intro" class="intro phrases-intro" aria-labelledby="intro-title">
+      <div class="eyebrow"><span class="status-dot"></span>АНГЛИЙСКИЙ В ВЫРАЖЕНИЯХ</div>
+      <h1 id="intro-title">Знакомые слова.<br><em>Новый смысл.</em></h1>
+      <p class="hero-description">500 устойчивых выражений и 500 фразовых глаголов.<br>Два отдельных теста для повседневного английского.</p>
+      <div class="phrases-settings">
+        <fieldset class="mode-selector collection-selector">
+          <legend>Что будем изучать?</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="collection-expressions" name="collection" type="radio" value="expressions" checked><span class="mode-label"><strong>Устойчивые выражения</strong><span>500 выражений · a piece of cake</span></span></label>
+            <label class="mode-option"><input id="collection-phrasal-verbs" name="collection" type="radio" value="phrasal-verbs"><span class="mode-label"><strong>Фразовые глаголы</strong><span>500 глаголов · give up</span></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="mode-selector">
+          <legend>Направление перевода</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="mode-en-ru" name="mode" type="radio" value="en-ru" checked><span class="mode-label"><strong>EN → RU</strong><span>На русский</span></span></label>
+            <label class="mode-option"><input id="mode-ru-en" name="mode" type="radio" value="ru-en"><span class="mode-label"><strong>RU → EN</strong><span>На английский</span></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="mode-selector format-selector">
+          <legend>Сколько вопросов?</legend>
+          <div class="mode-options">
+            <label class="mode-option"><input id="format-express" name="format" type="radio" value="express" checked><span class="mode-label"><strong>Экспресс-тест</strong><span>20 случайных вопросов</span></span></label>
+            <label class="mode-option"><input id="format-full" name="format" type="radio" value="full"><span class="mode-label"><strong>Полный тест</strong><span>Все 500 вопросов</span></span></label>
+          </div>
+        </fieldset>
+        <button id="start" class="button-primary" type="button" disabled>Начать тест <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+        <p class="start-note">Четыре варианта ответа · Без таймера · Новый порядок каждый раз</p>
+      </div>
+    </section>
+    <section id="training" class="training" hidden aria-labelledby="word">
+      <div class="training-heading"><div><span id="training-format" class="small-label"></span><p id="training-collection" class="level-badge"></p><p class="question-count">Вопрос <strong id="question-number">1</strong><span> / <span id="total-count">20</span></span></p></div><button id="change-mode" class="mode-switch" type="button"><span class="mode-switch-symbol" aria-hidden="true"><svg class="icon"><use href="#icon-repeat"/></svg></span><span class="mode-switch-content"><strong>Сменить режим</strong><span id="direction" class="direction-languages">EN → RU</span></span></button></div>
+      <progress id="progress" value="0" max="20" aria-label="Отвечено вопросов"></progress>
+      <div class="quiz-card">
+        <div class="question-heading"><span class="small-label">ВЫБЕРИТЕ ПРАВИЛЬНЫЙ ПЕРЕВОД</span><span class="question-badge">4 варианта · 1 верный</span></div>
+        <h1 id="word" class="english-word phrase-prompt" tabindex="-1"></h1>
+        <p id="word-note" class="word-note"></p>
+        <div id="options" class="options" role="group" aria-labelledby="word"></div>
+        <div class="answer-area">
+          <div id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true"><span id="feedback-icon" class="feedback-icon" aria-hidden="true"></span><div><strong id="feedback-title"></strong><p id="feedback-selected" hidden></p><p id="feedback-detail"></p></div></div>
+          <div class="question-bottom"><p>Перевод останется на экране до следующего вопроса.</p><button id="next" class="button-primary next-button" type="button" disabled>Следующий вопрос <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button></div>
+        </div>
+      </div>
+      <div class="metrics" aria-label="Результаты текущего прохода"><div class="metric"><div><span class="metric-label">Верно</span><strong id="correct-count">0</strong></div></div><div class="metric"><div><span class="metric-label">Ошибки</span><strong id="mistake-count">0</strong></div></div><div class="metric"><div><span class="metric-label">Точность</span><strong id="accuracy">0%</strong></div></div></div>
+      <p class="keyboard-help"><span><kbd>1</kbd>–<kbd>4</kbd> выбрать ответ</span><span><kbd>Enter</kbd> следующий вопрос</span></p>
+    </section>
+    <section id="complete" class="completion" hidden aria-labelledby="complete-title">
+      <span id="complete-count" class="eyebrow">ТЕСТ ЗАВЕРШЁН</span><p id="result-mode" class="result-mode"></p>
+      <div id="result-ring" class="result-ring"><div><strong id="result-percent">0%</strong><span>верных ответов</span></div></div>
+      <h1 id="complete-title" tabindex="-1">Шаг за шагом.<br><em>К живому английскому.</em></h1>
+      <p id="result-message" class="hero-description"></p>
+      <div class="result-summary"><div><strong id="result-correct">0</strong><span>верно</span></div><div><strong id="result-mistakes">0</strong><span>ошибок</span></div><div><strong id="result-total">20</strong><span>вопросов пройдено</span></div></div>
+      <section id="mistake-review" class="mistake-review" hidden aria-labelledby="mistake-review-title"><h2 id="mistake-review-title">Повторите эти выражения</h2><p id="mistake-review-message"></p><table id="mistake-review-table"><thead><tr><th id="review-source" scope="col">Английский</th><th scope="col">Правильный перевод</th></tr></thead><tbody id="mistake-review-list"></tbody></table></section>
+      <button id="restart-complete" class="button-primary" type="button">Пройти ещё раз <svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg></button>
+      <p class="start-note">Без ограничений на число попыток. При новом запуске вопросы перемешиваются.</p>
+      <button id="change-mode-complete" class="button-text" type="button">Выбрать другой тест</button>
+    </section>
+  </main>
+  <footer class="footer shell"><div class="footer-identity"><span class="footer-note">Немного практики. Каждый день.</span><span class="footer-credit">Made by <strong>Kirill Borovets</strong></span><span class="footer-rights">© 2026 Kirill Borovets. Все права защищены.</span></div><details class="about"><summary>О подборке и правилах</summary><div class="about-content"><p>Два отдельных учебных набора: 500 устойчивых выражений, включая разговорные формулы и идиомы, и 500 фразовых и предложных глаголов. Это подборка для практики повседневного английского, а не статистический рейтинг частотности. Переводы подготовлены для проекта.</p><p>У каждого выражения выбрано одно распространённое значение. В другом контексте возможны другие переводы. Полный тест охватывает все 500 записей выбранного набора, экспресс — 20 случайных без повторов. Наборы не смешиваются. В обоих направлениях четыре варианта ответа, ручного ввода нет. После ответа нажмите «Следующий вопрос». В конце экспресс-теста показаны ошибки с переводами для повторения.</p><p>Код приложения: MIT. Учебные данные и переводы: <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p></div></details></footer>
+  <script id="phrase-data" type="application/json">{{DATA}}</script>
+  <script>{{SCRIPT}}</script>
+</body>
+</html>
