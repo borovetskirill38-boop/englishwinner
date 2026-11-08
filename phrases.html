@@ -325,8 +325,6 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
 }
 
 .phrases-intro { max-width: 830px; margin: auto; padding-top: 25px; }
-.words-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: 13px; line-height: 1.5; text-align: right; }
-.words-link .icon { width: 14px; height: 14px; transform: rotate(180deg); }
 #training-collection { display: block; }
 .phrases-settings { max-width: 680px; margin-top: 30px; padding: 30px; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
 .collection-selector .mode-label { height: 100%; min-height: 92px; }
@@ -343,7 +341,6 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   .collection-selector .mode-label { min-height: 0; }
   .phrases-page .header { gap: 14px; }
   .phrases-page .brand { font-size: 21px; }
-  .phrases-page .words-link { font-size: 11px; max-width: 100px; }
   .phrases-page .feedback p { font-size: 12px; }
 }
 </style>
@@ -357,7 +354,6 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
   </svg>
   <header class="header shell">
     <a class="brand" href="./index.html" aria-label="English Winner — тест на слова"><span>english<span class="brand-light">winner</span><span class="brand-dot">.</span></span></a>
-    <a class="words-link" href="./index.html"><span>К тесту на слова</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
   </header>
   <main class="shell">
     <div id="startup-warning" class="startup-warning" role="status"><strong>Для теста нужен браузер с JavaScript.</strong><p>Если на iPhone файл открылся в предпросмотре, откройте веб-версию в Safari.</p><a href="https://borovetskirill38-boop.github.io/englishwinner/phrases.html">Открыть веб-версию</a><noscript><p>Включите JavaScript в браузере.</p></noscript></div>
@@ -365,6 +361,7 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
       <div class="eyebrow"><span class="status-dot"></span>АНГЛИЙСКИЙ В ВЫРАЖЕНИЯХ</div>
       <h1 id="intro-title">Знакомые слова.<br><em>Новый смысл.</em></h1>
       <p class="hero-description">500 устойчивых выражений и 500 фразовых глаголов.<br>Два отдельных теста для повседневного английского.</p>
+      <a class="section-link words-link" href="./index.html"><span><strong>Словарный запас</strong><span>5000 слов · Уровни 1000, 3000 и 5000</span></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
       <div class="phrases-settings">
         <fieldset class="mode-selector collection-selector">
           <legend>Что будем изучать?</legend>
