@@ -159,6 +159,7 @@ progress::-moz-progress-bar { background: #638650; border-radius: 8px; }
 .feedback-icon .icon { width: 18px; height: 18px; }
 .feedback strong { font-size: 13px; }
 .feedback p { margin: 4px 0 0; color: #66755e; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+#feedback-selected { color: var(--red); }
 .feedback.has-answer p { color: var(--ink); font-size: 15px; font-weight: 600; }
 .question-bottom { border-top: 1px solid #edf0e8; padding-top: 18px; display: flex; gap: 14px; justify-content: space-between; align-items: center; }
 .question-bottom p { margin: 0; font-size: 10px; color: #7f8a78; line-height: 1.5; }

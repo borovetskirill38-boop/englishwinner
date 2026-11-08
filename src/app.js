@@ -71,6 +71,8 @@
     $("typed-answer").removeAttribute("aria-invalid");
     $("feedback").className = "feedback";
     $("feedback-title").textContent = "";
+    $("feedback-selected").textContent = "";
+    $("feedback-selected").hidden = true;
     $("feedback-detail").textContent = "";
     replaceChildren($("feedback-icon"));
     $("answer-hint").textContent = typing ? "Три попытки на слово. После третьей ошибки покажем перевод." : "Не спешите. Здесь нет таймера.";
@@ -139,9 +141,18 @@
     });
     $("feedback").classList.add(result.correct ? "is-correct" : "is-wrong");
     $("feedback-title").textContent = result.correct ? "Верно! Так держать." : "Неправильно. Запомним на следующий раз.";
-    $("feedback-detail").textContent = session.mode === "ru-en"
+    if (!result.correct) {
+      const option = session.options[index];
+      const selectedEntry = session.vocabulary.find((entry) => entry.word === option.word);
+      const selectedPair = session.mode === "ru-en"
+        ? `${option.text} — ${selectedEntry.translation}` : `${option.text} — ${selectedEntry.word}`;
+      $("feedback-selected").textContent = `Вы выбрали: ${selectedPair}`;
+      $("feedback-selected").hidden = false;
+    }
+    const correctPair = session.mode === "ru-en"
       ? `${result.translation} — ${session.entry.word}`
       : `${session.entry.word} — ${result.translation}`;
+    $("feedback-detail").textContent = result.correct ? correctPair : `Правильный ответ: ${correctPair}`;
     replaceChildren($("feedback-icon"), icon(result.correct ? "check" : "cross"));
     $("answer-hint").textContent = "Перевод останется на экране, пока вы не продолжите.";
     $("next").disabled = false;
