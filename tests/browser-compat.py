@@ -10,6 +10,9 @@ from threading import Thread
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
+LANGUAGE = os.environ.get("QUIZ_LANGUAGE", "en")
+assert LANGUAGE in ["en", "es"]
+PAGE = "spanish.html" if LANGUAGE == "es" else "index.html"
 ARTIFACTS = Path(os.environ.get("QUIZ_SCREENSHOTS", "/tmp/englishwinner-screenshots"))
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
 
@@ -21,7 +24,7 @@ class QuietHandler(SimpleHTTPRequestHandler):
 
 server = ThreadingHTTPServer(("127.0.0.1", 0), partial(QuietHandler, directory=str(ROOT)))
 Thread(target=server.serve_forever, daemon=True).start()
-url = f"http://127.0.0.1:{server.server_port}/index.html"
+url = f"http://127.0.0.1:{server.server_port}/{PAGE}"
 results = []
 try:
     with sync_playwright() as playwright:
@@ -60,7 +63,7 @@ try:
             }""")
             configurations = 0
             for level in ["1000", "3000", "5000"]:
-                for mode in ["en-ru", "ru-en"]:
+                for mode in [f"{LANGUAGE}-ru", f"ru-{LANGUAGE}"]:
                     for test_format in ["full", "express"]:
                         for answer_mode in ["choice", "typing"]:
                             for name, value in [("level", level), ("mode", mode), ("format", test_format), ("answer-mode", answer_mode)]:
@@ -81,8 +84,9 @@ try:
                                     assert page.locator("#question-number").inner_text() == "2"
                                     assert page.locator("#typed-answer").get_attribute("aria-invalid") == "true"
                                     page.locator("#skip-word").tap()
+                                    assert page.locator("#question-number").inner_text() == "3", (profile, level, mode, "skip ignored")
                                 else:
-                                    answer = page.evaluate("""() => window.__session.mode === 'en-ru'
+                                    answer = page.evaluate("""() => window.__session.mode === Quiz.FORWARD
                                       ? Quiz.translationVariants(window.__session.entry)[0] : window.__session.entry.word""")
                                     page.locator("#typed-answer").fill(answer)
                                     page.locator("#check-answer").tap()
@@ -95,7 +99,11 @@ try:
                                 assert page.locator("#question-number").inner_text() == "1"
                                 assert page.locator("#correct-count").inner_text() == "0"
                             else:
-                                assert page.locator("#question-number").inner_text() == "4"
+                                actual = page.locator("#question-number").inner_text()
+                                if actual != "4":
+                                    page.screenshot(path=str(ARTIFACTS / "unexpected-question.png"), full_page=True)
+                                assert actual == "4", (profile, level, mode, answer_mode, actual,
+                                    page.evaluate("({index:__session.index,answered:__session.answered,selected:__session.selected,attempts:__session.attemptsUsed,word:__session.entry.word,feedback:document.getElementById('feedback-detail').textContent})"))
                                 assert page.locator("#correct-count").inner_text() == "2"
                                 assert page.locator("#mistake-count").inner_text() == "1"
                             assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
@@ -112,7 +120,7 @@ try:
         page.goto(url, wait_until="load")
         assert page.locator("#startup-warning").is_visible()
         assert "предпросмотре" in page.locator("#startup-warning").inner_text()
-        assert page.locator("#startup-warning a").get_attribute("href") == "https://borovetskirill38-boop.github.io/englishwinner/"
+        assert page.locator("#startup-warning a").get_attribute("href") == "https://borovetskirill38-boop.github.io/englishwinner/" + (PAGE if LANGUAGE == "es" else "")
         assert page.locator("#start").is_disabled()
         page.screenshot(path=str(ARTIFACTS / "compat-no-javascript.png"), full_page=True)
         context.close()

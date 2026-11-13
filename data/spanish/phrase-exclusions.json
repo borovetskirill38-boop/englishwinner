@@ -1,0 +1,875 @@
+{
+  "expressions": [
+    [
+      "hasta luego",
+      "hasta pronto",
+      "hasta la vista",
+      "nos vemos"
+    ],
+    [
+      "qué tal",
+      "cómo estás",
+      "cómo está usted"
+    ],
+    [
+      "mucho gusto",
+      "encantado de conocerte"
+    ],
+    [
+      "muchas gracias",
+      "mil gracias",
+      "te lo agradezco"
+    ],
+    [
+      "de nada",
+      "no hay de qué"
+    ],
+    [
+      "por favor",
+      "si es tan amable"
+    ],
+    [
+      "lo siento",
+      "lo siento mucho",
+      "qué lástima",
+      "qué pena"
+    ],
+    [
+      "no te preocupes",
+      "no pasa nada",
+      "está bien"
+    ],
+    [
+      "fue sin querer",
+      "sin querer"
+    ],
+    [
+      "por supuesto",
+      "claro que sí",
+      "desde luego",
+      "ya lo creo"
+    ],
+    [
+      "claro que no",
+      "en absoluto",
+      "ni hablar",
+      "ni de broma",
+      "qué va"
+    ],
+    [
+      "no lo sé",
+      "no tengo ni idea"
+    ],
+    [
+      "tal vez",
+      "a lo mejor",
+      "puede ser"
+    ],
+    [
+      "que yo sepa",
+      "por lo que sé"
+    ],
+    [
+      "que aproveche",
+      "buen provecho",
+      "buen apetito"
+    ],
+    [
+      "qué alegría verte",
+      "me alegro por ti"
+    ],
+    [
+      "por aquí",
+      "cerca de aquí"
+    ],
+    [
+      "ahora mismo",
+      "en este momento"
+    ],
+    [
+      "por el momento",
+      "de momento"
+    ],
+    [
+      "una vez más",
+      "de nuevo"
+    ],
+    [
+      "de vez en cuando",
+      "a veces"
+    ],
+    [
+      "muchas veces",
+      "a menudo",
+      "a todas horas",
+      "todo el tiempo",
+      "todos los días",
+      "a diario"
+    ],
+    [
+      "al cabo de un rato",
+      "un rato"
+    ],
+    [
+      "al final",
+      "por fin"
+    ],
+    [
+      "cuanto antes",
+      "de inmediato",
+      "sin demora"
+    ],
+    [
+      "poco a poco",
+      "paso a paso"
+    ],
+    [
+      "por cierto",
+      "a propósito"
+    ],
+    [
+      "es decir",
+      "o sea",
+      "en otras palabras",
+      "con otras palabras"
+    ],
+    [
+      "en resumen",
+      "en fin",
+      "en pocas palabras"
+    ],
+    [
+      "en cambio",
+      "por otra parte"
+    ],
+    [
+      "sin embargo",
+      "no obstante",
+      "aun así",
+      "a pesar de todo",
+      "con todo y eso"
+    ],
+    [
+      "al contrario",
+      "en cambio"
+    ],
+    [
+      "por lo tanto",
+      "así que",
+      "por eso"
+    ],
+    [
+      "puesto que",
+      "ya que"
+    ],
+    [
+      "de hecho",
+      "en realidad",
+      "la verdad es que",
+      "a decir verdad",
+      "para ser sincero",
+      "de verdad"
+    ],
+    [
+      "en mi opinión",
+      "a mi parecer",
+      "desde mi punto de vista"
+    ],
+    [
+      "con tal de que",
+      "siempre que"
+    ],
+    [
+      "por si acaso",
+      "por si las moscas"
+    ],
+    [
+      "sin duda",
+      "sin lugar a dudas"
+    ],
+    [
+      "más o menos",
+      "alrededor de"
+    ],
+    [
+      "por lo menos",
+      "como mucho"
+    ],
+    [
+      "sobre todo",
+      "ante todo",
+      "antes que nada"
+    ],
+    [
+      "la cuenta por favor",
+      "cuánto es"
+    ],
+    [
+      "cuánto cuesta",
+      "cuál es el precio"
+    ],
+    [
+      "cómo se llega a",
+      "dónde está la salida"
+    ],
+    [
+      "todo recto",
+      "siga todo recto"
+    ],
+    [
+      "no entiendo",
+      "no te he entendido",
+      "no me queda claro"
+    ],
+    [
+      "podría hablar más despacio",
+      "te importaría repetirlo",
+      "puede repetir la pregunta"
+    ],
+    [
+      "ahora lo entiendo",
+      "todo está claro"
+    ],
+    [
+      "no te oigo",
+      "se oye mal"
+    ],
+    [
+      "estoy de camino",
+      "ya voy",
+      "voy enseguida"
+    ],
+    [
+      "pan comido",
+      "cosa de niños",
+      "coser y cantar",
+      "un juego de niños"
+    ],
+    [
+      "como anillo al dedo",
+      "de maravilla",
+      "a las mil maravillas",
+      "sobre ruedas",
+      "viento en popa",
+      "de película"
+    ],
+    [
+      "como pez en el agua",
+      "como en casa",
+      "a gusto"
+    ],
+    [
+      "al pie de la letra",
+      "palabra por palabra"
+    ],
+    [
+      "con el corazón en la mano",
+      "con la mano en el corazón",
+      "de todo corazón"
+    ],
+    [
+      "por los pelos",
+      "por un pelo"
+    ],
+    [
+      "en un abrir y cerrar de ojos",
+      "en un santiamén",
+      "en menos que canta un gallo"
+    ],
+    [
+      "a toda prisa",
+      "a toda velocidad",
+      "de prisa"
+    ],
+    [
+      "a duras penas",
+      "cuesta arriba"
+    ],
+    [
+      "sin ton ni son",
+      "sin pies ni cabeza"
+    ],
+    [
+      "sin rodeos",
+      "sin pelos en la lengua"
+    ],
+    [
+      "sin venir a cuento",
+      "fuera de lugar"
+    ],
+    [
+      "nada del otro mundo",
+      "no está mal"
+    ],
+    [
+      "fuera de serie",
+      "de otro mundo"
+    ],
+    [
+      "de cabo a rabo",
+      "de principio a fin"
+    ],
+    [
+      "por todas partes",
+      "por todos lados"
+    ],
+    [
+      "con uñas y dientes",
+      "a capa y espada"
+    ],
+    [
+      "con viento y marea en contra",
+      "contra viento y marea"
+    ],
+    [
+      "por mi cuenta",
+      "por cuenta propia"
+    ],
+    [
+      "sea como sea",
+      "como sea"
+    ],
+    [
+      "pase lo que pase",
+      "cueste lo que cueste",
+      "sí o sí",
+      "sin falta"
+    ],
+    [
+      "por desgracia",
+      "qué lástima",
+      "qué pena"
+    ],
+    [
+      "no es para tanto",
+      "no tiene importancia",
+      "no pasa nada"
+    ],
+    [
+      "merece la pena",
+      "vale la pena"
+    ],
+    [
+      "con calma",
+      "sin prisa"
+    ],
+    [
+      "hasta cierto punto",
+      "en cierta medida"
+    ],
+    [
+      "de sobra",
+      "con creces"
+    ],
+    [
+      "por adelantado",
+      "de antemano"
+    ],
+    [
+      "por casualidad",
+      "qué casualidad"
+    ],
+    [
+      "al lado de",
+      "cerca de aquí"
+    ],
+    [
+      "sin más ni más",
+      "de golpe"
+    ],
+    [
+      "por suerte",
+      "menos mal"
+    ]
+  ],
+  "phrasal-verbs": [
+    [
+      "empezar a hacer algo",
+      "comenzar a hacer algo",
+      "ponerse a hacer algo",
+      "ponerse manos a la obra"
+    ],
+    [
+      "seguir haciendo algo",
+      "continuar haciendo algo"
+    ],
+    [
+      "acabar haciendo algo",
+      "terminar por hacer algo"
+    ],
+    [
+      "tratar de hacer algo",
+      "intentar hacer algo",
+      "procurar hacer algo"
+    ],
+    [
+      "conseguir hacer algo",
+      "lograr hacer algo"
+    ],
+    [
+      "atreverse a hacer algo",
+      "animarse a hacer algo",
+      "decidirse a hacer algo"
+    ],
+    [
+      "hacer caso a",
+      "tener en cuenta",
+      "tener presente",
+      "tomar en consideración",
+      "tomar nota de"
+    ],
+    [
+      "hacer frente a",
+      "luchar contra"
+    ],
+    [
+      "hacer referencia a",
+      "aludir a",
+      "referirse a"
+    ],
+    [
+      "hacer una pausa",
+      "tomar un descanso"
+    ],
+    [
+      "hacer deporte",
+      "hacer ejercicio"
+    ],
+    [
+      "hacer falta",
+      "hacer falta tiempo",
+      "tener que hacer algo",
+      "haber que hacer algo",
+      "deber hacer algo"
+    ],
+    [
+      "hacerse cargo de",
+      "encargarse de",
+      "ocuparse de"
+    ],
+    [
+      "hacer las paces",
+      "reconciliarse con"
+    ],
+    [
+      "hacerse el sordo",
+      "hacer la vista gorda"
+    ],
+    [
+      "hacer un favor",
+      "echar una mano",
+      "ayudar con",
+      "ayudar a hacer algo"
+    ],
+    [
+      "tener ganas de",
+      "tener la intención de"
+    ],
+    [
+      "tener cuidado con",
+      "andar con cuidado"
+    ],
+    [
+      "tener prisa",
+      "meter prisa"
+    ],
+    [
+      "tener razón",
+      "llevar la razón"
+    ],
+    [
+      "tener que ver con",
+      "referirse a",
+      "venir al caso",
+      "venir a cuento"
+    ],
+    [
+      "tener confianza en",
+      "confiar en",
+      "fiarse de",
+      "contar con"
+    ],
+    [
+      "tener éxito",
+      "salir adelante",
+      "sacar adelante"
+    ],
+    [
+      "tener hambre",
+      "tener sed",
+      "tener sueño"
+    ],
+    [
+      "tener mal genio",
+      "echar chispas"
+    ],
+    [
+      "tener en mente",
+      "tener presente"
+    ],
+    [
+      "tener por costumbre",
+      "soler hacer algo"
+    ],
+    [
+      "tener noticias de",
+      "enterarse de"
+    ],
+    [
+      "tener la oportunidad de",
+      "poder hacer algo"
+    ],
+    [
+      "tener mala cara",
+      "tener buen aspecto",
+      "tener pinta de",
+      "tener aspecto de"
+    ],
+    [
+      "tener los pies en la tierra",
+      "tener la cabeza en las nubes",
+      "andar por las nubes"
+    ],
+    [
+      "dar cuenta de",
+      "dar una explicación"
+    ],
+    [
+      "darse cuenta de",
+      "tomar conciencia de",
+      "fijarse en",
+      "poner atención a"
+    ],
+    [
+      "dar de comer",
+      "echar de comer"
+    ],
+    [
+      "dar un paseo",
+      "dar una vuelta",
+      "salir a pasear"
+    ],
+    [
+      "dar la vuelta",
+      "dar marcha atrás",
+      "echar marcha atrás"
+    ],
+    [
+      "dar un salto",
+      "dar un paso"
+    ],
+    [
+      "dar por hecho",
+      "dar por sentado"
+    ],
+    [
+      "dar a conocer",
+      "sacar a la luz",
+      "poner de manifiesto"
+    ],
+    [
+      "dar lugar a",
+      "dar pie a"
+    ],
+    [
+      "dar igual",
+      "dar lo mismo"
+    ],
+    [
+      "dar miedo",
+      "tener miedo de"
+    ],
+    [
+      "dar vergüenza",
+      "tener vergüenza"
+    ],
+    [
+      "dar tiempo a",
+      "tener tiempo para"
+    ],
+    [
+      "dar clases",
+      "enseñar a hacer algo"
+    ],
+    [
+      "dar una respuesta",
+      "responder a"
+    ],
+    [
+      "dar la razón a",
+      "estar de acuerdo con",
+      "dar el visto bueno"
+    ],
+    [
+      "poner en marcha",
+      "poner en práctica",
+      "llevar a cabo"
+    ],
+    [
+      "poner en contacto",
+      "ponerse en contacto con",
+      "tomar contacto con"
+    ],
+    [
+      "poner al día",
+      "ponerse al día"
+    ],
+    [
+      "poner fin a",
+      "dejar de hacer algo"
+    ],
+    [
+      "poner remedio a",
+      "sacar del apuro"
+    ],
+    [
+      "ponerse de pie",
+      "tomar asiento"
+    ],
+    [
+      "ponerse de acuerdo",
+      "quedar de acuerdo"
+    ],
+    [
+      "ponerse nervioso",
+      "llevarse un susto"
+    ],
+    [
+      "quedar bien",
+      "quedar mal"
+    ],
+    [
+      "quedar lejos",
+      "quedar cerca"
+    ],
+    [
+      "quedarse de piedra",
+      "quedarse a cuadros",
+      "quedarse sin palabras"
+    ],
+    [
+      "quedarse callado",
+      "quedarse quieto",
+      "quedarse de brazos cruzados"
+    ],
+    [
+      "llevarse bien con",
+      "llevarse mal con"
+    ],
+    [
+      "llevar la cuenta",
+      "llevar un registro",
+      "echar cuentas"
+    ],
+    [
+      "llevarse a engaño",
+      "confundir con"
+    ],
+    [
+      "salir caro",
+      "salir barato",
+      "salir a cuenta"
+    ],
+    [
+      "salir bien",
+      "salir mal"
+    ],
+    [
+      "salir del paso",
+      "sacar del apuro"
+    ],
+    [
+      "salir de dudas",
+      "sacar de dudas"
+    ],
+    [
+      "salirse con la suya",
+      "conseguir hacer algo"
+    ],
+    [
+      "salir ganando",
+      "salir perdiendo"
+    ],
+    [
+      "echar de menos",
+      "acordarse de"
+    ],
+    [
+      "echar a perder",
+      "hacer pedazos",
+      "meter en problemas"
+    ],
+    [
+      "echarse a perder",
+      "irse al traste",
+      "venirse abajo",
+      "venir a menos"
+    ],
+    [
+      "echarse atrás",
+      "volverse atrás",
+      "renunciar a"
+    ],
+    [
+      "echarse a dormir",
+      "irse a la cama",
+      "quedarse dormido"
+    ],
+    [
+      "echar en cara",
+      "echar la culpa a"
+    ],
+    [
+      "tomar medidas",
+      "tomar precauciones"
+    ],
+    [
+      "tomar en serio",
+      "tomarse en serio",
+      "tomarse a pecho"
+    ],
+    [
+      "tomar parte en",
+      "participar en",
+      "intervenir en"
+    ],
+    [
+      "tomar el pelo",
+      "burlarse de",
+      "reírse de"
+    ],
+    [
+      "tomar la palabra",
+      "llevar la voz cantante"
+    ],
+    [
+      "tomarse su tiempo",
+      "tardar en llegar"
+    ],
+    [
+      "sacar partido de",
+      "sacar provecho de",
+      "aprovecharse de",
+      "disfrutar de"
+    ],
+    [
+      "sacar buenas notas",
+      "tener éxito"
+    ],
+    [
+      "meterse en líos",
+      "meter en problemas"
+    ],
+    [
+      "venir bien",
+      "venir de perlas"
+    ],
+    [
+      "venirse arriba",
+      "animarse a hacer algo"
+    ],
+    [
+      "volver a empezar",
+      "volver a hacer algo"
+    ],
+    [
+      "ir de compras",
+      "hacer la compra"
+    ],
+    [
+      "ir en contra de",
+      "oponerse a",
+      "luchar contra"
+    ],
+    [
+      "irse por las ramas",
+      "hablar de"
+    ],
+    [
+      "acordarse de",
+      "tener presente"
+    ],
+    [
+      "arrepentirse de",
+      "tener la culpa"
+    ],
+    [
+      "preocuparse por",
+      "ocuparse de"
+    ],
+    [
+      "prescindir de",
+      "carecer de"
+    ],
+    [
+      "huir de",
+      "escapar de",
+      "librarse de",
+      "salvarse de"
+    ],
+    [
+      "proteger de",
+      "defenderse de"
+    ],
+    [
+      "resistirse a",
+      "oponerse a",
+      "abstenerse de"
+    ],
+    [
+      "contribuir a",
+      "influir en",
+      "afectar a"
+    ],
+    [
+      "consistir en",
+      "tratarse de",
+      "versar sobre"
+    ],
+    [
+      "convertir en",
+      "transformarse en"
+    ],
+    [
+      "sustituir por",
+      "cambiar por"
+    ],
+    [
+      "adaptarse a",
+      "acostumbrarse a"
+    ],
+    [
+      "servir para",
+      "valer para"
+    ],
+    [
+      "conformarse con",
+      "contentarse con",
+      "resignarse a"
+    ],
+    [
+      "cansarse de",
+      "aburrirse de"
+    ],
+    [
+      "separarse de",
+      "divorciarse de"
+    ],
+    [
+      "preguntar por",
+      "pedir por"
+    ],
+    [
+      "dar las gracias",
+      "agradecer a"
+    ],
+    [
+      "hacer una pregunta",
+      "preguntar por"
+    ],
+    [
+      "hacer falta",
+      "bastar con"
+    ]
+  ]
+}

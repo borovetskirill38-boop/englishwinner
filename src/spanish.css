@@ -1,0 +1,28 @@
+/* Spanish accent palette. Geometry comes exclusively from the shared layout. */
+:root { --background: #fff9ed; --ink: #482b29; --muted: #7b6557; --accent: #aa2638; --line: #e9d8b7; }
+.brand-dot { color: #c28b10; }
+h1 em { color: #a32b39; }
+.eyebrow, .small-label { color: #946321; }
+.eyebrow .status-dot { background: #cc9018; }
+.section-link { border-color: #d39a36; background: #fff0bf; }
+.section-link:hover { border-color: #aa2638; background: #ffe5a1; }
+.section-link span span { color: #805d3d; }
+.word-art { background: #fff0c3; }
+.art-caption, .art-count, .paper-label, .paper-translation { color: #896329; }
+.paper-back { background: #efd174; border-color: #dfbc5e; }
+.paper-front { background: #fffdf3; border-color: #e5cc92; }
+.paper-line { border-color: #ead69e; }
+.paper-check { background: #aa2638; border-color: #fff0c3; }
+.art-spark { color: #ca931f; }
+.rules li, .intro-notes, .footer, .question-badge, .metric-label, .keyboard-help { color: var(--muted); }
+.about-content a { color: var(--accent); }
+.button-primary:hover:not(:disabled), .mode-switch:hover { background: #8c1c2c; border-color: #8c1c2c; }
+.mode-option:hover .mode-label { border-color: #cc983f; }
+.mode-option input:checked + .mode-label { border-color: #aa2638; background: #fff0bf; box-shadow: inset 0 0 0 1px #aa2638; }
+.mode-option input:checked + .mode-label::after { background: #aa2638; }
+.rule-number, .start-note, .selection-note { color: #897252; }
+.mode-switch { box-shadow: 0 4px 12px #aa26381c; }
+progress { background: #f1deb1; color: #aa2638; }
+progress::-webkit-progress-bar { background: #f1deb1; }
+progress::-webkit-progress-value { background: #aa2638; }
+progress::-moz-progress-bar { background: #aa2638; }

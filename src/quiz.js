@@ -1,6 +1,11 @@
 /* English Winner — quiz logic; no browser dependencies. */
-const Quiz = (() => {
+function createQuiz(language) {
   "use strict";
+  if (language === undefined) language = "en";
+  if (!["en", "es"].includes(language)) throw new Error(`Неизвестный язык: ${language}`);
+  const FORWARD = `${language}-ru`;
+  const REVERSE = `ru-${language}`;
+  const LANGUAGE = Object.freeze({ code: language, name: language === "es" ? "Испанский" : "Английский", adjective: language === "es" ? "испанский" : "английский" });
 
   function shuffle(items, random = Math.random) {
     const result = [...items];
@@ -23,7 +28,7 @@ const Quiz = (() => {
     if (typeof text !== "string") return "";
     return text.normalize("NFKC").toLocaleLowerCase("ru").replace(/ё/g, "е")
       .replace(/[’‘]/g, "'").replace(/[‐‑‒–—−]/g, "-")
-      .replace(/[.,!?…:;«»"“”]/g, " ").replace(/\s+/g, " ").trim()
+      .replace(/[.,!?¿¡…:;«»"“”]/g, " ").replace(/\s+/g, " ").trim()
       .replace(/^'+|'+$/g, "").trim();
   }
 
@@ -48,26 +53,26 @@ const Quiz = (() => {
 
   function matchesAnswer(entry, mode, text, englishIndex) {
     checkMode(mode);
-    if (mode === "en-ru") {
+    if (mode === FORWARD) {
       const answer = normalizeAnswer(typeof text === "string" ? text.replace(/\([^)]*\)/g, " ") : "");
       return Boolean(answer) && translationVariants(entry).some((value) => normalizeAnswer(value) === answer);
     }
     let answer = normalizeAnswer(text);
     if (!answer) return false;
     // The infinitive marker is optional when the Russian prompt is a verb.
-    if (category(entry) === "verb" && answer.startsWith("to ")) answer = answer.slice(3);
+    if (language === "en" && category(entry) === "verb" && answer.startsWith("to ")) answer = answer.slice(3);
     const accepted = englishIndex ? englishIndex.get(normalizeAnswer(primaryTranslation(entry))) : null;
     return answer === normalizeAnswer(entry.word) || Boolean(accepted && accepted.has(answer));
   }
 
   const MODES = Object.freeze({
-    "en-ru": Object.freeze({
-      name: "Английский → русский", from: "EN", to: "RU",
-      questionLang: "en", answerLang: "ru", instruction: "Выберите перевод на русский",
+    [FORWARD]: Object.freeze({
+      name: `${LANGUAGE.name} → русский`, from: language.toUpperCase(), to: "RU",
+      questionLang: language, answerLang: "ru", instruction: "Выберите перевод на русский",
     }),
-    "ru-en": Object.freeze({
-      name: "Русский → английский", from: "RU", to: "EN",
-      questionLang: "ru", answerLang: "en", instruction: "Выберите английское слово",
+    [REVERSE]: Object.freeze({
+      name: `Русский → ${LANGUAGE.adjective}`, from: "RU", to: language.toUpperCase(),
+      questionLang: "ru", answerLang: language, instruction: `Выберите ${language === "es" ? "испанское" : "английское"} слово`,
     }),
   });
 
@@ -160,17 +165,17 @@ const Quiz = (() => {
     return Object.prototype.hasOwnProperty.call(object, key);
   }
 
-  function questionFor(entry, mode = "en-ru") {
+  function questionFor(entry, mode = FORWARD) {
     checkMode(mode);
-    return mode === "ru-en" ? primaryTranslation(entry) : entry.word;
+    return mode === REVERSE ? primaryTranslation(entry) : entry.word;
   }
 
-  function correctFor(entry, mode = "en-ru") {
+  function correctFor(entry, mode = FORWARD) {
     checkMode(mode);
-    return mode === "ru-en" ? entry.word : primaryTranslation(entry);
+    return mode === REVERSE ? entry.word : primaryTranslation(entry);
   }
 
-  const numbers = new Set([
+  const numbers = new Set(language === "es" ? ["uno", "una", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece", "catorce", "quince", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa", "cien", "ciento", "mil", "millón", "millones", "cero"] : [
     "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
     "ten", "hundred", "thousand", "million", "millions", "thousands",
     "zero", "twenty", "hundreds", "dozen", "billion",
@@ -178,6 +183,7 @@ const Quiz = (() => {
   ]);
 
   function category(entry) {
+    if (["number", "verb", "adjective", "adverb", "noun"].includes(entry.category)) return entry.category;
     const first = primaryTranslation(entry);
     if (numbers.has(entry.word)) return "number";
     if (/(ть|ться|ти|чь)$/.test(first)) return "verb";
@@ -186,7 +192,7 @@ const Quiz = (() => {
     return "noun";
   }
 
-  function optionsFor(entry, bank, random = Math.random, mode = "en-ru") {
+  function optionsFor(entry, bank, random = Math.random, mode = FORWARD) {
     const correctText = correctFor(entry, mode);
     const aliases = [...normalize(entry.translation).split(/[;(),]/), ...(entry.aliases || []).map(normalize)].map((s) => s.trim());
     const meanings = new Set(translationVariants(entry).map(normalizeAnswer));
@@ -198,7 +204,7 @@ const Quiz = (() => {
     };
     function uniqueOptions(candidates) {
       const labels = candidates.filter(eligible).map((candidate) => ({
-        text: mode === "ru-en" ? candidate.english : candidate.text, word: candidate.english, correct: false,
+        text: mode === REVERSE ? candidate.english : candidate.text, word: candidate.english, correct: false,
       }));
       return [...new Map(labels.map((option) => [normalize(option.text), option])).values()];
     }
@@ -212,7 +218,7 @@ const Quiz = (() => {
   }
 
   class Session {
-    constructor(words, bank, random = Math.random, mode = "en-ru", format = "full", answerMode = "choice", level = "5000", topic = "all") {
+    constructor(words, bank, random = Math.random, mode = FORWARD, format = "full", answerMode = "choice", level = "5000", topic = "all") {
       if (!words.length) throw new Error("Список слов пуст");
       checkMode(mode);
       if (!hasOwn(FORMATS, format)) throw new Error(`Неизвестный формат: ${format}`);
@@ -234,7 +240,7 @@ const Quiz = (() => {
       this.mode = mode;
       this.format = format;
       this.answerMode = answerMode;
-      this.englishIndex = answerMode === "typing" && mode === "ru-en" ? buildEnglishIndex(this.vocabulary) : null;
+      this.englishIndex = answerMode === "typing" && mode === REVERSE ? buildEnglishIndex(this.vocabulary) : null;
       this.index = 0;
       this.correct = 0;
       this.answered = 0;
@@ -300,8 +306,10 @@ const Quiz = (() => {
     }
   }
 
-  return { MODES, FORMATS, ANSWER_MODES, MAX_TYPING_ATTEMPTS, LEVELS, TOPICS, wordsForLevel, wordsForTopic, wordCount, bankForVocabulary, shuffle, normalize, normalizeAnswer, primaryTranslation,
+  return { FORWARD, REVERSE, LANGUAGE, forLanguage: createQuiz, MODES, FORMATS, ANSWER_MODES, MAX_TYPING_ATTEMPTS, LEVELS, TOPICS, wordsForLevel, wordsForTopic, wordCount, bankForVocabulary, shuffle, normalize, normalizeAnswer, primaryTranslation,
     translationVariants, buildEnglishIndex, matchesAnswer, questionFor, correctFor, category, optionsFor, Session };
-})();
+}
+
+const Quiz = createQuiz(typeof LEARNING_LANGUAGE === "string" ? LEARNING_LANGUAGE : "en");
 
 if (typeof module !== "undefined" && module.exports) module.exports = Quiz;

@@ -8,6 +8,10 @@ from urllib.parse import urlparse
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
+LANGUAGE = os.environ.get("QUIZ_LANGUAGE", "en")
+assert LANGUAGE in ["en", "es"]
+WORD_PAGE = "spanish.html" if LANGUAGE == "es" else "index.html"
+PHRASE_PAGE = "spanish-phrases.html" if LANGUAGE == "es" else "phrases.html"
 BASE = "https://englishwinner.test/"
 ARTIFACTS = Path(os.environ.get("QUIZ_SCREENSHOTS", "/tmp/englishwinner-phrases-screenshots"))
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
@@ -28,9 +32,9 @@ HOOKS = r"""() => {
     check(Boolean(entry), 'Question from another collection');
     check(!phraseSeen.has(entry.english), 'Repeated English entry');
     phraseSeen.add(entry.english);
-    check(el('word').textContent === (s.mode === 'en-ru' ? entry.english : entry.translation), 'Wrong prompt');
+    check(el('word').textContent === (s.mode === PhraseQuiz.FORWARD ? entry.english : entry.translation), 'Wrong prompt');
     check(Number(el('question-number').textContent) === s.index + 1, 'Wrong question number');
-    check(el('word').lang === (s.mode === 'en-ru' ? 'en' : 'ru'), 'Wrong prompt language');
+      check(el('word').lang === (s.mode === PhraseQuiz.FORWARD ? PhraseQuiz.LANGUAGE.code : 'ru'), 'Wrong prompt language');
     check(s.options.length === 4 && el('options').children.length === 4, 'Not four options');
     check(s.options.filter(option => option.correct).length === 1, 'Not exactly one correct option');
     check(new Set(s.options.map(option => normalized(option.text))).size === 4, 'Duplicate options');
@@ -38,7 +42,7 @@ HOOKS = r"""() => {
       const source = data[s.collection].find(item => item.english === option.english);
       check(source && source.translation === option.translation, 'Distractor from another collection');
       check(el('options').children[i].querySelector('.option-text').textContent === option.text, 'Wrong option label');
-      check(el('options').children[i].querySelector('.option-text').lang === (s.mode === 'en-ru' ? 'ru' : 'en'), 'Wrong option language');
+      check(el('options').children[i].querySelector('.option-text').lang === (s.mode === PhraseQuiz.FORWARD ? 'ru' : PhraseQuiz.LANGUAGE.code), 'Wrong option language');
     });
     check(el('next').disabled, 'Can advance before answering');
     check(el('feedback-selected').hidden && el('feedback-selected').textContent === '', 'Old wrong translation remains');
@@ -55,11 +59,11 @@ HOOKS = r"""() => {
     check([...el('options').children].every(button => button.disabled), 'Options not locked');
     check(el('options').querySelectorAll('.correct').length === 1, 'Correct answer not highlighted');
     check(el('options').children[index].classList.contains(correct ? 'correct' : 'wrong'), 'Wrong answer color');
-    const pair = s.mode === 'en-ru' ? `${entry.english} — ${entry.translation}` : `${entry.translation} — ${entry.english}`;
+    const pair = s.mode === PhraseQuiz.FORWARD ? `${entry.english} — ${entry.translation}` : `${entry.translation} — ${entry.english}`;
     check(el('feedback-detail').textContent === (correct ? pair : `Правильный ответ: ${pair}`), 'Wrong correct-answer translation');
     if (correct) check(el('feedback-selected').hidden, 'Wrong-choice message for a correct answer');
     else {
-      const selectedPair = s.mode === 'en-ru' ? `${choice.translation} — ${choice.english}` : `${choice.english} — ${choice.translation}`;
+      const selectedPair = s.mode === PhraseQuiz.FORWARD ? `${choice.translation} — ${choice.english}` : `${choice.english} — ${choice.translation}`;
       check(!el('feedback-selected').hidden && el('feedback-selected').textContent === `Вы выбрали: ${selectedPair}`, 'Wrong selected translation');
       phraseWrong.push({english: entry.english, translation: entry.translation});
     }
@@ -97,8 +101,8 @@ HOOKS = r"""() => {
       check(rows.length === phraseWrong.length, 'Wrong number of review rows');
       rows.forEach((row, i) => {
         const entry = phraseWrong[i];
-        check(row.children[0].textContent === (s.mode === 'en-ru' ? entry.english : entry.translation), 'Wrong review prompt');
-        check(row.children[1].textContent === (s.mode === 'en-ru' ? entry.translation : entry.english), 'Wrong review translation');
+        check(row.children[0].textContent === (s.mode === PhraseQuiz.FORWARD ? entry.english : entry.translation), 'Wrong review prompt');
+        check(row.children[1].textContent === (s.mode === PhraseQuiz.FORWARD ? entry.translation : entry.english), 'Wrong review translation');
       });
     }
     return {total: s.total, order: s.order.map(entry => entry.english)};
@@ -117,7 +121,7 @@ with sync_playwright() as playwright:
 
         def serve(route):
             name = urlparse(route.request.url).path.rsplit("/", 1)[-1]
-            if route.request.url.startswith(BASE) and name in ["index.html", "phrases.html"]:
+            if route.request.url.startswith(BASE) and name in ["index.html", "phrases.html", "spanish.html", "spanish-phrases.html"]:
                 route.fulfill(status=200, content_type="text/html; charset=utf-8", body=(ROOT / name).read_text())
             elif route.request.url == BASE + "favicon.ico":
                 route.fulfill(status=204, body="")
@@ -128,10 +132,10 @@ with sync_playwright() as playwright:
         context.route("**/*", serve)
         page = context.new_page()
         page.on("pageerror", lambda error: errors.append(str(error)))
-        page.goto(BASE + "index.html")
-        assert page.locator("#phrases-link").get_attribute("href") == "./phrases.html"
+        page.goto(BASE + WORD_PAGE)
+        assert page.locator("#phrases-link").get_attribute("href") == "./" + PHRASE_PAGE
         page.locator("#phrases-link").tap()
-        page.wait_for_url(BASE + "phrases.html")
+        page.wait_for_url(BASE + PHRASE_PAGE)
         assert page.locator("#intro").is_visible()
         assert page.locator("input[type=text], textarea, input[name=answer-mode]").count() == 0
         assert page.locator("#startup-warning").is_hidden()
@@ -144,7 +148,7 @@ with sync_playwright() as playwright:
             page.screenshot(path=str(ARTIFACTS / "welcome-mobile.png"), full_page=True)
 
         for collection in ["expressions", "phrasal-verbs"]:
-            for mode in ["en-ru", "ru-en"]:
+            for mode in [f"{LANGUAGE}-ru", f"ru-{LANGUAGE}"]:
                 for test_format in ["express", "full"]:
                     for name, value in [("collection", collection), ("mode", mode), ("format", test_format)]:
                         page.locator(f'label:has(input[name="{name}"][value="{value}"])').tap()
@@ -190,7 +194,7 @@ with sync_playwright() as playwright:
                     page.locator("#change-mode").tap()
                     configurations += 1
         page.locator(".words-link").tap()
-        page.wait_for_url(BASE + "index.html")
+        page.wait_for_url(BASE + WORD_PAGE)
         assert page.locator("#start").is_enabled()
         context.close()
         print(f"phrase quizzes: {'legacy APIs disabled' if legacy else 'standard'}; eight complete combinations passed", flush=True)

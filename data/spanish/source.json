@@ -1,0 +1,12 @@
+{
+  "name": "FrequencyWords — Spanish 2018 (OpenSubtitles)",
+  "author": "Hermit Dave and OpenSubtitles contributors",
+  "url": "https://github.com/hermitdave/FrequencyWords/blob/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/es/es_50k.txt",
+  "commit": "525f9b560de45753a5ea01069454e72e9aa541c6",
+  "sourceSha256": "dcff3ad4316192f4dc4ff7d26e637c6ff314ef1ca0f3f720c5649018a71056c0",
+  "excerptSha256": "0e949c5e2c5e23da952444091c5e6a80848b7d04ee769d5600a4090efc0a7806",
+  "license": "CC-BY-SA-4.0",
+  "count": 5000,
+  "excerptLines": 5545,
+  "selection": "Первые 5000 подтверждённых словарём испанских слов после фильтрации неалфавитных токенов, одиночных букв (кроме a/e/o/u/y), отдельных имён, неверных написаний и шумовых записей из excluded.txt. Словоформы, разговорная и бранная лексика сохраняются. Уровни — строгие префиксы выбранного списка, тема применяется после уровня. Частотность субтитров не является универсальным рейтингом языка."
+}

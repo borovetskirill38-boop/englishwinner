@@ -33,12 +33,18 @@ function publish(repository = path.resolve(__dirname, ".."), remote = "origin") 
     return git(["mktree"], entries.map(([type, hash, name]) =>
       `${type === "tree" ? "040000" : "100644"} ${type} ${hash}\t${name}\n`).join(""));
   }
-  const licenses = tree([["blob", blob(file("licenses/CC-BY-SA-4.0.txt")), "CC-BY-SA-4.0.txt"]]);
+  const licenses = tree([
+    ["blob", blob(file("licenses/CC-BY-SA-4.0.txt")), "CC-BY-SA-4.0.txt"],
+    ["blob", blob(file("licenses/Pattern-BSD.txt")), "Pattern-BSD.txt"],
+  ]);
   const website = tree([
     ["blob", blob(file("index.html")), "index.html"],
     ["blob", blob(file("phrases.html")), "phrases.html"],
+    ["blob", blob(file("spanish.html")), "spanish.html"],
+    ["blob", blob(file("spanish-phrases.html")), "spanish-phrases.html"],
     ["blob", blob(Buffer.alloc(0)), ".nojekyll"],
     ["blob", blob(file("LICENSE")), "LICENSE"],
+    ["blob", blob(file("data/spanish/NOTICE.md")), "SPANISH-SOURCES.md"],
     ["tree", licenses, "licenses"],
     ["blob", blob(`English Winner website\n\nBuilt from source commit ${source}.\n`), "README.md"],
   ]);

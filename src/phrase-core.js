@@ -1,19 +1,24 @@
 /* Fixed expressions and phrasal verbs: no browser or word-quiz dependencies. */
-const PhraseQuiz = (() => {
+function createPhraseQuiz(language) {
   "use strict";
+  if (language === undefined) language = "en";
+  if (!["en", "es"].includes(language)) throw new Error(`Неизвестный язык: ${language}`);
+  const FORWARD = `${language}-ru`;
+  const REVERSE = `ru-${language}`;
+  const LANGUAGE = Object.freeze({ code: language, name: language === "es" ? "Испанский" : "Английский" });
 
   const COLLECTIONS = Object.freeze({
     expressions: "Устойчивые выражения",
-    "phrasal-verbs": "Фразовые глаголы",
+    "phrasal-verbs": language === "es" ? "Глагольные конструкции" : "Фразовые глаголы",
   });
-  const MODES = Object.freeze({ "en-ru": "Английский → русский", "ru-en": "Русский → английский" });
+  const MODES = Object.freeze({ [FORWARD]: `${LANGUAGE.name} → русский`, [REVERSE]: `Русский → ${language === "es" ? "испанский" : "английский"}` });
   const FORMATS = Object.freeze({ full: "Полный тест", express: "Экспресс-тест" });
 
   function hasOwn(object, key) { return Object.prototype.hasOwnProperty.call(object, key); }
 
   function normalize(text) {
     return text.normalize("NFKC").toLocaleLowerCase("ru").replace(/ё/g, "е")
-      .replace(/[’‘]/g, "'").replace(/[.,!?…:;«»"“”]/g, " ").replace(/\s+/g, " ").trim();
+      .replace(/[’‘]/g, "'").replace(/[.,!?¿¡…:;«»"“”]/g, " ").replace(/\s+/g, " ").trim();
   }
 
   function meanings(entry) {
@@ -46,11 +51,11 @@ const PhraseQuiz = (() => {
     return index;
   }
 
-  function optionsFor(entry, vocabulary, random = Math.random, mode = "en-ru", exclusions = new Map()) {
+  function optionsFor(entry, vocabulary, random = Math.random, mode = FORWARD, exclusions = new Map()) {
     checkMode(mode);
     const target = new Set(meanings(entry));
     const family = exclusions.get(normalize(entry.english));
-    const label = (candidate) => mode === "en-ru" ? candidate.translation : candidate.english;
+    const label = (candidate) => mode === FORWARD ? candidate.translation : candidate.english;
     const candidates = new Map();
     for (const candidate of vocabulary) {
       if (normalize(candidate.english) === normalize(entry.english)) continue;
@@ -67,7 +72,7 @@ const PhraseQuiz = (() => {
   }
 
   class Session {
-    constructor(data, collection = "expressions", mode = "en-ru", format = "express", random = Math.random) {
+    constructor(data, collection = "expressions", mode = FORWARD, format = "express", random = Math.random) {
       if (!hasOwn(COLLECTIONS, collection)) throw new Error(`Неизвестный набор: ${collection}`);
       checkMode(mode);
       if (!hasOwn(FORMATS, format)) throw new Error(`Неизвестный формат: ${format}`);
@@ -92,7 +97,7 @@ const PhraseQuiz = (() => {
     }
 
     get entry() { return this.order[this.index]; }
-    get prompt() { return this.finished ? "" : (this.mode === "en-ru" ? this.entry.english : this.entry.translation); }
+    get prompt() { return this.finished ? "" : (this.mode === FORWARD ? this.entry.english : this.entry.translation); }
     get total() { return this.order.length; }
     get finished() { return this.index >= this.total; }
     get mistakes() { return this.answered - this.correct; }
@@ -118,7 +123,9 @@ const PhraseQuiz = (() => {
     }
   }
 
-  return { COLLECTIONS, MODES, FORMATS, normalize, shuffle, optionsFor, Session };
-})();
+  return { FORWARD, REVERSE, LANGUAGE, forLanguage: createPhraseQuiz, COLLECTIONS, MODES, FORMATS, normalize, shuffle, optionsFor, Session };
+}
+
+const PhraseQuiz = createPhraseQuiz(typeof LEARNING_LANGUAGE === "string" ? LEARNING_LANGUAGE : "en");
 
 if (typeof module !== "undefined" && module.exports) module.exports = PhraseQuiz;

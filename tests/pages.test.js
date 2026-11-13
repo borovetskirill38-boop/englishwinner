@@ -21,10 +21,15 @@ test("website publication preserves large HTML files, source and Pages history a
     git(["config", "user.email", "test@example.invalid"]);
     git(["remote", "add", "origin", remote]);
     fs.mkdirSync(path.join(source, "licenses"));
+    fs.mkdirSync(path.join(source, "data/spanish"), { recursive: true });
     fs.writeFileSync(path.join(source, "index.html"), "<!doctype html><title>First</title>\n");
     fs.writeFileSync(path.join(source, "phrases.html"), "<!doctype html><title>Expressions</title>\n");
+    fs.writeFileSync(path.join(source, "spanish.html"), "<!doctype html><title>Español</title>\n");
+    fs.writeFileSync(path.join(source, "spanish-phrases.html"), "<!doctype html><title>Expresiones</title>\n");
     fs.writeFileSync(path.join(source, "LICENSE"), "Application license\n");
     fs.writeFileSync(path.join(source, "licenses/CC-BY-SA-4.0.txt"), "Vocabulary license\n");
+    fs.writeFileSync(path.join(source, "licenses/Pattern-BSD.txt"), "Morphology reference license\n");
+    fs.writeFileSync(path.join(source, "data/spanish/NOTICE.md"), "Spanish source attribution\n");
     git(["add", "."]); git(["commit", "-m", "First website"]);
     const head = git(["rev-parse", "HEAD"]);
     const first = publish(source);
@@ -32,8 +37,12 @@ test("website publication preserves large HTML files, source and Pages history a
     assert.equal(first.changed, true);
     assert.equal(git(["show", "gh-pages:index.html"], remote), "<!doctype html><title>First</title>");
     assert.equal(git(["show", "gh-pages:phrases.html"], remote), "<!doctype html><title>Expressions</title>");
+    assert.equal(git(["show", "gh-pages:spanish.html"], remote), "<!doctype html><title>Español</title>");
+    assert.equal(git(["show", "gh-pages:spanish-phrases.html"], remote), "<!doctype html><title>Expresiones</title>");
     assert.equal(git(["show", "gh-pages:.nojekyll"], remote), "");
     assert.equal(git(["show", "gh-pages:licenses/CC-BY-SA-4.0.txt"], remote), "Vocabulary license");
+    assert.equal(git(["show", "gh-pages:licenses/Pattern-BSD.txt"], remote), "Morphology reference license");
+    assert.equal(git(["show", "gh-pages:SPANISH-SOURCES.md"], remote), "Spanish source attribution");
     assert.equal(git(["branch", "--show-current"]), "main");
     assert.equal(git(["rev-parse", "HEAD"]), head);
     assert.equal(git(["status", "--porcelain"]), "");

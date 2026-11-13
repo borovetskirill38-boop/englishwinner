@@ -110,30 +110,74 @@ function loadData() {
   return { words, distractors: bank, source };
 }
 
-function sharedTokens(phrases = false) {
+function sharedTokens(phrases = false, language = "en") {
   let art = read("src/shared/welcome-art.html").trimEnd();
   if (phrases) {
     art = art.replace(">grow<", ">give up<").replace(">расти<", ">сдаваться<")
       .replace("НОВОЕ СЛОВО — НОВАЯ ВОЗМОЖНОСТЬ", "НОВЫЙ СМЫСЛ — НОВЫЕ ВОЗМОЖНОСТИ")
       .replace("<strong>5000</strong> слов для практики", "<strong>500 + 500</strong> для практики");
   }
+  if (language === "es") {
+    art = art.replace(phrases ? ">give up<" : ">grow<", phrases ? ">por fin<" : ">vivir<")
+      .replace(phrases ? ">сдаваться<" : ">расти<", phrases ? ">наконец<" : ">жить<")
+      .replace(">ENGLISH<", ">ESPAÑOL<").replace("✳", "✳︎");
+  }
+  const header = read("src/shared/header.html").trimEnd()
+    .replace("{{EN_URL}}", phrases ? "./phrases.html" : "./index.html")
+    .replace("{{ES_URL}}", phrases ? "./spanish-phrases.html" : "./spanish.html")
+    .replace("{{EN_CURRENT}}", language === "en" ? 'aria-current="page"' : "")
+    .replace("{{ES_CURRENT}}", language === "es" ? 'aria-current="page"' : "");
   return {
     "{{ICONS}}": read("src/shared/icons.html").trimEnd(),
-    "{{HEADER}}": read("src/shared/header.html").trimEnd(),
+    "{{HEADER}}": header,
     "{{WELCOME_ART}}": art,
     "{{METRICS}}": read("src/shared/metrics.html").trimEnd(),
     "{{INTRO_NOTES}}": read("src/shared/intro-notes.html").trimEnd(),
   };
 }
 
-function build() {
-  const data = loadData();
-  const template = read("src/index.template.html");
+function localizedTemplate(template, language, phrases) {
+  if (language === "en") return template;
+  if (language !== "es") fail(`Неизвестный язык: ${language}`);
+  const page = phrases ? "spanish-phrases.html" : "spanish.html";
+  const replacements = [
+    ["en-ru", "es-ru"], ["ru-en", "ru-es"], [">EN<", ">ES<"],
+    ["EN → RU", "ES → RU"], ["RU → EN", "RU → ES"], [">EN ", ">ES "], [" EN</strong>", " ES</strong>"],
+    ["Английский", "Испанский"], ["английский", "испанский"],
+    ["английских", "испанских"], ["английского", "испанского"],
+    ["английском", "испанском"], ["английское", "испанское"], ["АНГЛИЙСКОГО", "ИСПАНСКОГО"],
+    ["АНГЛИЙСКИЙ", "ИСПАНСКИЙ"], ["Фразовые глаголы", "Глагольные конструкции"],
+    ["фразовые глаголы", "глагольные конструкции"], ["фразовых глаголов", "глагольных конструкций"],
+    ["фразовые и предложные глаголы", "глагольные конструкции"],
+    ['href="./index.html"', 'href="./spanish.html"'],
+    ['href="./phrases.html"', 'href="./spanish-phrases.html"'],
+    ['<body>', '<body class="spanish-page">'], ['<body class="phrases-page">', '<body class="phrases-page spanish-page">'],
+    ['content="#f7f8f3"', 'content="#fff9ed"'],
+    ['lang="en"', 'lang="es"'],
+    ["500 глаголов · give up", "500 конструкций · darse cuenta"], ["500 выражений · a piece of cake", "500 выражений · pan comido"],
+  ];
+  let html = template;
+  for (const [from, to] of replacements) html = html.replaceAll(from, to);
+  html = html.replace("<title>", "<title>Испанский · ");
+  html = html.replace(/https:\/\/borovetskirill38-boop\.github\.io\/englishwinner\/(?:phrases\.html)?/g,
+    `https://borovetskirill38-boop.github.io/englishwinner/${page}`);
+  const about = phrases
+    ? '<p>Два отдельных испанских набора по 500 записей: устойчивые выражения и глагольные конструкции, включая словосочетания, перифразы и глаголы с управлением. Это учебная подборка распространённых употреблений, а не частотный рейтинг. У английских фразовых глаголов нет точного структурного аналога в испанском, поэтому здесь изучаются естественные испанские конструкции. Полный тест — 500 вопросов, экспресс — 20 случайных без повторов. В обоих направлениях только четыре варианта. После ошибки показаны оба перевода; в конце экспресса — список ошибок.</p>'
+    : '<p>5000 испанских слов разговорного языка по корпусу OpenSubtitles (2018). Уровни — первые 1000, 3000 или 5000 слов выбранного частотного списка. Имена, шумовые токены и неподтверждённые словарём записи отфильтрованы; словоформы сохраняются. Это частота в субтитрах, а не универсальный рейтинг языка.</p><p>Сначала выбирается частотный уровень, затем тема. Вопросы, варианты и проверка испанских синонимов ограничены этим набором. Доступны ES → RU, RU → ES, полный и экспресс-тест, четыре варианта и ручной ввод. На слово три попытки; пустой ответ их не тратит. После третьей ошибки показывается перевод до явного перехода дальше. Правильный ручной ответ переходит автоматически, пропуск считается ошибкой. В конце экспресс-теста есть список ошибок.</p><p>При ручном вводе достаточно одного допустимого перевода. Регистр, пунктуация, пробелы и ё/е нормализуются. Испанские ударения и ñ сохраняются: si/sí, el/él и tu/tú — разные слова.</p>';
+  const credits = '<p>Частотный источник: <a href="https://github.com/hermitdave/FrequencyWords/tree/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/es" target="_blank" rel="noopener noreferrer">FrequencyWords — Hermit Dave / OpenSubtitles</a>. Словарные сведения сверены с <a href="https://github.com/Vuizur/Wiktionary-Dictionaries/tree/be0cfb8d614470bc8b9d9006ddff8b921cd5c2e3" target="_blank" rel="noopener noreferrer">испанским Викисловарём — Wiktionary contributors / Vuizur</a> и <a href="https://github.com/Badestrand/russian-dictionary/tree/50e210c4803237779cb562bc1abcea529066031c" target="_blank" rel="noopener noreferrer">OpenRussian.org</a>. Словоформы сверены с Pattern / Fred F. Jehle. Подборки, переводы и тематическая разметка подготовлены для проекта. Данные и адаптации: <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>; код: MIT. <a href="https://github.com/borovetskirill38-boop/englishwinner" target="_blank" rel="noopener noreferrer">Источники, лицензии и изменения</a>.</p>';
+  html = html.replace(/<details class="about">[\s\S]*?<\/details>/,
+    `<details class="about"><summary>О словаре и правилах</summary><div class="about-content">${about}${credits}</div></details>`);
+  return html;
+}
+
+function build(language = "en") {
+  const data = language === "es" ? require("./spanish-data.js").loadSpanishData() : loadData();
+  const template = localizedTemplate(read("src/index.template.html"), language, false);
   const tokens = {
-    ...sharedTokens(),
-    "{{STYLES}}": read("src/styles.css"),
+    ...sharedTokens(false, language),
+    "{{STYLES}}": read("src/styles.css") + (language === "es" ? "\n" + read("src/spanish.css") : ""),
     "{{DATA}}": JSON.stringify(data).replaceAll("<", "\\u003c"),
-    "{{SCRIPT}}": read("src/quiz.js") + "\n" + read("src/app.js"),
+    "{{SCRIPT}}": `const LEARNING_LANGUAGE = "${language}";\n` + read("src/quiz.js") + "\n" + read("src/app.js"),
   };
   let html = template;
   for (const [token, value] of Object.entries(tokens)) {
@@ -183,14 +227,14 @@ function loadPhraseData() {
   return data;
 }
 
-function buildPhrases() {
+function buildPhrases(language = "en") {
   const tokens = {
-    ...sharedTokens(true),
-    "{{STYLES}}": read("src/styles.css") + "\n" + read("src/phrases.css"),
-    "{{DATA}}": JSON.stringify(loadPhraseData()).replaceAll("<", "\\u003c"),
-    "{{SCRIPT}}": read("src/phrase-core.js") + "\n" + read("src/phrase-app.js"),
+    ...sharedTokens(true, language),
+    "{{STYLES}}": read("src/styles.css") + "\n" + read("src/phrases.css") + (language === "es" ? "\n" + read("src/spanish.css") : ""),
+    "{{DATA}}": JSON.stringify(language === "es" ? require("./spanish-data.js").loadSpanishPhraseData() : loadPhraseData()).replaceAll("<", "\\u003c"),
+    "{{SCRIPT}}": `const LEARNING_LANGUAGE = "${language}";\n` + read("src/phrase-core.js") + "\n" + read("src/phrase-app.js"),
   };
-  let html = read("src/phrases.template.html");
+  let html = localizedTemplate(read("src/phrases.template.html"), language, true);
   for (const [token, value] of Object.entries(tokens)) {
     if (html.split(token).length !== 2) fail(`В шаблоне выражений должен быть один маркер ${token}`);
     html = html.replace(token, () => value);
@@ -199,17 +243,15 @@ function buildPhrases() {
 }
 
 if (require.main === module) {
-  const html = build();
-  const phrases = buildPhrases();
-  if (process.argv.includes("--check")) {
-    if (read("index.html") !== html) fail("index.html устарел. Выполните npm run build");
-    if (read("phrases.html") !== phrases) fail("phrases.html устарел. Выполните npm run build");
-    console.log(`index.html и phrases.html актуальны; ${WORD_COUNT} слов и два набора по 500 выражений.`);
-  } else {
-    fs.writeFileSync(path.join(root, "index.html"), html);
-    fs.writeFileSync(path.join(root, "phrases.html"), phrases);
-    console.log(`Собран index.html: ${WORD_COUNT} слов, ${Buffer.byteLength(html)} байт. Интернет не нужен.`);
-    console.log(`Собран phrases.html: 500 выражений и 500 фразовых глаголов, ${Buffer.byteLength(phrases)} байт.`);
+  const pages = { "index.html": build(), "phrases.html": buildPhrases(),
+    "spanish.html": build("es"), "spanish-phrases.html": buildPhrases("es") };
+  for (const [name, html] of Object.entries(pages)) {
+    if (process.argv.includes("--check")) {
+      if (read(name) !== html) fail(`${name} устарел. Выполните npm run build`);
+    } else {
+      fs.writeFileSync(path.join(root, name), html);
+    }
+    console.log(`${name}: ${Buffer.byteLength(html)} байт, ${process.argv.includes("--check") ? "актуален" : "собран"}.`);
   }
 }
 

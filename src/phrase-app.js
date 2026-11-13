@@ -35,8 +35,8 @@
     $("question-number").textContent = session.index + 1;
     $("total-count").textContent = session.total;
     $("word").textContent = session.prompt;
-    $("word").lang = session.mode === "en-ru" ? "en" : "ru";
-    $("word-note").textContent = session.mode === "en-ru" ? "Выберите перевод на русский" : "Выберите выражение на английском";
+    $("word").lang = session.mode === PhraseQuiz.FORWARD ? PhraseQuiz.LANGUAGE.code : "ru";
+    $("word-note").textContent = session.mode === PhraseQuiz.FORWARD ? "Выберите перевод на русский" : `Выберите выражение на ${PhraseQuiz.LANGUAGE.code === "es" ? "испанском" : "английском"}`;
     $("feedback").className = "feedback";
     $("feedback-title").textContent = "";
     $("feedback-selected").textContent = "";
@@ -56,7 +56,7 @@
       const text = document.createElement("span");
       text.className = "option-text";
       text.textContent = option.text;
-      text.lang = session.mode === "en-ru" ? "ru" : "en";
+      text.lang = session.mode === PhraseQuiz.FORWARD ? "ru" : PhraseQuiz.LANGUAGE.code;
       replaceChildren(button, number, text);
       button.addEventListener("click", () => answer(index));
       return button;
@@ -70,7 +70,7 @@
     session = new PhraseQuiz.Session(data, selected("collection"), selected("mode"), selected("format"));
     $("training-format").textContent = session.format === "express" ? "ЭКСПРЕСС-ТЕСТ" : "ПОЛНЫЙ ТЕСТ";
     $("training-collection").textContent = PhraseQuiz.COLLECTIONS[session.collection];
-    $("direction").textContent = session.mode === "en-ru" ? "EN → RU" : "RU → EN";
+    $("direction").textContent = session.mode === PhraseQuiz.FORWARD ? `${PhraseQuiz.LANGUAGE.code.toUpperCase()} → RU` : `RU → ${PhraseQuiz.LANGUAGE.code.toUpperCase()}`;
     show("training");
     renderQuestion();
     window.scrollTo(0, 0);
@@ -91,10 +91,10 @@
     $("feedback-title").textContent = result.correct ? "Верно! Так держать." : "Неправильно. Запомним перевод.";
     if (!result.correct) {
       const choice = result.selected;
-      $("feedback-selected").textContent = `Вы выбрали: ${session.mode === "en-ru" ? `${choice.translation} — ${choice.english}` : `${choice.english} — ${choice.translation}`}`;
+      $("feedback-selected").textContent = `Вы выбрали: ${session.mode === PhraseQuiz.FORWARD ? `${choice.translation} — ${choice.english}` : `${choice.english} — ${choice.translation}`}`;
       $("feedback-selected").hidden = false;
     }
-    const pair = session.mode === "en-ru" ? `${result.english} — ${result.translation}` : `${result.translation} — ${result.english}`;
+    const pair = session.mode === PhraseQuiz.FORWARD ? `${result.english} — ${result.translation}` : `${result.translation} — ${result.english}`;
     $("feedback-detail").textContent = result.correct ? pair : `Правильный ответ: ${pair}`;
     replaceChildren($("feedback-icon"), icon(result.correct ? "check" : "cross"));
     $("next").disabled = false;
@@ -104,7 +104,7 @@
   function complete() {
     show("complete");
     $("complete-count").textContent = session.format === "express" ? "ЭКСПРЕСС-ТЕСТ ЗАВЕРШЁН" : "ВСЕ 500 ВОПРОСОВ ПРОЙДЕНЫ";
-    $("result-mode").textContent = `${PhraseQuiz.COLLECTIONS[session.collection]} · ${session.mode === "en-ru" ? "EN → RU" : "RU → EN"}`;
+    $("result-mode").textContent = `${PhraseQuiz.COLLECTIONS[session.collection]} · ${session.mode === PhraseQuiz.FORWARD ? `${PhraseQuiz.LANGUAGE.code.toUpperCase()} → RU` : `RU → ${PhraseQuiz.LANGUAGE.code.toUpperCase()}`}`;
     $("result-percent").textContent = `${session.accuracy}%`;
     $("result-ring").style.setProperty("--result-angle", `${session.correct / session.total * 360}deg`);
     $("result-ring").style.setProperty("--result-hue", String(session.accuracy * 1.2));
@@ -114,17 +114,17 @@
     $("result-message").textContent = session.correct === session.total ? "Ни одной ошибки! Попробуйте новый проход." : "Ещё один шаг вперёд. Продолжайте практику в своём темпе.";
     $("mistake-review").hidden = session.format !== "express";
     $("mistake-review-table").hidden = session.mistakes === 0;
-    $("mistake-review-title").textContent = session.collection === "expressions" ? "Выражения для повторения" : "Фразовые глаголы для повторения";
+    $("mistake-review-title").textContent = session.collection === "expressions" ? "Выражения для повторения" : `${PhraseQuiz.COLLECTIONS["phrasal-verbs"]} для повторения`;
     $("mistake-review-message").textContent = session.mistakes ? "Повторите правильные переводы:" : "Все ответы верные — ошибок нет.";
-    $("review-source").textContent = session.mode === "en-ru" ? "Английский" : "Русский";
+    $("review-source").textContent = session.mode === PhraseQuiz.FORWARD ? PhraseQuiz.LANGUAGE.name : "Русский";
     const rows = session.incorrectEntries.map((entry) => {
       const row = document.createElement("tr");
       const prompt = document.createElement("td");
       const translation = document.createElement("td");
-      prompt.textContent = session.mode === "en-ru" ? entry.english : entry.translation;
-      prompt.lang = session.mode === "en-ru" ? "en" : "ru";
-      translation.textContent = session.mode === "en-ru" ? entry.translation : entry.english;
-      translation.lang = session.mode === "en-ru" ? "ru" : "en";
+      prompt.textContent = session.mode === PhraseQuiz.FORWARD ? entry.english : entry.translation;
+      prompt.lang = session.mode === PhraseQuiz.FORWARD ? PhraseQuiz.LANGUAGE.code : "ru";
+      translation.textContent = session.mode === PhraseQuiz.FORWARD ? entry.translation : entry.english;
+      translation.lang = session.mode === PhraseQuiz.FORWARD ? "ru" : PhraseQuiz.LANGUAGE.code;
       replaceChildren(row, prompt, translation);
       return row;
     });

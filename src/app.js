@@ -5,6 +5,7 @@
   const $ = (id) => document.getElementById(id);
   const screens = ["intro", "training", "complete"];
   let session = null;
+  let previousClickWasSkip = false;
 
   // replaceChildren is absent in Safari before iOS 14.
   function replaceChildren(element, ...children) {
@@ -49,9 +50,9 @@
     $("total-count").textContent = session.total;
     $("word").textContent = session.prompt;
     $("word").lang = mode.questionLang;
-    $("word").classList.toggle("russian-word", session.mode === "ru-en");
+    $("word").classList.toggle("russian-word", session.mode === Quiz.REVERSE);
     $("word-note").textContent = typing
-      ? (session.mode === "en-ru" ? "Введите перевод на русский — достаточно одного значения" : "Введите английский перевод")
+      ? (session.mode === Quiz.FORWARD ? "Введите перевод на русский — достаточно одного значения" : `Введите перевод на ${Quiz.LANGUAGE.adjective}`)
       : mode.instruction;
     if (session.topic !== "all") $("word-note").textContent += ` · По теме «${Quiz.TOPICS[session.topic]}»`;
     $("question-badge").textContent = typing ? "Ручной ввод" : "4 варианта · 1 верный";
@@ -66,7 +67,7 @@
     $("skip-word").disabled = false;
     updateAttempts();
     $("typed-answer").lang = mode.answerLang;
-    $("typed-answer").placeholder = session.mode === "en-ru" ? "Напишите перевод" : "Type the English word";
+    $("typed-answer").placeholder = session.mode === Quiz.FORWARD ? "Напишите перевод" : (Quiz.LANGUAGE.code === "es" ? "Escriba la palabra" : "Type the English word");
     $("typed-answer").classList.remove("is-wrong");
     $("typed-answer").removeAttribute("aria-invalid");
     $("feedback").className = "feedback";
@@ -144,12 +145,12 @@
     if (!result.correct) {
       const option = session.options[index];
       const selectedEntry = session.vocabulary.find((entry) => entry.word === option.word);
-      const selectedPair = session.mode === "ru-en"
+      const selectedPair = session.mode === Quiz.REVERSE
         ? `${option.text} — ${selectedEntry.translation}` : `${option.text} — ${selectedEntry.word}`;
       $("feedback-selected").textContent = `Вы выбрали: ${selectedPair}`;
       $("feedback-selected").hidden = false;
     }
-    const correctPair = session.mode === "ru-en"
+    const correctPair = session.mode === Quiz.REVERSE
       ? `${result.translation} — ${session.entry.word}`
       : `${session.entry.word} — ${result.translation}`;
     $("feedback-detail").textContent = result.correct ? correctPair : `Правильный ответ: ${correctPair}`;
@@ -163,7 +164,7 @@
   function advanceTyped(result) {
     const pair = result.skipped
       ? `${result.word} — ${result.translation}`
-      : (session.mode === "ru-en" ? `${session.prompt} — ${result.answer}` : `${result.word} — ${result.answer}`);
+      : (session.mode === Quiz.REVERSE ? `${session.prompt} — ${result.answer}` : `${result.word} — ${result.answer}`);
     stats();
     if (!session.advance()) return;
     if (session.finished) complete();
@@ -191,7 +192,7 @@
     if (result.exhausted) {
       $("feedback").classList.add("has-answer");
       $("feedback-title").textContent = "Три попытки исчерпаны. Правильный ответ:";
-      $("feedback-detail").textContent = session.mode === "ru-en"
+      $("feedback-detail").textContent = session.mode === Quiz.REVERSE
         ? `${session.prompt} — ${result.word}` : `${result.word} — ${result.translation}`;
       $("typed-answer").disabled = true;
       $("check-answer").disabled = true;
@@ -219,8 +220,8 @@
     $("mistake-review-message").textContent = mistakes.length
       ? `Повторите ${Quiz.wordCount(mistakes.length)} с правильными переводами.`
       : "Все ответы верные — слов для повторения нет.";
-    $("mistake-review-source-heading").textContent = session.mode === "en-ru" ? "Английский" : "Русский";
-    $("mistake-review-table").classList.toggle("is-reversed", session.mode === "ru-en");
+    $("mistake-review-source-heading").textContent = session.mode === Quiz.FORWARD ? Quiz.LANGUAGE.name : "Русский";
+    $("mistake-review-table").classList.toggle("is-reversed", session.mode === Quiz.REVERSE);
     const mode = Quiz.MODES[session.mode];
     const rows = mistakes.map((entry) => {
       const row = document.createElement("tr");
@@ -228,7 +229,7 @@
       word.textContent = Quiz.questionFor(entry, session.mode);
       word.lang = mode.questionLang;
       const translation = document.createElement("td");
-      translation.textContent = session.mode === "en-ru" ? entry.translation : entry.word;
+      translation.textContent = session.mode === Quiz.FORWARD ? entry.translation : entry.word;
       translation.lang = mode.answerLang;
       replaceChildren(row, word, translation);
       return row;
@@ -340,12 +341,20 @@
   $("change-mode").addEventListener("click", chooseMode);
   $("change-mode-complete").addEventListener("click", chooseMode);
   $("typed-form").addEventListener("submit", submitTyped);
+  // Touch browsers can increment click.detail after tapping a different control.
+  // Only consecutive activations of Skip belong to the same skip double-click.
+  document.addEventListener("click", (event) => {
+    if (!$("skip-word").contains(event.target)) previousClickWasSkip = false;
+  }, true);
   $("skip-word").addEventListener("click", (event) => {
-    if (event.detail > 1 || !session || session.answerMode !== "typing" || $("training").hidden) return;
+    const repeated = previousClickWasSkip && event.detail > 1;
+    previousClickWasSkip = true;
+    if (repeated || !session || session.answerMode !== "typing" || $("training").hidden) return;
     const result = session.skip();
     if (result) advanceTyped(result);
   });
   $("typed-answer").addEventListener("input", () => {
+    previousClickWasSkip = false;
     if (session && session.answerMode === "typing" && session.selected !== null) return;
     $("typed-answer").classList.remove("is-wrong");
     $("typed-answer").removeAttribute("aria-invalid");

@@ -1,0 +1,44 @@
+{
+  "license": "CC-BY-SA-4.0 (adapted vocabulary and translations)",
+  "review": {
+    "words": 5000,
+    "method": "Все 5000 исходных пар просмотрены; исправлены значения, род, число, глагольные формы и переводы с местоимениями. Словарные данные — отправная точка, контекстные значения не исчерпывающие. Темы и синонимы привязаны к русским значениям. Автоматические проверки подтверждают структуру, частотные границы и согласованность тестов, но не заменяют экспертную языковую редактуру."
+  },
+  "references": [
+    {
+      "name": "Spanish Wiktionary / Vuizur Wiktionary-Dictionaries, based on Wiktextract/Kaikki",
+      "authors": "Wiktionary contributors; Vuizur",
+      "commit": "be0cfb8d614470bc8b9d9006ddff8b921cd5c2e3",
+      "url": "https://github.com/Vuizur/Wiktionary-Dictionaries/blob/be0cfb8d614470bc8b9d9006ddff8b921cd5c2e3/Spanish-English%20Wiktionary%20dictionary.tsv",
+      "license": "CC-BY-SA-3.0 / GFDL (Wiktionary); adaptations under CC-BY-SA-4.0",
+      "sha256": "257534ae13b3c44efe295cac8a99480df9e276d73ab9883fef9941064b6a97d3"
+    },
+    {
+      "name": "OpenRussian / Badestrand russian-dictionary",
+      "authors": "OpenRussian.org contributors",
+      "commit": "50e210c4803237779cb562bc1abcea529066031c",
+      "url": "https://github.com/Badestrand/russian-dictionary/tree/50e210c4803237779cb562bc1abcea529066031c",
+      "license": "CC-BY-SA-4.0",
+      "files": {
+        "nouns.csv": "c388f9e6dde51932832be8d7e9afdbe9f0acee72fcf70677f0fe25ea61293c84",
+        "verbs.csv": "8659de6799b949fb35f080b08088fb7d347ed300490954ebb380a31642646e1d",
+        "adjectives.csv": "89ab5d10dcd2f21f6b485de704aef372f32251468e3aa96f18b21e259f26b80a",
+        "others.csv": "9f22a16b17fc9a564298112168b667fced11aafb254ccebf5b7544fc37cdaa92"
+      }
+    },
+    {
+      "name": "Pattern Spanish verb morphology (Fred F. Jehle; CLiPS Pattern)",
+      "commit": "af754685cca3713db0abc4f020f2e94467c19d85",
+      "url": "https://github.com/clips/pattern/blob/af754685cca3713db0abc4f020f2e94467c19d85/pattern/text/es/es-verbs.txt",
+      "license": "Pattern BSD; verb-form reference attributed to Fred F. Jehle (2012), used by Pattern with permission",
+      "sha256": "b8617726864afed10f7667eede6323426271d7e12ac707eab3c1fcb4a3edc629",
+      "usage": "Использован для сверки испанских глагольных форм; таблица не включена в приложение."
+    }
+  ],
+  "phrases": {
+    "expressions": 500,
+    "verbConstructions": 500,
+    "method": "Авторская учебная подборка распространённых формул общения, идиом, перифраз и глагольно-предложных сочетаний. Не частотный рейтинг; одно основное значение на запись.",
+    "license": "CC-BY-SA-4.0"
+  }
+}

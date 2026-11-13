@@ -23,7 +23,7 @@ with sync_playwright() as playwright:
     for width in WIDTHS:
         context = browser.new_context(viewport={'width': width, 'height': 900}, offline=True)
         layouts = {}
-        for name in ['index', 'phrases']:
+        for name in ['index', 'phrases', 'spanish', 'spanish-phrases']:
             page = context.new_page()
             page.on('pageerror', lambda error: errors.append(str(error)))
             page.on('request', lambda request: requests.append(request.url) if request.url.startswith(('http:', 'https:')) else None)
@@ -39,13 +39,14 @@ with sync_playwright() as playwright:
             if width in [390, 1280]:
                 page.screenshot(path=str(ARTIFACTS / f'{name}-{width}.png'), full_page=True)
             page.close()
-        for selector in SELECTORS:
-            for dimension in ['x', 'y', 'width', 'height']:
-                # Text itself differs, so its width can differ while its position stays fixed.
-                if selector == '.offline' and dimension == 'width':
-                    continue
-                left, right = layouts['index'][selector][dimension], layouts['phrases'][selector][dimension]
-                assert abs(left - right) <= 1, (width, selector, dimension, left, right)
+        for name in ['phrases', 'spanish', 'spanish-phrases']:
+            for selector in SELECTORS:
+                for dimension in ['x', 'y', 'width', 'height']:
+                    # Text itself differs, so its width can differ while its position stays fixed.
+                    if selector == '.offline' and dimension == 'width':
+                        continue
+                    left, right = layouts['index'][selector][dimension], layouts[name][selector][dimension]
+                    assert abs(left - right) <= 1, (name, width, selector, dimension, left, right)
         context.close()
     browser.close()
     assert not errors, errors

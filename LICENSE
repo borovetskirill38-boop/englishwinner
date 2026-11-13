@@ -23,3 +23,5 @@ SOFTWARE.
 This license applies to application code. Vocabulary, translations, and source
 frequency data are provided under CC BY-SA 4.0; see data/source.json,
 licenses/CC-BY-SA-4.0.txt, and README.md for attribution and modifications.
+Spanish vocabulary references and modifications are documented in
+data/spanish/references.json, data/spanish/NOTICE.md and docs/spanish-review.md.
