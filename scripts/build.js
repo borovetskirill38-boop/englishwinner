@@ -122,11 +122,18 @@ function sharedTokens(phrases = false, language = "en") {
       .replace(phrases ? ">сдаваться<" : ">расти<", phrases ? ">наконец<" : ">жить<")
       .replace(">ENGLISH<", ">ESPAÑOL<").replace("✳", "✳︎");
   }
+  if (language === "pt-BR") {
+    art = art.replace(phrases ? ">give up<" : ">grow<", phrases ? ">pois é<" : ">viver<")
+      .replace(phrases ? ">сдаваться<" : ">расти<", phrases ? ">именно так<" : ">жить<")
+      .replace(">ENGLISH<", ">PORTUGUÊS · BR<").replace("✳", "✺");
+  }
   const header = read("src/shared/header.html").trimEnd()
     .replace("{{EN_URL}}", phrases ? "./phrases.html" : "./index.html")
     .replace("{{ES_URL}}", phrases ? "./spanish-phrases.html" : "./spanish.html")
+    .replace("{{PT_URL}}", phrases ? "./portuguese-phrases.html" : "./portuguese.html")
     .replace("{{EN_CURRENT}}", language === "en" ? 'aria-current="page"' : "")
-    .replace("{{ES_CURRENT}}", language === "es" ? 'aria-current="page"' : "");
+    .replace("{{ES_CURRENT}}", language === "es" ? 'aria-current="page"' : "")
+    .replace("{{PT_CURRENT}}", language === "pt-BR" ? 'aria-current="page"' : "");
   return {
     "{{ICONS}}": read("src/shared/icons.html").trimEnd(),
     "{{HEADER}}": header,
@@ -138,6 +145,7 @@ function sharedTokens(phrases = false, language = "en") {
 
 function localizedTemplate(template, language, phrases) {
   if (language === "en") return template;
+  if (language === "pt-BR") return portugueseTemplate(template, phrases);
   if (language !== "es") fail(`Неизвестный язык: ${language}`);
   const page = phrases ? "spanish-phrases.html" : "spanish.html";
   const replacements = [
@@ -170,12 +178,50 @@ function localizedTemplate(template, language, phrases) {
   return html;
 }
 
+function portugueseTemplate(template, phrases) {
+  // Both Romance-language sections share the same Russian instructions and
+  // layout. Only the study language, examples and source notes differ.
+  let html = localizedTemplate(template, "es", phrases)
+    .replace(/испанск/gi, (stem) => stem === stem.toUpperCase() ? "ПОРТУГАЛЬСК" : stem[0] === "И" ? "Португальск" : "португальск");
+  const changes = [
+    ["es-ru", "pt-BR-ru"], ["ru-es", "ru-pt-BR"], [">ES<", ">PT-BR<"],
+    ["ES → RU", "PT-BR → RU"], ["RU → ES", "RU → PT-BR"], [">ES ", ">PT-BR "], [" ES</strong>", " PT-BR</strong>"],
+    // Keep the two direction cards the same height at 320 px. The language
+    // selector names Brazil explicitly; question badges retain PT-BR.
+    ["<strong>PT-BR ", "<strong>PT "], [" PT-BR</strong>", " PT</strong>"],
+    [">На португальский<", ">Португальский<"],
+    ["spanish-phrases.html", "portuguese-phrases.html"], ["spanish.html", "portuguese.html"],
+    ["spanish-page", "portuguese-page"], ['lang="es"', 'lang="pt-BR"'],
+    ['content="#fff9ed"', 'content="#f7fbef"'],
+    ["darse cuenta", "dar conta"], ["pan comido", "mamão com açúcar"],
+    ["<title>Португальский ·", "<title>Португальский (Бразилия) ·"],
+  ];
+  for (const [from, to] of changes) html = html.replaceAll(from, to);
+  const about = phrases
+    ? '<p>Два отдельных учебных набора бразильского португальского: 500 устойчивых выражений и 500 глагольных конструкций, включая перифразы, глаголы с управлением и устойчивые сочетания. Это подборка распространённых употреблений, а не частотный рейтинг. Каждый набор можно пройти целиком или выбрать 20 случайных вопросов, в обоих направлениях. Здесь только четыре варианта ответа. После ошибки показаны оба перевода, в конце экспресса — список для повторения.</p>'
+    : '<p>5000 слов бразильского португальского из отдельного корпуса FrequencyWords / OpenSubtitles (2018, pt_br). Уровни 1000, 3000 и 5000 — строгие частотные префиксы выбранного словаря после фильтрации отдельных имён, шума и неподтверждённых записей. Словоформы сохраняются. Это частотность субтитров, а не универсальный рейтинг языка.</p><p>Сначала выбирается уровень, затем тема. Вопросы, варианты и проверка синонимов ограничены этим набором. Доступны PT-BR → RU и RU → PT-BR, полный и экспресс-тест до 20 слов, четыре варианта или ручной ввод. На слово три попытки: первые две ошибки не меняют счёт, после третьей показывается правильный ответ до нажатия «Далее». Верный ввод переходит автоматически, пропуск считается ошибкой. В конце экспресса есть список ошибок.</p><p>Достаточно одного допустимого перевода. Регистр, пунктуация, лишние пробелы и ё/е нормализуются. Португальские диакритические знаки значимы: e/é, avó/avô и pais/país различаются.</p>';
+  const credits = '<p>Частотный источник: <a href="https://github.com/hermitdave/FrequencyWords/tree/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/pt_br" target="_blank" rel="noopener noreferrer">FrequencyWords — Hermit Dave / OpenSubtitles</a>. Словарные сведения сверены с <a href="https://github.com/Vuizur/Wiktionary-Dictionaries/tree/be0cfb8d614470bc8b9d9006ddff8b921cd5c2e3" target="_blank" rel="noopener noreferrer">португальским Викисловарём — Wiktionary contributors / Vuizur</a>, OpenRussian и морфологическим справочником mlconjug3 / Ars-Linguistica. Переводы, темы и учебные подборки подготовлены для проекта. Данные и адаптации: <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>; код: MIT. Источники, версии и лицензии сохранены в репозитории.</p>';
+  return html.replace(/<details class="about">[\s\S]*?<\/details>/,
+    `<details class="about"><summary>О словаре и правилах</summary><div class="about-content">${about}${credits}</div></details>`);
+}
+
+function dataFor(language, phrases = false) {
+  if (language === "es") return require("./spanish-data.js")[phrases ? "loadSpanishPhraseData" : "loadSpanishData"]();
+  if (language === "pt-BR") return require("./portuguese-data.js")[phrases ? "loadPortuguesePhraseData" : "loadPortugueseData"]();
+  if (language !== "en") fail(`Неизвестный язык: ${language}`);
+  return phrases ? loadPhraseData() : loadData();
+}
+
+function languageStyles(language) {
+  return language === "es" ? "\n" + read("src/spanish.css") : language === "pt-BR" ? "\n" + read("src/portuguese.css") : "";
+}
+
 function build(language = "en") {
-  const data = language === "es" ? require("./spanish-data.js").loadSpanishData() : loadData();
+  const data = dataFor(language);
   const template = localizedTemplate(read("src/index.template.html"), language, false);
   const tokens = {
     ...sharedTokens(false, language),
-    "{{STYLES}}": read("src/styles.css") + (language === "es" ? "\n" + read("src/spanish.css") : ""),
+    "{{STYLES}}": read("src/styles.css") + languageStyles(language),
     "{{DATA}}": JSON.stringify(data).replaceAll("<", "\\u003c"),
     "{{SCRIPT}}": `const LEARNING_LANGUAGE = "${language}";\n` + read("src/quiz.js") + "\n" + read("src/app.js"),
   };
@@ -230,8 +276,8 @@ function loadPhraseData() {
 function buildPhrases(language = "en") {
   const tokens = {
     ...sharedTokens(true, language),
-    "{{STYLES}}": read("src/styles.css") + "\n" + read("src/phrases.css") + (language === "es" ? "\n" + read("src/spanish.css") : ""),
-    "{{DATA}}": JSON.stringify(language === "es" ? require("./spanish-data.js").loadSpanishPhraseData() : loadPhraseData()).replaceAll("<", "\\u003c"),
+    "{{STYLES}}": read("src/styles.css") + "\n" + read("src/phrases.css") + languageStyles(language),
+    "{{DATA}}": JSON.stringify(dataFor(language, true)).replaceAll("<", "\\u003c"),
     "{{SCRIPT}}": `const LEARNING_LANGUAGE = "${language}";\n` + read("src/phrase-core.js") + "\n" + read("src/phrase-app.js"),
   };
   let html = localizedTemplate(read("src/phrases.template.html"), language, true);
@@ -244,7 +290,8 @@ function buildPhrases(language = "en") {
 
 if (require.main === module) {
   const pages = { "index.html": build(), "phrases.html": buildPhrases(),
-    "spanish.html": build("es"), "spanish-phrases.html": buildPhrases("es") };
+    "spanish.html": build("es"), "spanish-phrases.html": buildPhrases("es"),
+    "portuguese.html": build("pt-BR"), "portuguese-phrases.html": buildPhrases("pt-BR") };
   for (const [name, html] of Object.entries(pages)) {
     if (process.argv.includes("--check")) {
       if (read(name) !== html) fail(`${name} устарел. Выполните npm run build`);

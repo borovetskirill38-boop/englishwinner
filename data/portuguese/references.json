@@ -1,0 +1,48 @@
+{
+  "license": "CC-BY-SA-4.0 (adapted vocabulary and translations)",
+  "review": {
+    "words": 5000,
+    "method": "Просмотрены все 5000 пар. Исправлены значения, род, число, глагольные формы, бразильские употребления и ложные друзья переводчика. Русские синонимы и тематические значения привязаны к смыслам. Нормативные грамматические слияния сохранены. Привязка словоформ к глагольным семьям исключает неоднозначные варианты. Автоматические проверки подтверждают структуру и согласованность; это не независимая экспертная языковая редактура."
+  },
+  "references": [
+    {
+      "name": "Portuguese Wiktionary / Vuizur Wiktionary-Dictionaries, based on Wiktextract/Kaikki",
+      "authors": "Wiktionary contributors; Vuizur",
+      "commit": "be0cfb8d614470bc8b9d9006ddff8b921cd5c2e3",
+      "url": "https://github.com/Vuizur/Wiktionary-Dictionaries/blob/be0cfb8d614470bc8b9d9006ddff8b921cd5c2e3/Portuguese-English%20Wiktionary%20dictionary.tsv",
+      "license": "CC-BY-SA-3.0 / GFDL (Wiktionary); adaptations under CC-BY-SA-4.0",
+      "sha256": "224be746713044deaf09d90c888db668a8e1cf5940df460342524c7d9e3d0029"
+    },
+    {
+      "name": "OpenRussian / Badestrand russian-dictionary",
+      "authors": "OpenRussian.org contributors",
+      "commit": "50e210c4803237779cb562bc1abcea529066031c",
+      "url": "https://github.com/Badestrand/russian-dictionary/tree/50e210c4803237779cb562bc1abcea529066031c",
+      "license": "CC-BY-SA-4.0",
+      "files": {
+        "nouns.csv": "c388f9e6dde51932832be8d7e9afdbe9f0acee72fcf70677f0fe25ea61293c84",
+        "verbs.csv": "8659de6799b949fb35f080b08088fb7d347ed300490954ebb380a31642646e1d",
+        "adjectives.csv": "89ab5d10dcd2f21f6b485de704aef372f32251468e3aa96f18b21e259f26b80a",
+        "others.csv": "9f22a16b17fc9a564298112168b667fced11aafb254ccebf5b7544fc37cdaa92"
+      }
+    },
+    {
+      "name": "mlconjug3 Portuguese conjugation reference",
+      "authors": "Ars-Linguistica and contributors",
+      "commit": "691b199c60c523edcc3f0753390f02fbd8714e0b",
+      "url": "https://github.com/Ars-Linguistica/mlconjug3/tree/691b199c60c523edcc3f0753390f02fbd8714e0b/mlconjug3/data/conjug_manager",
+      "license": "MIT",
+      "files": {
+        "verbs-pt.json": "9388192e0dd8003e7ffd84ef066e9a36ffd9b874c0c39ead3d153ee700b6e787",
+        "conjugation-pt.json": "053429adc2de9faf71f0cd09566bc03b6d6c8a4e5330330442c3e0f8717bd91d"
+      },
+      "usage": "Сверка глагольных форм и группировка родственных словоформ. Исходные таблицы и модели не встроены в приложение."
+    }
+  ],
+  "phrases": {
+    "expressions": 500,
+    "verbConstructions": 500,
+    "method": "Авторская учебная подборка распространённых в Бразилии формул общения, связок, идиом, перифраз, глаголов с управлением и устойчивых глагольных сочетаний. Не частотный рейтинг.",
+    "license": "CC-BY-SA-4.0"
+  }
+}

@@ -67,7 +67,7 @@
     $("skip-word").disabled = false;
     updateAttempts();
     $("typed-answer").lang = mode.answerLang;
-    $("typed-answer").placeholder = session.mode === Quiz.FORWARD ? "Напишите перевод" : (Quiz.LANGUAGE.code === "es" ? "Escriba la palabra" : "Type the English word");
+    $("typed-answer").placeholder = session.mode === Quiz.FORWARD ? "Напишите перевод" : Quiz.LANGUAGE.placeholder;
     $("typed-answer").classList.remove("is-wrong");
     $("typed-answer").removeAttribute("aria-invalid");
     $("feedback").className = "feedback";

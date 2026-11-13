@@ -1,11 +1,11 @@
 {
   "name": "english-winner",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "private": true,
-  "description": "Английский и испанский: 5000 слов, 21 тема, уровни 1000/3000/5000, выражения и глагольные конструкции",
+  "description": "Английский, испанский и бразильский португальский: 5000 слов, 21 тема, уровни 1000/3000/5000, выражения и глагольные конструкции",
   "scripts": {
     "build": "node scripts/build.js",
-    "test": "node tests/quiz.test.js && node tests/typing.test.js && node tests/synonyms.test.js && node tests/attempts.test.js && node tests/review.test.js && node tests/levels.test.js && node tests/topics.test.js && node tests/compat.test.js && node tests/phrases.test.js && node tests/spanish.test.js && node tests/pages.test.js",
+    "test": "node tests/quiz.test.js && node tests/typing.test.js && node tests/synonyms.test.js && node tests/attempts.test.js && node tests/review.test.js && node tests/levels.test.js && node tests/topics.test.js && node tests/compat.test.js && node tests/phrases.test.js && node tests/spanish.test.js && node tests/portuguese.test.js && node tests/pages.test.js",
     "check": "node scripts/build.js --check && npm test",
     "publish:pages": "node scripts/publish-pages.js"
   },

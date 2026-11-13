@@ -9,9 +9,9 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 LANGUAGE = os.environ.get("QUIZ_LANGUAGE", "en")
-assert LANGUAGE in ["en", "es"]
-WORD_PAGE = "spanish.html" if LANGUAGE == "es" else "index.html"
-PHRASE_PAGE = "spanish-phrases.html" if LANGUAGE == "es" else "phrases.html"
+assert LANGUAGE in ["en", "es", "pt-BR"]
+WORD_PAGE = {"en": "index.html", "es": "spanish.html", "pt-BR": "portuguese.html"}[LANGUAGE]
+PHRASE_PAGE = {"en": "phrases.html", "es": "spanish-phrases.html", "pt-BR": "portuguese-phrases.html"}[LANGUAGE]
 BASE = "https://englishwinner.test/"
 ARTIFACTS = Path(os.environ.get("QUIZ_SCREENSHOTS", "/tmp/englishwinner-phrases-screenshots"))
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
@@ -121,7 +121,7 @@ with sync_playwright() as playwright:
 
         def serve(route):
             name = urlparse(route.request.url).path.rsplit("/", 1)[-1]
-            if route.request.url.startswith(BASE) and name in ["index.html", "phrases.html", "spanish.html", "spanish-phrases.html"]:
+            if route.request.url.startswith(BASE) and name in ["index.html", "phrases.html", "spanish.html", "spanish-phrases.html", "portuguese.html", "portuguese-phrases.html"]:
                 route.fulfill(status=200, content_type="text/html; charset=utf-8", body=(ROOT / name).read_text())
             elif route.request.url == BASE + "favicon.ico":
                 route.fulfill(status=204, body="")

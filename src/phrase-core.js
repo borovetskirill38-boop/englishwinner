@@ -2,16 +2,21 @@
 function createPhraseQuiz(language) {
   "use strict";
   if (language === undefined) language = "en";
-  if (!["en", "es"].includes(language)) throw new Error(`Неизвестный язык: ${language}`);
+  if (!["en", "es", "pt-BR"].includes(language)) throw new Error(`Неизвестный язык: ${language}`);
   const FORWARD = `${language}-ru`;
   const REVERSE = `ru-${language}`;
-  const LANGUAGE = Object.freeze({ code: language, name: language === "es" ? "Испанский" : "Английский" });
+  const profiles = {
+    en: { name: "Английский", adjective: "английский", locative: "английском" },
+    es: { name: "Испанский", adjective: "испанский", locative: "испанском" },
+    "pt-BR": { name: "Португальский", adjective: "португальский", locative: "португальском" },
+  };
+  const LANGUAGE = Object.freeze(Object.assign({ code: language }, profiles[language]));
 
   const COLLECTIONS = Object.freeze({
     expressions: "Устойчивые выражения",
-    "phrasal-verbs": language === "es" ? "Глагольные конструкции" : "Фразовые глаголы",
+    "phrasal-verbs": language === "en" ? "Фразовые глаголы" : "Глагольные конструкции",
   });
-  const MODES = Object.freeze({ [FORWARD]: `${LANGUAGE.name} → русский`, [REVERSE]: `Русский → ${language === "es" ? "испанский" : "английский"}` });
+  const MODES = Object.freeze({ [FORWARD]: `${LANGUAGE.name} → русский`, [REVERSE]: `Русский → ${LANGUAGE.adjective}` });
   const FORMATS = Object.freeze({ full: "Полный тест", express: "Экспресс-тест" });
 
   function hasOwn(object, key) { return Object.prototype.hasOwnProperty.call(object, key); }

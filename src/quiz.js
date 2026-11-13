@@ -2,10 +2,15 @@
 function createQuiz(language) {
   "use strict";
   if (language === undefined) language = "en";
-  if (!["en", "es"].includes(language)) throw new Error(`Неизвестный язык: ${language}`);
+  if (!["en", "es", "pt-BR"].includes(language)) throw new Error(`Неизвестный язык: ${language}`);
   const FORWARD = `${language}-ru`;
   const REVERSE = `ru-${language}`;
-  const LANGUAGE = Object.freeze({ code: language, name: language === "es" ? "Испанский" : "Английский", adjective: language === "es" ? "испанский" : "английский" });
+  const profiles = {
+    en: { name: "Английский", adjective: "английский", wordAdjective: "английское", placeholder: "Type the English word" },
+    es: { name: "Испанский", adjective: "испанский", wordAdjective: "испанское", placeholder: "Escriba la palabra" },
+    "pt-BR": { name: "Португальский", adjective: "португальский", wordAdjective: "португальское", placeholder: "Digite a palavra" },
+  };
+  const LANGUAGE = Object.freeze(Object.assign({ code: language }, profiles[language]));
 
   function shuffle(items, random = Math.random) {
     const result = [...items];
@@ -72,7 +77,7 @@ function createQuiz(language) {
     }),
     [REVERSE]: Object.freeze({
       name: `Русский → ${LANGUAGE.adjective}`, from: "RU", to: language.toUpperCase(),
-      questionLang: "ru", answerLang: language, instruction: `Выберите ${language === "es" ? "испанское" : "английское"} слово`,
+      questionLang: "ru", answerLang: language, instruction: `Выберите ${LANGUAGE.wordAdjective} слово`,
     }),
   });
 
@@ -132,8 +137,10 @@ function createQuiz(language) {
   }
 
   function candidateFor(entry, excluded = []) {
-    return { english: entry.word, text: primaryTranslation(entry), exclude: excluded,
+    const candidate = { english: entry.word, text: primaryTranslation(entry), exclude: excluded,
       meanings: translationVariants(entry).map(normalizeAnswer) };
+    if (entry.choiceFamily) candidate.family = entry.choiceFamily;
+    return candidate;
   }
 
   function bankForVocabulary(words, bank, includeAll = false) {
@@ -175,7 +182,7 @@ function createQuiz(language) {
     return mode === REVERSE ? entry.word : primaryTranslation(entry);
   }
 
-  const numbers = new Set(language === "es" ? ["uno", "una", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece", "catorce", "quince", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa", "cien", "ciento", "mil", "millón", "millones", "cero"] : [
+  const numbers = new Set(language === "pt-BR" ? ["um", "uma", "dois", "duas", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "catorze", "quatorze", "quinze", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa", "cem", "cento", "mil", "milhão", "milhões", "zero"] : language === "es" ? ["uno", "una", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece", "catorce", "quince", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa", "cien", "ciento", "mil", "millón", "millones", "cero"] : [
     "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
     "ten", "hundred", "thousand", "million", "millions", "thousands",
     "zero", "twenty", "hundreds", "dozen", "billion",
@@ -198,6 +205,7 @@ function createQuiz(language) {
     const meanings = new Set(translationVariants(entry).map(normalizeAnswer));
     const eligible = (candidate) => {
       if ((candidate.exclude || []).includes(entry.word)) return false;
+      if (entry.choiceFamily && candidate.family === entry.choiceFamily) return false;
       if (normalize(candidate.english) === normalize(entry.word)) return false;
       if (candidate.meanings && candidate.meanings.some((meaning) => meanings.has(meaning))) return false;
       return !aliases.includes(normalize(candidate.text));

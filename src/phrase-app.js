@@ -36,7 +36,7 @@
     $("total-count").textContent = session.total;
     $("word").textContent = session.prompt;
     $("word").lang = session.mode === PhraseQuiz.FORWARD ? PhraseQuiz.LANGUAGE.code : "ru";
-    $("word-note").textContent = session.mode === PhraseQuiz.FORWARD ? "Выберите перевод на русский" : `Выберите выражение на ${PhraseQuiz.LANGUAGE.code === "es" ? "испанском" : "английском"}`;
+    $("word-note").textContent = session.mode === PhraseQuiz.FORWARD ? "Выберите перевод на русский" : `Выберите выражение на ${PhraseQuiz.LANGUAGE.locative}`;
     $("feedback").className = "feedback";
     $("feedback-title").textContent = "";
     $("feedback-selected").textContent = "";

@@ -13,7 +13,7 @@ SELECTORS = ['.header', '.brand', '.offline', '#intro', '#intro-title',
              '#intro > .hero-description', '.section-link', '.welcome-card',
              '.word-art', '.welcome-content', '.welcome-content h2', '.rules',
              'fieldset:has(input[name="mode"])', 'fieldset:has(input[name="format"])',
-             '#start', '.intro-notes', '.footer']
+             '#start', '.intro-notes', '.footer', '.language-switch', '.language-switch-options']
 WIDTHS = [320, 360, 390, 540, 600, 768, 1024, 1280, 1440]
 
 with sync_playwright() as playwright:
@@ -23,13 +23,18 @@ with sync_playwright() as playwright:
     for width in WIDTHS:
         context = browser.new_context(viewport={'width': width, 'height': 900}, offline=True)
         layouts = {}
-        for name in ['index', 'phrases', 'spanish', 'spanish-phrases']:
+        for name in ['index', 'phrases', 'spanish', 'spanish-phrases', 'portuguese', 'portuguese-phrases']:
             page = context.new_page()
             page.on('pageerror', lambda error: errors.append(str(error)))
             page.on('request', lambda request: requests.append(request.url) if request.url.startswith(('http:', 'https:')) else None)
             page.set_content((ROOT / (name + '.html')).read_text(), wait_until='load')
             assert page.locator('#startup-warning').is_hidden()
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), (name, width)
+            assert page.locator('.language-switch a').count() == 3
+            for link in page.locator('.language-switch a').all():
+                rect = link.bounding_box()
+                assert rect['height'] >= 44, (name, width, 'small language target')
+            assert page.locator('.language-switch-label').inner_text() == 'Выберите язык'
             layouts[name] = page.evaluate('''selectors => Object.fromEntries(selectors.map(selector => {
               const element = document.querySelector(selector);
               if (!element) throw Error('Missing shared element: ' + selector);
@@ -39,7 +44,7 @@ with sync_playwright() as playwright:
             if width in [390, 1280]:
                 page.screenshot(path=str(ARTIFACTS / f'{name}-{width}.png'), full_page=True)
             page.close()
-        for name in ['phrases', 'spanish', 'spanish-phrases']:
+        for name in ['phrases', 'spanish', 'spanish-phrases', 'portuguese', 'portuguese-phrases']:
             for selector in SELECTORS:
                 for dimension in ['x', 'y', 'width', 'height']:
                     # Text itself differs, so its width can differ while its position stays fixed.

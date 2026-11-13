@@ -36,15 +36,19 @@ function publish(repository = path.resolve(__dirname, ".."), remote = "origin") 
   const licenses = tree([
     ["blob", blob(file("licenses/CC-BY-SA-4.0.txt")), "CC-BY-SA-4.0.txt"],
     ["blob", blob(file("licenses/Pattern-BSD.txt")), "Pattern-BSD.txt"],
+    ["blob", blob(file("licenses/mlconjug3-MIT.txt")), "mlconjug3-MIT.txt"],
   ]);
   const website = tree([
     ["blob", blob(file("index.html")), "index.html"],
     ["blob", blob(file("phrases.html")), "phrases.html"],
     ["blob", blob(file("spanish.html")), "spanish.html"],
     ["blob", blob(file("spanish-phrases.html")), "spanish-phrases.html"],
+    ["blob", blob(file("portuguese.html")), "portuguese.html"],
+    ["blob", blob(file("portuguese-phrases.html")), "portuguese-phrases.html"],
     ["blob", blob(Buffer.alloc(0)), ".nojekyll"],
     ["blob", blob(file("LICENSE")), "LICENSE"],
     ["blob", blob(file("data/spanish/NOTICE.md")), "SPANISH-SOURCES.md"],
+    ["blob", blob(file("data/portuguese/NOTICE.md")), "PORTUGUESE-SOURCES.md"],
     ["tree", licenses, "licenses"],
     ["blob", blob(`English Winner website\n\nBuilt from source commit ${source}.\n`), "README.md"],
   ]);

@@ -34,16 +34,23 @@ button { transition: background .15s, border-color .15s, transform .15s; }
 .svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 .shell { max-width: 1120px; padding-inline: 40px; margin-inline: auto; }
-.header { min-height: 106px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.header { min-height: 106px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; padding-top: 30px; }
 .brand { display: flex; align-items: center; gap: 11px; color: var(--ink); text-decoration: none; font-size: 23px; font-weight: 750; letter-spacing: -1px; }
 .brand-light { font-weight: 400; }
 .brand-dot { color: #6f8d53; }
 .brand-mark { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 13px; color: #f8f9ec; background: var(--accent); transform: rotate(-5deg); }
 .brand-mark svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .header-actions { display: flex; align-items: center; gap: 22px; }
-.language-switch { display: inline-flex; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
-.language-switch a { min-width: 32px; padding: 6px 7px; border-radius: 6px; color: var(--muted); font-size: 11px; font-weight: 650; line-height: 1; text-align: center; text-decoration: none; }
-.language-switch a[aria-current="page"] { color: #fff; background: var(--accent); }
+.language-switch { flex: 0 0 100%; display: flex; align-items: center; gap: 24px; padding: 15px 18px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: 0 4px 18px #213c3308; }
+.language-switch-label { display: flex; align-items: center; gap: 9px; color: var(--ink); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.language-switch-label .icon { width: 19px; height: 19px; }
+.language-switch-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); flex: 1; gap: 8px; }
+.language-switch a { min-height: 54px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); font-size: 13px; font-weight: 650; line-height: 1.25; text-decoration: none; }
+.language-switch a:hover { border-color: var(--accent); background: var(--background); }
+.language-switch a[aria-current="page"] { color: #fff; border-color: var(--accent); background: var(--accent); }
+.language-code { display: grid; place-items: center; width: 30px; height: 30px; flex-shrink: 0; border: 1px solid currentColor; border-radius: 7px; font-size: 10px; font-weight: 750; }
+.language-region { display: block; margin-top: 2px; font-size: 10px; font-weight: 400; }
+.language-switch a[href*="portuguese"] .language-code { color: #002776; background: #ffdf00; border-color: #009c3b; }
 .offline { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #6c9256; display: inline-block; flex-shrink: 0; }
 .button-quiet { color: var(--ink); padding: 10px 0 10px 15px; border: 0; border-left: 1px solid var(--line); background: transparent; display: flex; gap: 8px; align-items: center; font-size: 13px; }
@@ -259,6 +266,12 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
 @media (max-width: 540px) {
   .shell { padding-inline: 20px; }
   .header { min-height: 76px; gap: 10px; }
+  .header { padding-top: 18px; row-gap: 19px; }
+  .language-switch { flex-direction: column; align-items: stretch; gap: 10px; padding: 12px; }
+  .language-switch-label { font-size: 12px; }
+  .language-switch-options { gap: 5px; }
+  .language-switch a { flex-direction: column; gap: 7px; padding: 10px 3px; font-size: 10px; text-align: center; min-width: 0; }
+  .language-region { font-size: 9px; }
   .header-actions { flex-direction: column; align-items: flex-end; gap: 6px; }
   .brand { font-size: 19px; }
   .brand-mark { width: 31px; height: 31px; }
@@ -358,10 +371,10 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
       <span>english<span class="brand-light">winner</span><span class="brand-dot">.</span></span>
     </a>
     <div class="header-actions">
-      <nav class="language-switch" aria-label="Язык для изучения"><a href="./phrases.html" title="Английский" aria-current="page">EN</a><a href="./spanish-phrases.html" title="Испанский" >ES</a></nav>
       <span class="offline"><span class="status-dot"></span>Работает офлайн</span>
       <button class="button-quiet" id="restart" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg>Новый проход</button>
     </div>
+    <nav class="language-switch" aria-labelledby="language-switch-label"><span id="language-switch-label" class="language-switch-label"><svg class="icon" aria-hidden="true"><use href="#icon-repeat"/></svg>Выберите язык</span><div class="language-switch-options"><a href="./phrases.html" title="Английский" aria-current="page"><span class="language-code">EN</span><span>Английский</span></a><a href="./spanish-phrases.html" title="Испанский" ><span class="language-code">ES</span><span>Испанский</span></a><a href="./portuguese-phrases.html" title="Португальский — Бразилия" ><span class="language-code">BR</span><span>Португальский<span class="language-region">Бразилия</span></span></a></div></nav>
   </header>
   <main class="shell">
     <div id="startup-warning" class="startup-warning" role="status"><strong>Для теста нужен браузер с JavaScript.</strong><p>Если на iPhone файл открылся в предпросмотре, откройте веб-версию в Safari.</p><a href="https://borovetskirill38-boop.github.io/englishwinner/phrases.html">Открыть веб-версию</a><noscript><p>Включите JavaScript в браузере.</p></noscript></div>
@@ -453,16 +466,21 @@ kbd { font: inherit; display: inline-block; padding: 2px 5px; margin-right: 2px;
 function createPhraseQuiz(language) {
   "use strict";
   if (language === undefined) language = "en";
-  if (!["en", "es"].includes(language)) throw new Error(`Неизвестный язык: ${language}`);
+  if (!["en", "es", "pt-BR"].includes(language)) throw new Error(`Неизвестный язык: ${language}`);
   const FORWARD = `${language}-ru`;
   const REVERSE = `ru-${language}`;
-  const LANGUAGE = Object.freeze({ code: language, name: language === "es" ? "Испанский" : "Английский" });
+  const profiles = {
+    en: { name: "Английский", adjective: "английский", locative: "английском" },
+    es: { name: "Испанский", adjective: "испанский", locative: "испанском" },
+    "pt-BR": { name: "Португальский", adjective: "португальский", locative: "португальском" },
+  };
+  const LANGUAGE = Object.freeze(Object.assign({ code: language }, profiles[language]));
 
   const COLLECTIONS = Object.freeze({
     expressions: "Устойчивые выражения",
-    "phrasal-verbs": language === "es" ? "Глагольные конструкции" : "Фразовые глаголы",
+    "phrasal-verbs": language === "en" ? "Фразовые глаголы" : "Глагольные конструкции",
   });
-  const MODES = Object.freeze({ [FORWARD]: `${LANGUAGE.name} → русский`, [REVERSE]: `Русский → ${language === "es" ? "испанский" : "английский"}` });
+  const MODES = Object.freeze({ [FORWARD]: `${LANGUAGE.name} → русский`, [REVERSE]: `Русский → ${LANGUAGE.adjective}` });
   const FORMATS = Object.freeze({ full: "Полный тест", express: "Экспресс-тест" });
 
   function hasOwn(object, key) { return Object.prototype.hasOwnProperty.call(object, key); }
@@ -619,7 +637,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = PhraseQuiz
     $("total-count").textContent = session.total;
     $("word").textContent = session.prompt;
     $("word").lang = session.mode === PhraseQuiz.FORWARD ? PhraseQuiz.LANGUAGE.code : "ru";
-    $("word-note").textContent = session.mode === PhraseQuiz.FORWARD ? "Выберите перевод на русский" : `Выберите выражение на ${PhraseQuiz.LANGUAGE.code === "es" ? "испанском" : "английском"}`;
+    $("word-note").textContent = session.mode === PhraseQuiz.FORWARD ? "Выберите перевод на русский" : `Выберите выражение на ${PhraseQuiz.LANGUAGE.locative}`;
     $("feedback").className = "feedback";
     $("feedback-title").textContent = "";
     $("feedback-selected").textContent = "";

@@ -1,0 +1,13 @@
+{
+  "name": "FrequencyWords — Brazilian Portuguese 2018 (OpenSubtitles)",
+  "author": "Hermit Dave and OpenSubtitles contributors",
+  "language": "pt-BR",
+  "url": "https://github.com/hermitdave/FrequencyWords/blob/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/pt_br/pt_br_50k.txt",
+  "commit": "525f9b560de45753a5ea01069454e72e9aa541c6",
+  "sourceSha256": "a61d6f2ede97c5daad5fb3907b72a228f0aff12668be6d24da590d20804fa611",
+  "excerptSha256": "161bba69d69dcb6c3a3a7f997019d53bdaa3cf029892270b37d0c85ba3660def",
+  "license": "CC-BY-SA-4.0",
+  "count": 5000,
+  "excerptLines": 5633,
+  "selection": "Первые 5000 подтверждённых португальских токенов отдельного бразильского корпуса pt_br после явной фильтрации отдельных имён, иностранных шумовых слов, обрывков и устаревших написаний (excluded.txt). Сохранены словоформы, нормативные слияния предлогов с артиклями и местоимениями, употребительные сокращения, разговорная и грубая лексика. Словарные сокращения с пометой Contraction разбираются как грамматические слияния. Пропуски справочника проверены вручную. Уровни — строгие префиксы выбранного списка, затем применяется тема. Частотность субтитров не является универсальным рейтингом языка."
+}

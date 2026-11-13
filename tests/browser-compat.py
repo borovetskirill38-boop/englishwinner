@@ -11,8 +11,8 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 LANGUAGE = os.environ.get("QUIZ_LANGUAGE", "en")
-assert LANGUAGE in ["en", "es"]
-PAGE = "spanish.html" if LANGUAGE == "es" else "index.html"
+assert LANGUAGE in ["en", "es", "pt-BR"]
+PAGE = {"en": "index.html", "es": "spanish.html", "pt-BR": "portuguese.html"}[LANGUAGE]
 ARTIFACTS = Path(os.environ.get("QUIZ_SCREENSHOTS", "/tmp/englishwinner-screenshots"))
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
 
@@ -120,7 +120,7 @@ try:
         page.goto(url, wait_until="load")
         assert page.locator("#startup-warning").is_visible()
         assert "предпросмотре" in page.locator("#startup-warning").inner_text()
-        assert page.locator("#startup-warning a").get_attribute("href") == "https://borovetskirill38-boop.github.io/englishwinner/" + (PAGE if LANGUAGE == "es" else "")
+        assert page.locator("#startup-warning a").get_attribute("href") == "https://borovetskirill38-boop.github.io/englishwinner/" + (PAGE if LANGUAGE != "en" else "")
         assert page.locator("#start").is_disabled()
         page.screenshot(path=str(ARTIFACTS / "compat-no-javascript.png"), full_page=True)
         context.close()
